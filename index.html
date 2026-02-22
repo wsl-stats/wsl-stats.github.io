@@ -2,19 +2,147 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>WSL Stats</title>
+  <title>WSL Chest Results</title>
+
+  <!-- DataTables -->
+  <link rel="stylesheet"
+    href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #0f172a;
+      background: linear-gradient(135deg, #0f172a, #020617);
       color: white;
+      padding: 20px;
+    }
+
+    h1 {
       text-align: center;
-      padding: 40px;
+      margin-bottom: 25px;
+    }
+
+    .container {
+      background: #111827;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    table.dataTable {
+      color: white;
+    }
+
+    table.dataTable thead {
+      background: #1f2937;
+    }
+
+    /* 🔥 TOP-10 */
+    .top-player {
+      background: linear-gradient(90deg, #7c2d12, #b45309) !important;
+      font-weight: bold;
+    }
+
+    /* 🥇 first place */
+    .top-1 {
+      background: linear-gradient(90deg, #854d0e, #facc15) !important;
+      color: black !important;
+      font-weight: bold;
+    }
+
+    /* 📱 mobile */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>🏆 WSL Stats</h1>
-  <p>Test🚀</p>
+
+<h1>🏆 WSL Chest Results</h1>
+
+<div class="container">
+  <table id="statsTable" class="display" style="width:100%">
+    <thead></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<!-- DataTables -->
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+function normalizeName(name) {
+  return name.trim().toLowerCase();
+}
+
+function parseCsv(text) {
+  const rows = text
+    .split("\n")
+    .map(r => r.trim())
+    .filter(r => r.length > 0)
+    .map(r => r.split(","));
+
+  const headers = rows[0];
+  const dataRows = rows.slice(1);
+
+  // 🔥 удаляем дубли по имени (case-insensitive)
+  const map = new Map();
+
+  dataRows.forEach(r => {
+    const name = normalizeName(r[0]);
+    const points = parseInt(r[3] || "0");
+
+    if (!map.has(name) || parseInt(map.get(name)[3]) < points) {
+      map.set(name, r);
+    }
+  });
+
+  let cleaned = Array.from(map.values());
+
+  // 🔥 сортировка по Points DESC
+  cleaned.sort((a, b) => (parseInt(b[3]) || 0) - (parseInt(a[3]) || 0));
+
+  return { headers, cleaned };
+}
+
+async function loadCsv() {
+  const response = await fetch("data.csv");
+  const text = await response.text();
+
+  const { headers, cleaned } = parseCsv(text);
+
+  const thead = document.querySelector("#statsTable thead");
+  const headerRow = document.createElement("tr");
+
+  headers.forEach(h => {
+    const th = document.createElement("th");
+    th.textContent = h;
+    headerRow.appendChild(th);
+  });
+
+  thead.appendChild(headerRow);
+
+  const table = $('#statsTable').DataTable({
+    data: cleaned,
+    columns: headers.map(h => ({ title: h })),
+    order: [[3, "desc"]],
+    pageLength: 25,
+    createdRow: function(row, data, dataIndex) {
+      if (dataIndex === 0) {
+        $(row).addClass("top-1");
+      } else if (dataIndex < 10) {
+        $(row).addClass("top-player");
+      }
+    }
+  });
+}
+
+loadCsv();
+</script>
+
 </body>
 </html>
