@@ -253,7 +253,7 @@ async function loadCsv() {
 	$('#statsTable').DataTable({
 		data: cleaned,
 		columns: headers.map(h => ({ title: h })),
-		order: [[3, "desc"]],
+		order: [[headers.length - 1, "desc"]],
 		pageLength: 200,
 		info: true,
 		paging: false,
