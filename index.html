@@ -226,6 +226,9 @@ async function loadCsv() {
     if(dataRows.length < 2) throw new Error("Нет данных в CSV");
 
     const headers = dataRows[0];
+	const totalIndex = headers.findIndex(h =>
+						  h.trim().toLowerCase() === "total"
+						);
     const data = dataRows.slice(1).filter(r => r.length === headers.length);
 
     const map = new Map();
@@ -252,7 +255,10 @@ async function loadCsv() {
 
 	$('#statsTable').DataTable({
 		data: cleaned,
-		columns: headers.map(h => ({ title: h })),
+		columns: headers.map((h, i) => ({
+				  title: h,
+				  visible: i !== totalIndex // скрываем Total
+				})),
 		order: [[headers.length - 1, "desc"]],
 		pageLength: 200,
 		info: true,
