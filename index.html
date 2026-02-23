@@ -51,70 +51,72 @@ table.dataTable thead { background: #1f2937; }
         </tr>
       </table>
 
-      <div id="chestPoints" style="display:none; margin-top:10px; overflow-y:auto; max-height:350px;">
-        <table style="width:100%; border-collapse:collapse; table-layout:auto; background:#111827; border-radius:8px;">
-          <thead>
-            <tr style="border-bottom:1px solid #374151;">
-              <th style="text-align:left; padding:5px;">Chest / Monster</th>
-              <th style="text-align:right; padding:5px;">Points</th>
-            </tr>
-          </thead>
-          <tbody style="color:#d1d5db; font-size:14px;">
-            <!-- Chests -->
-            <tr><td>Level 10 Rare Crypt</td><td style="text-align:right;">2</td></tr>
-            <tr><td>Level 15 Crypt</td><td style="text-align:right;">5</td></tr>
-            <tr><td>Level 15 Rare Crypt</td><td style="text-align:right;">8</td></tr>
-            <tr><td>Level 15 Epic Crypt</td><td style="text-align:right;">12</td></tr>
-            <tr><td>Level 20 Crypt</td><td style="text-align:right;">16</td></tr>
-            <tr><td>Level 20 Rare Crypt</td><td style="text-align:right;">28</td></tr>
-            <tr><td>Level 20 Epic Crypt</td><td style="text-align:right;">45</td></tr>
-            <tr><td>Level 25 Crypt</td><td style="text-align:right;">55</td></tr>
-            <tr><td>Level 25 Rare Crypt</td><td style="text-align:right;">72</td></tr>
-            <tr><td>Level 25 Epic Crypt</td><td style="text-align:right;">90</td></tr>
-            <tr><td>Level 30 Rare Crypt</td><td style="text-align:right;">120</td></tr>
-            <tr><td>Level 30 Epic Crypt</td><td style="text-align:right;">140</td></tr>
-            <tr><td>Level 35 Epic Crypt</td><td style="text-align:right;">200</td></tr>
-            <tr><td>Level 30 Citadel</td><td style="text-align:right;">60</td></tr>
-            <tr><td>Level 25 Citadel</td><td style="text-align:right;">28</td></tr>
-            <tr><td>Level 20 Citadel</td><td style="text-align:right;">12</td></tr>
-            <tr><td>Level 15 Citadel</td><td style="text-align:right;">4</td></tr>
+		<div id="chestPoints" style="display:none; margin-top:10px; overflow-y:auto; max-height:350px;">
+				<table style="width:100%; border-collapse:collapse; table-layout:auto; background:#111827; border-radius:8px;">
+				  <thead>
+					<tr style="border-bottom:1px solid #374151;">
+					  <th style="text-align:left; padding:5px;">Chest / Monster</th>
+					  <th style="text-align:right; padding:5px;">Points</th>
+					</tr>
+				  </thead>
+				  <tbody style="color:#d1d5db; font-size:14px;">
+					<!-- Chests -->
+					<tr><td>Level 10 Rare Crypt</td><td style="text-align:right;">2</td></tr>
+					<tr><td>Level 15 Crypt</td><td style="text-align:right;">5</td></tr>
+					<tr><td>Level 15 Rare Crypt</td><td style="text-align:right;">8</td></tr>
+					<tr><td>Level 15 Epic Crypt</td><td style="text-align:right;">12</td></tr>
+					<tr><td>Level 20 Crypt</td><td style="text-align:right;">16</td></tr>
+					<tr><td>Level 20 Rare Crypt</td><td style="text-align:right;">28</td></tr>
+					<tr><td>Level 20 Epic Crypt</td><td style="text-align:right;">45</td></tr>
+					<tr><td>Level 25 Crypt</td><td style="text-align:right;">55</td></tr>
+					<tr><td>Level 25 Rare Crypt</td><td style="text-align:right;">72</td></tr>
+					<tr><td>Level 25 Epic Crypt</td><td style="text-align:right;">90</td></tr>
+					<tr><td>Level 30 Rare Crypt</td><td style="text-align:right;">120</td></tr>
+					<tr><td>Level 30 Epic Crypt</td><td style="text-align:right;">140</td></tr>
+					<tr><td>Level 35 Epic Crypt</td><td style="text-align:right;">200</td></tr>
+					<tr><td>Level 30 Citadel</td><td style="text-align:right;">60</td></tr>
+					<tr><td>Level 25 Citadel</td><td style="text-align:right;">28</td></tr>
+					<tr><td>Level 20 Citadel</td><td style="text-align:right;">12</td></tr>
+					<tr><td>Level 15 Citadel</td><td style="text-align:right;">4</td></tr>
 
-            <!-- Monsters -->
-            <tr><td>Heroic Monster Undead 16</td><td style="text-align:right;">5</td></tr>
-            <tr><td>Heroic Monster Elven 17</td><td style="text-align:right;">10</td></tr>
-            <tr><td>Heroic Monster Cursed 18</td><td style="text-align:right;">15</td></tr>
-            <tr><td>Heroic Monster Barbarian 19</td><td style="text-align:right;">20</td></tr>
-            <tr><td>Heroic Monster Inferno 20</td><td style="text-align:right;">30</td></tr>
-            <tr><td>Heroic Monster Undead 21</td><td style="text-align:right;">40</td></tr>
-            <tr><td>Heroic Monster Elven 22</td><td style="text-align:right;">50</td></tr>
-            <tr><td>Heroic Monster Cursed 23</td><td style="text-align:right;">60</td></tr>
-            <tr><td>Heroic Monster Barbarian 24</td><td style="text-align:right;">70</td></tr>
-            <tr><td>Heroic Monster Inferno 25</td><td style="text-align:right;">80</td></tr>
-            <tr><td>Heroic Monster Undead 26</td><td style="text-align:right;">90</td></tr>
-            <tr><td>Heroic Monster Elven 27</td><td style="text-align:right;">105</td></tr>
-            <tr><td>Heroic Monster Cursed 28</td><td style="text-align:right;">120</td></tr>
-            <tr><td>Heroic Monster Barbarian 29</td><td style="text-align:right;">140</td></tr>
-            <tr><td>Heroic Monster Inferno 30</td><td style="text-align:right;">150</td></tr>
-            <tr><td>Heroic Monster Undead 31</td><td style="text-align:right;">200</td></tr>
-            <tr><td>Heroic Monster Elven 32</td><td style="text-align:right;">225</td></tr>
-            <tr><td>Heroic Monster Cursed 33</td><td style="text-align:right;">250</td></tr>
-            <tr><td>Heroic Monster Barbarian 34</td><td style="text-align:right;">300</td></tr>
-            <tr><td>Heroic Monster Inferno 35</td><td style="text-align:right;">350</td></tr>
-            <tr><td>Heroic Monster Undead 36</td><td style="text-align:right;">400</td></tr>
-            <tr><td>Heroic Monster Elven 37</td><td style="text-align:right;">450</td></tr>
-            <tr><td>Heroic Monster Cursed 38</td><td style="text-align:right;">500</td></tr>
-            <tr><td>Heroic Monster Barbarian 39</td><td style="text-align:right;">550</td></tr>
-            <tr><td>Heroic Monster Inferno 40</td><td style="text-align:right;">625</td></tr>
-            <tr><td>Heroic Monster Undead 41</td><td style="text-align:right;">700</td></tr>
-            <tr><td>Heroic Monster Elven 42</td><td style="text-align:right;">775</td></tr>
-            <tr><td>Heroic Monster Cursed 43</td><td style="text-align:right;">850</td></tr>
-            <tr><td>Heroic Monster Barbarian 44</td><td style="text-align:right;">925</td></tr>
-            <tr><td>Heroic Monster Inferno 45</td><td style="text-align:right;">1000</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+					<!-- Monsters -->
+					<tr><td>Heroic Monster Undead 16</td><td style="text-align:right;">5</td></tr>
+					<tr><td>Heroic Monster Elven 17</td><td style="text-align:right;">10</td></tr>
+					<tr><td>Heroic Monster Cursed 18</td><td style="text-align:right;">15</td></tr>
+					<tr><td>Heroic Monster Barbarian 19</td><td style="text-align:right;">20</td></tr>
+					<tr><td>Heroic Monster Inferno 20</td><td style="text-align:right;">30</td></tr>
+					<tr><td>Heroic Monster Undead 21</td><td style="text-align:right;">40</td></tr>
+					<tr><td>Heroic Monster Elven 22</td><td style="text-align:right;">50</td></tr>
+					<tr><td>Heroic Monster Cursed 23</td><td style="text-align:right;">60</td></tr>
+					<tr><td>Heroic Monster Barbarian 24</td><td style="text-align:right;">70</td></tr>
+					<tr><td>Heroic Monster Inferno 25</td><td style="text-align:right;">80</td></tr>
+					<tr><td>Heroic Monster Undead 26</td><td style="text-align:right;">90</td></tr>
+					<tr><td>Heroic Monster Elven 27</td><td style="text-align:right;">105</td></tr>
+					<tr><td>Heroic Monster Cursed 28</td><td style="text-align:right;">120</td></tr>
+					<tr><td>Heroic Monster Barbarian 29</td><td style="text-align:right;">140</td></tr>
+					<tr><td>Heroic Monster Inferno 30</td><td style="text-align:right;">150</td></tr>
+					<tr><td>Heroic Monster Undead 31</td><td style="text-align:right;">200</td></tr>
+					<tr><td>Heroic Monster Elven 32</td><td style="text-align:right;">225</td></tr>
+					<tr><td>Heroic Monster Cursed 33</td><td style="text-align:right;">250</td></tr>
+					<tr><td>Heroic Monster Barbarian 34</td><td style="text-align:right;">300</td></tr>
+					<tr><td>Heroic Monster Inferno 35</td><td style="text-align:right;">350</td></tr>
+					<tr><td>Heroic Monster Undead 36</td><td style="text-align:right;">400</td></tr>
+					<tr><td>Heroic Monster Elven 37</td><td style="text-align:right;">450</td></tr>
+					<tr><td>Heroic Monster Cursed 38</td><td style="text-align:right;">500</td></tr>
+					<tr><td>Heroic Monster Barbarian 39</td><td style="text-align:right;">550</td></tr>
+					<tr><td>Heroic Monster Inferno 40</td><td style="text-align:right;">625</td></tr>
+					<tr><td>Heroic Monster Undead 41</td><td style="text-align:right;">700</td></tr>
+					<tr><td>Heroic Monster Elven 42</td><td style="text-align:right;">775</td></tr>
+					<tr><td>Heroic Monster Cursed 43</td><td style="text-align:right;">850</td></tr>
+					<tr><td>Heroic Monster Barbarian 44</td><td style="text-align:right;">925</td></tr>
+					<tr><td>Heroic Monster Inferno 45</td><td style="text-align:right;">1000</td></tr>
+				  </tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>
+
 
 <div class="container">
   <div id="generatedAt" style="text-align:right; margin-bottom:10px; color:#fbbf24;"></div>
