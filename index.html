@@ -220,12 +220,12 @@ async function loadCsv() {
 	$('#statsTable').DataTable({
 		data: cleaned,
 		columns: headers.map(h => ({ title: h })),
-		order: [[4, "desc"]],
+		order: [[3, "desc"]],
 		pageLength: 200,
 		info: false,
 		paging: false,
 		createdRow: function(row, data, dataIndex) {
-			const points = parseInt(data[4] || "0");
+			const points = parseInt(data[3] || "0");
 			if(points >= weeklyLimit) {
 				$(row).addClass("done");
 			} else {
