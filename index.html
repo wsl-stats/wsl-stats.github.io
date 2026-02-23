@@ -235,15 +235,7 @@ async function loadCsv() {
 			// топ-1 и топ-10 подсветка
 			if(dataIndex === 0) $(row).addClass("top-1");
 			else if(dataIndex < 10) $(row).addClass("top-player");
-		},
-		columnDefs: [
-        {
-            targets: 0,       // нумерация в первой колонке
-            render: function(data, type, row, meta){
-                return meta.row + 1; // DataTables автоматически считает индекс строки
-            }
-        }
-    ]
+		}
 	});
 
   } catch(err) {
