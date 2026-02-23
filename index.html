@@ -60,6 +60,26 @@ table.dataTable thead { background: #1f2937; }
     background-color: #374151;
 }
 
+.dataTables_filter {
+    display: flex;              /* используем flex для центрирования */
+    justify-content: center;    /* по центру */
+    margin-bottom: 10px;        /* отступ снизу */
+}
+
+.dataTables_filter input {
+    width: 300px;               /* задаём нужную ширину */
+    padding: 6px 10px;          /* внутренние отступы */
+    font-size: 16px;            /* размер текста */
+    border-radius: 8px;          /* скругление */
+    border: 1px solid #374151;   /* граница */
+    background-color: #1f2937;   /* фон поля */
+    color: #d1d5db;              /* цвет текста */
+}
+
+.dataTables_filter input::placeholder {
+    color: #9ca3af;              /* цвет текста-подсказки */
+}
+
 </style>
 </head>
 <body>
@@ -155,7 +175,7 @@ table.dataTable thead { background: #1f2937; }
 
 
 <div class="container">
-  <div id="generatedAt" style="text-align:right; margin-bottom:10px; color:#fbbf24;"></div>
+  <div id="generatedAt" style="text-align:center; margin-bottom:10px; color:#fbbf24;"></div>
   <table id="statsTable" class="display" style="width:100%">
     <thead></thead>
     <tbody></tbody>
