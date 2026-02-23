@@ -8,78 +8,57 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #0f172a, #020617);
-  color: white;
-  padding: 20px;
-}
-h1 { text-align: center; margin-bottom: 25px; }
-.container { background: #111827; padding: 20px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
-table.dataTable { color: white; }
-table.dataTable thead { background: #1f2937; }
-.top-player { background: linear-gradient(90deg, #7c2d12, #b45309) !important; font-weight: bold; }
-.top-1 { background: linear-gradient(90deg, #854d0e, #facc15) !important; color: black !important; font-weight: bold; }
-@media (max-width: 768px) { body { padding: 10px; } }
-
-.done { background-color: #15803d !important; color: white !important; font-weight: bold; }   /* зелёный */
-.not-done { background-color: #991b1b !important; color: white !important; font-weight: bold; } /* красный */
-
-#chestPoints table {
-    border-collapse: collapse;      /* чтобы границы не двойные */
-    margin: 10px auto;              /* центрируем таблицу */
-    width: auto;                     /* ширина под контент */
-    max-width: 90%;                  /* не растягивать на весь экран */
-    background: #1f2937;             /* фон для аккуратности */
+/* Общая таблица */
+#statsTable {
+    margin: 20px auto;
+    border-collapse: collapse;
+    width: auto;
+    max-width: 90%;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
 }
 
-#chestPoints table th,
-#chestPoints table td {
-    border: 1px solid #374151;      /* тонкие границы */
-    padding: 6px 12px;              /* отступы сверху/снизу и слева/справа */
-    text-align: center;              /* выравнивание по центру */
-    color: #d1d5db;                 /* цвет текста */
+/* Границы и ячейки */
+#statsTable th, #statsTable td {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    text-align: center;
 }
 
-#chestPoints table th {
-    background: #111827;             /* цвет шапки */
+/* Зебра */
+#statsTable tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+#statsTable tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+/* Цвета по результату */
+.done { background-color: #d1e7dd !important; color: #0f5132; } /* мягкий зеленый */
+.not-done { background-color: #f8d7da !important; color: #842029; } /* мягкий красный */
+
+/* Подсветка топ */
+.top-1 { background-color: #ffeeba !important; font-weight: bold; } /* золотой для лидера */
+.top-player { background-color: #fff3cd !important; } /* светло-желтый для топ-10 */
+
+/* Заголовки */
+#statsTable th {
+    background-color: #0d6efd; 
+    color: white;
     font-weight: bold;
 }
 
-
-#chestPoints table tr:nth-child(even) {
-    background-color: #1e293b; /* чуть темнее для каждой второй строки */
-}
-
-#chestPoints table tr:nth-child(odd) {
-    background-color: #111827; /* базовый фон */
-}
-
-/* Дополнительно: при наведении подсветка */
-#chestPoints table tr:hover {
-    background-color: #374151;
-}
-
+/* Поле поиска по центру и крупнее */
 .dataTables_filter {
-    display: flex;              /* используем flex для центрирования */
-    justify-content: center;    /* по центру */
-    margin-bottom: 10px;        /* отступ снизу */
+    text-align: center !important;
+    margin-bottom: 10px;
 }
-
 .dataTables_filter input {
-    width: 300px;               /* задаём нужную ширину */
-    padding: 6px 10px;          /* внутренние отступы */
-    font-size: 16px;            /* размер текста */
-    border-radius: 8px;          /* скругление */
-    border: 1px solid #374151;   /* граница */
-    background-color: #1f2937;   /* фон поля */
-    color: #d1d5db;              /* цвет текста */
+    width: 250px;
+    height: 28px;
+    font-size: 14px;
+    padding: 3px 6px;
 }
-
-.dataTables_filter input::placeholder {
-    color: #9ca3af;              /* цвет текста-подсказки */
-}
-
 </style>
 </head>
 <body>
@@ -247,7 +226,7 @@ async function loadCsv() {
 			{ title: "#" },
 			...headers.map(h => ({ title: h })) // остальные колонки
 		],
-		order: [[2, "desc"]],
+		order: [[4, "desc"]],
 		pageLength: 200,
 		info: false,
 		paging: false,
