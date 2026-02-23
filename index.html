@@ -110,37 +110,61 @@ function parseCsv(text) {
 }
 
 async function loadCsv() {
-  const response = await fetch("data.csv");
-  const text = await response.text();
+  try {
+    const response = await fetch("data.csv?v=" + new Date().getTime()); // bypass cache
+    const text = await response.text();
 
-  const { headers, cleaned } = parseCsv(text);
+    const rows = text.trim().split("\n").map(r => r.trim()).filter(r => r.length > 0);
 
-  const thead = document.querySelector("#statsTable thead");
-  const headerRow = document.createElement("tr");
+    // Игнорируем строки комментариев кроме GeneratedAt
+    const dataRows = rows.filter(r => !r.startsWith("#")).map(r => r.split(","));
 
-  headers.forEach(h => {
-    const th = document.createElement("th");
-    th.textContent = h;
-    headerRow.appendChild(th);
-  });
-
-  thead.appendChild(headerRow);
-
-  const table = $('#statsTable').DataTable({
-    data: cleaned,
-    columns: headers.map(h => ({ title: h })),
-    order: [[3, "desc"]],
-    pageLength: 25,
-    createdRow: function(row, data, dataIndex) {
-      if (dataIndex === 0) {
-        $(row).addClass("top-1");
-      } else if (dataIndex < 10) {
-        $(row).addClass("top-player");
-      }
+    if (dataRows.length === 0) {
+      throw new Error("CSV пустой или все строки закомментированы");
     }
-  });
-}
 
+    const headers = dataRows[0];
+    const data = dataRows.slice(1).filter(r => r.length === headers.length); // только корректные строки
+
+    // удаляем дубли по имени (case-insensitive)
+    const map = new Map();
+    data.forEach(r => {
+      const name = r[0].trim().toLowerCase();
+      const points = parseInt(r[3] || "0");
+      if (!map.has(name) || parseInt(map.get(name)[3]) < points) {
+        map.set(name, r);
+      }
+    });
+
+    let cleaned = Array.from(map.values());
+    cleaned.sort((a, b) => (parseInt(b[3]) || 0) - (parseInt(a[3]) || 0));
+
+    // строим таблицу
+    const thead = document.querySelector("#statsTable thead");
+    const headerRow = document.createElement("tr");
+    headers.forEach(h => {
+      const th = document.createElement("th");
+      th.textContent = h;
+      headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+
+    $('#statsTable').DataTable({
+      data: cleaned,
+      columns: headers.map(h => ({ title: h })),
+      order: [[3, "desc"]],
+      pageLength: 25,
+      createdRow: function(row, data, dataIndex) {
+        if (dataIndex === 0) $(row).addClass("top-1");
+        else if (dataIndex < 10) $(row).addClass("top-player");
+      }
+    });
+
+  } catch (err) {
+    console.error("Ошибка при загрузке CSV:", err);
+    document.body.innerHTML += "<p style='color:red;'>Ошибка загрузки CSV. Проверьте консоль.</p>";
+  }
+}
 loadCsv();
 </script>
 
