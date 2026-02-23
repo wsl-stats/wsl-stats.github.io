@@ -231,13 +231,13 @@ async function loadCsv() {
     const map = new Map();
     data.forEach(r => {
       const name = r[0].trim().toLowerCase();
-      const points = parseInt(r[3] || "0");
-      if(!map.has(name) || parseInt(map.get(name)[3]) < points) {
+      const points = parseInt(r[headers.length - 1] || "0");
+      if(!map.has(name) || parseInt(map.get(name)[headers.length - 1]) < points) {
         map.set(name, r);
       }
     });
 
-    const cleaned = Array.from(map.values()).sort((a,b) => (parseInt(b[3])||0) - (parseInt(a[3])||0));
+    const cleaned = Array.from(map.values()).sort((a,b) => (parseInt(b[headers.length - 1])||0) - (parseInt(a[headers.length - 1])||0));
 
     // строим таблицу
     const thead = document.querySelector("#statsTable thead");
@@ -258,7 +258,7 @@ async function loadCsv() {
 		info: true,
 		paging: false,
 		createdRow: function(row, data, dataIndex) {
-			const points = parseInt(data[3] || "0");
+			const points = parseInt(data[headers.length - 1] || "0");
 			if(points >= weeklyLimit) {
 				$(row).addClass("done");
 			} else {
