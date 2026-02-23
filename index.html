@@ -154,6 +154,8 @@ async function loadCsv() {
 		columns: headers.map(h => ({title: h})),
 		order: [[3, "desc"]],
 		pageLength: 25,
+		info: false,
+		paging: false,
 		createdRow: function(row, data, dataIndex) {
 			const points = parseInt(data[3] || "0");
 			if(points >= weeklyLimit) {
