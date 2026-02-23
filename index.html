@@ -232,7 +232,7 @@ async function loadCsv() {
 		paging: false,
 		createdRow: function(row, data, dataIndex) {
 		$('td:eq(0)', row).html(dataIndex + 1);
-			const points = parseInt(data[3] || "0");
+			const points = parseInt(data[4] || "0");
 			if(points >= weeklyLimit) {
 				$(row).addClass("done");
 			} else {
