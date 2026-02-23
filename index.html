@@ -46,9 +46,20 @@ table.dataTable thead { background: #1f2937; }
     font-weight: bold;
 }
 
-#chestPoints table tr:hover {
-    background: #374151;             /* подсветка при наведении */
+
+#chestPoints table tr:nth-child(even) {
+    background-color: #1e293b; /* чуть темнее для каждой второй строки */
 }
+
+#chestPoints table tr:nth-child(odd) {
+    background-color: #111827; /* базовый фон */
+}
+
+/* Дополнительно: при наведении подсветка */
+#chestPoints table tr:hover {
+    background-color: #374151;
+}
+
 </style>
 </head>
 <body>
