@@ -153,7 +153,7 @@ async function loadCsv() {
       document.getElementById("generatedAt").textContent = "Updated: " + generatedAt;
     }
 
-    const dataRows = lines.filter(l => !l.startsWith("#")).map(l => l.split(","));
+    const dataRows = lines.filter(l => !l.startsWith("#")).map(l => l.split(",").map(c => fixEncoding(c.trim())));
 
     if(dataRows.length < 2) throw new Error("Нет данных в CSV");
 
@@ -249,6 +249,14 @@ document.getElementById("toggleChestPoints").addEventListener("click", function(
     this.textContent = "Show Chest & Monster Points ▼";
   }
 });
+
+function fixEncoding(str) {
+  try {
+    return decodeURIComponent(escape(str));
+  } catch {
+    return str;
+  }
+}
 
 </script>
 
