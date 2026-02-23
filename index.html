@@ -24,6 +24,31 @@ table.dataTable thead { background: #1f2937; }
 
 .done { background-color: #15803d !important; color: white !important; font-weight: bold; }   /* зелёный */
 .not-done { background-color: #991b1b !important; color: white !important; font-weight: bold; } /* красный */
+
+#chestPoints table {
+    border-collapse: collapse;      /* чтобы границы не двойные */
+    margin: 10px auto;              /* центрируем таблицу */
+    width: auto;                     /* ширина под контент */
+    max-width: 90%;                  /* не растягивать на весь экран */
+    background: #1f2937;             /* фон для аккуратности */
+}
+
+#chestPoints table th,
+#chestPoints table td {
+    border: 1px solid #374151;      /* тонкие границы */
+    padding: 6px 12px;              /* отступы сверху/снизу и слева/справа */
+    text-align: center;              /* выравнивание по центру */
+    color: #d1d5db;                 /* цвет текста */
+}
+
+#chestPoints table th {
+    background: #111827;             /* цвет шапки */
+    font-weight: bold;
+}
+
+#chestPoints table tr:hover {
+    background: #374151;             /* подсветка при наведении */
+}
 </style>
 </head>
 <body>
