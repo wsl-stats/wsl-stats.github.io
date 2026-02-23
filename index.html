@@ -236,9 +236,13 @@ async function loadCsv() {
       headerRow.appendChild(th);
     });
     thead.appendChild(headerRow);
+	
+	const tableData = cleaned.map((row, index) => {
+    return [index + 1, ...row]; // вставляем номер игрока в начало строки
+});
 
 	$('#statsTable').DataTable({
-		data: cleaned,
+		data: tableData,
 		columns: [
 			{ title: "#" },
 			...headers.map(h => ({ title: h })) // остальные колонки
