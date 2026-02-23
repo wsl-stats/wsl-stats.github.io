@@ -234,7 +234,7 @@ function getCycleInfo() {
 
   // формат даты
   const options = { day:"2-digit", month:"2-digit", year:"numeric", hour:"2-digit", minute:"2-digit" };
-  return `Cycle: ${startCycle.toLocaleString("ru-RU", options)} — ${endCycle.toLocaleString("ru-RU", options)} msk`;
+  return `${startCycle.toLocaleString("ru-RU", options)} — ${endCycle.toLocaleString("ru-RU", options)} msk`;
 }
 
 document.getElementById("cycleInfo").textContent = getCycleInfo();
