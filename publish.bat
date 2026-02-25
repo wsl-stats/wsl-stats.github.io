@@ -6,7 +6,7 @@ REM ============================
 REM --- Обновляем GeneratedAt ---
 powershell -NoProfile -ExecutionPolicy Bypass -Command ^
     "$csvPath = '.\data.csv';" ^
-    "$timestamp = Get-Date -Format 'yyyy-MM-dd HH:mm Moscow';" ^
+    "$timestamp = Get-Date -Format 'yyyy-MM-dd HH:mm МСК';" ^
     "$lines = Get-Content $csvPath;" ^
     "if($lines[0] -match '^# GeneratedAt:') { $lines[0] = '# GeneratedAt: ' + $timestamp }" ^
     "else { $lines = @('# GeneratedAt: ' + $timestamp) + $lines };" ^
