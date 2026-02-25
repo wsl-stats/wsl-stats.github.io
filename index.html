@@ -215,8 +215,7 @@ table.dataTable tbody tr:hover {
   background: rgba(56,189,248,0.12);
 }
 /* ===== accordion animation ===== */
-#olimpusTableWrap,
-#darkOmensTableWrap {
+#TableWrap {
   animation: fadeSlide 0.25s ease;
 }
 
@@ -327,27 +326,30 @@ table.dataTable tbody tr:hover {
 				</table>
 			</div>
 		</div>
+		
+		<div class="events-grid">
+
+		  <!-- Olimpus -->
+		  <div class="event-card olimpus">
+			<h2 class="events-title">🏛 Olimpus</h2>
+			<div id="olimpusList" class="event-list"></div>
+		  </div>
+
+		  <!-- Dark Omens -->
+		  <div class="event-card dark">
+			<h2 class="events-title">🌑 Dark Omens</h2>
+			<div id="darkOmensList" class="event-list"></div>
+		  </div>
+
+		</div>
+		
+		
 	</div>
 </div>
 
-<!-- ===== Events Section ===== -->
-<div class="events-grid">
+<div id="TableWrap"></div>
 
-  <!-- Olimpus -->
-  <div class="event-card olimpus">
-    <h2 class="events-title">🏛 Olimpus</h2>
-    <div id="olimpusList" class="event-list"></div>
-    <div id="olimpusTableWrap"></div>
-  </div>
 
-  <!-- Dark Omens -->
-  <div class="event-card dark">
-    <h2 class="events-title">🌑 Dark Omens</h2>
-    <div id="darkOmensList" class="event-list"></div>
-    <div id="darkOmensTableWrap"></div>
-  </div>
-
-</div>
 
 
 <div class="container">
@@ -599,8 +601,8 @@ async function toggleEvent(folder, file, tableWrapId, btn) {
 
 // ===== Init events =====
 
-renderEventButtons("olimpusList", olimpusFiles, "Olimpus", "olimpusTableWrap");
-renderEventButtons("darkOmensList", darkOmensFiles, "Dark omens", "darkOmensTableWrap");
+renderEventButtons("olimpusList", olimpusFiles, "Olimpus", "TableWrap");
+renderEventButtons("darkOmensList", darkOmensFiles, "Dark omens", "TableWrap");
 
 </script>
 
