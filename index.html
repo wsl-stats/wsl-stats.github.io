@@ -92,6 +92,46 @@ tr:hover {
     font-size: 14px;
     padding: 3px 6px;
 }
+
+/* ===== Events ===== */
+
+.events-wrapper {
+  max-width: 900px;
+  margin: 40px auto;
+  text-align: center;
+}
+
+.events-title {
+  margin: 30px 0 10px;
+  color: #e5e7eb;
+}
+
+.event-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.event-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #374151;
+  background: #1f2937;
+  color: #e5e7eb;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.event-btn:hover {
+  background: #374151;
+}
+
+.event-table {
+  max-width: 600px;
+  margin: 0 auto 30px;
+}
 </style>
 </head>
 <body>
@@ -183,6 +223,19 @@ tr:hover {
 			</div>
 		</div>
 	</div>
+</div>
+
+<!-- ===== Events Section ===== -->
+<div class="events-wrapper">
+
+  <h2 class="events-title">🏛 Olimpus</h2>
+  <div id="olimpusList" class="event-list"></div>
+  <div id="olimpusTableWrap"></div>
+
+  <h2 class="events-title">🌑 Dark Omens</h2>
+  <div id="darkOmensList" class="event-list"></div>
+  <div id="darkOmensTableWrap"></div>
+
 </div>
 
 
@@ -332,6 +385,76 @@ function fixEncoding(str) {
     return str;
   }
 }
+
+
+
+// ===== Event files config =====
+
+const olimpusFiles = [
+
+
+];
+
+const darkOmensFiles = [
+  "24022026-25022026.csv"
+];
+
+
+
+function renderEventButtons(containerId, files, folder, tableWrapId) {
+  const container = document.getElementById(containerId);
+
+  files.forEach(file => {
+    const btn = document.createElement("button");
+    btn.className = "event-btn";
+    btn.textContent = file.replace(".csv", "");
+
+    btn.onclick = () => loadEventTable(folder, file, tableWrapId);
+
+    container.appendChild(btn);
+  });
+}
+
+
+async function loadEventTable(folder, file, wrapId) {
+  const wrap = document.getElementById(wrapId);
+
+  try {
+    const response = await fetch(`${folder}/${file}?v=` + Date.now());
+    const text = await response.text();
+
+    const lines = text.split("\n")
+      .map(l => l.trim())
+      .filter(l => l.length > 0);
+
+    const rows = lines.map(l => l.split(","));
+
+    const headers = rows[0];
+    const data = rows.slice(1);
+
+    // очищаем старую таблицу
+    wrap.innerHTML = `<table id="eventTable" class="display event-table"></table>`;
+
+    $('#eventTable').DataTable({
+      destroy: true,
+      data: data,
+      columns: headers.map(h => ({ title: h })),
+      order: [[1, "desc"]], // Points desc
+      paging: false,
+      info: false,
+      searching: true
+    });
+
+  } catch (err) {
+    console.error("Event load error:", err);
+  }
+}
+
+
+// ===== Init events =====
+
+renderEventButtons("olimpusList", olimpusFiles, "Olimpus", "olimpusTableWrap");
+renderEventButtons("darkOmensList", darkOmensFiles, "Dark omens", "darkOmensTableWrap");
 
 </script>
 
