@@ -218,7 +218,7 @@ async function loadCsv() {
     let generatedAt = "";
     if(lines[0].startsWith("# GeneratedAt:")) {
       generatedAt = lines[0].replace("# GeneratedAt:", "").trim();
-      document.getElementById("generatedAt").textContent = "Updated: " + generatedAt;
+      document.getElementById("generatedAt").textContent = "Updated: " + generatedAt+" Moscow";
     }
 
     const dataRows = lines.filter(l => !l.startsWith("#")).map(l => l.split(",").map(c => fixEncoding(c.trim())));
