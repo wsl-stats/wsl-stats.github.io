@@ -214,6 +214,29 @@ table.dataTable tbody tr:nth-child(even) {
 table.dataTable tbody tr:hover {
   background: rgba(56,189,248,0.12);
 }
+/* ===== accordion animation ===== */
+#olimpusTableWrap,
+#darkOmensTableWrap {
+  animation: fadeSlide 0.25s ease;
+}
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.event-list button.active {
+  background: #0ea5e9;
+  border-color: #38bdf8;
+  color: white;
+  font-weight: 600;
+}
 </style>
 </head>
 <body>
@@ -497,7 +520,7 @@ function renderEventButtons(containerId, files, folder, tableWrapId) {
     btn.className = "event-btn";
     btn.textContent = file.replace(".csv", "");
 
-    btn.onclick = () => loadEventTable(folder, file, tableWrapId);
+    btn.onclick = () => toggleEvent(folder, file, tableWrapId, btn);
 
     container.appendChild(btn);
   });
@@ -546,6 +569,31 @@ async function loadEventTable(folder, file, wrapId) {
   } catch (err) {
     console.error("Event load error:", err);
   }
+}
+
+let currentOpen = {};
+
+async function toggleEvent(folder, file, tableWrapId, btn) {
+  const wrap = document.getElementById(tableWrapId);
+
+  // если уже открыт — закрываем
+  if (currentOpen[tableWrapId] === file) {
+    wrap.innerHTML = "";
+    currentOpen[tableWrapId] = null;
+    btn.classList.remove("active");
+    return;
+  }
+
+  // снимаем active со всех кнопок в этом списке
+  btn.parentElement.querySelectorAll("button")
+    .forEach(b => b.classList.remove("active"));
+
+  btn.classList.add("active");
+
+  // загружаем таблицу
+  await loadEventTable(folder, file, tableWrapId);
+
+  currentOpen[tableWrapId] = file;
 }
 
 
