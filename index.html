@@ -427,23 +427,33 @@ async function loadEventTable(folder, file, wrapId) {
       .map(l => l.trim())
       .filter(l => l.length > 0);
 
-    const rows = lines.map(l => l.split(","));
+	// автоопределение разделителя
+	let delimiter = ";";
+	if (lines[0].includes("\t")) delimiter = "\t";
+	else if (lines[0].includes(",")) delimiter = ",";
 
-    const headers = rows[0];
-    const data = rows.slice(1);
+	const rows = lines.map(l =>
+	  l.split(delimiter).map(x => x.trim())
+	);
+
+	const headers = rows[0];
+	const data = rows
+	  .slice(1)
+	  .filter(r => r.length === headers.length);
 
     // очищаем старую таблицу
     wrap.innerHTML = `<table id="eventTable" class="display event-table"></table>`;
 
-    $('#eventTable').DataTable({
-      destroy: true,
-      data: data,
-      columns: headers.map(h => ({ title: h })),
-      order: [[1, "desc"]], // Points desc
-      paging: false,
-      info: false,
-      searching: true
-    });
+	$('#eventTable').DataTable({
+	  destroy: true,
+	  data: data,
+	  columns: headers.map(h => ({ title: h })),
+	  order: [[1, "desc"]], // Points desc
+	  paging: false,
+	  info: false,
+	  searching: true,
+	  autoWidth: false
+	});
 
   } catch (err) {
     console.error("Event load error:", err);
