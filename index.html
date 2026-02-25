@@ -132,6 +132,88 @@ tr:hover {
   max-width: 600px;
   margin: 0 auto 30px;
 }
+
+
+/* ===== Events Grid ===== */
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 24px;
+  margin-top: 30px;
+}
+
+/* ===== Cards ===== */
+.event-card {
+  background: #0f172a;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+  border: 1px solid #1f2937;
+}
+
+.event-card.olimpus {
+  border-left: 4px solid #38bdf8;
+}
+
+.event-card.dark {
+  border-left: 4px solid #a78bfa;
+}
+
+.events-title {
+  text-align: center;
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+
+
+.event-list button {
+  display: block;
+  width: 100%;
+  margin: 6px 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background: #111827;
+  color: #e5e7eb;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  font-size: 13px;
+}
+
+.event-list button:hover {
+  background: #1f2937;
+  border-color: #475569;
+  transform: translateY(-1px);
+}
+
+/* ===== Event DataTable ===== */
+.dataTables_wrapper {
+  margin-top: 14px;
+}
+
+table.dataTable {
+  width: auto !important;
+  margin: 0 auto;
+  font-size: 13px;
+}
+
+table.dataTable thead th {
+  background: #1f2937;
+  color: #f1f5f9;
+  padding: 8px 12px;
+}
+
+table.dataTable tbody td {
+  padding: 7px 12px;
+}
+
+table.dataTable tbody tr:nth-child(even) {
+  background: rgba(255,255,255,0.03);
+}
+
+table.dataTable tbody tr:hover {
+  background: rgba(56,189,248,0.12);
+}
 </style>
 </head>
 <body>
@@ -226,15 +308,21 @@ tr:hover {
 </div>
 
 <!-- ===== Events Section ===== -->
-<div class="events-wrapper">
+<div class="events-grid">
 
-  <h2 class="events-title">🏛 Olimpus</h2>
-  <div id="olimpusList" class="event-list"></div>
-  <div id="olimpusTableWrap"></div>
+  <!-- Olimpus -->
+  <div class="event-card olimpus">
+    <h2 class="events-title">🏛 Olimpus</h2>
+    <div id="olimpusList" class="event-list"></div>
+    <div id="olimpusTableWrap"></div>
+  </div>
 
-  <h2 class="events-title">🌑 Dark Omens</h2>
-  <div id="darkOmensList" class="event-list"></div>
-  <div id="darkOmensTableWrap"></div>
+  <!-- Dark Omens -->
+  <div class="event-card dark">
+    <h2 class="events-title">🌑 Dark Omens</h2>
+    <div id="darkOmensList" class="event-list"></div>
+    <div id="darkOmensTableWrap"></div>
+  </div>
 
 </div>
 
