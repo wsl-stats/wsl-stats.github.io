@@ -762,7 +762,6 @@ renderEventButtons("darkOmensList", darkOmensFiles, "Dark omens", "TableWrap");
 // ===== ARCHIVE FILES (укажи свои реальные файлы) =====
 const archiveFiles = [
   "data_total_01032026.csv"
-  // добавляй сюда новые
 ];
 
 let currentArchiveFile = null;
@@ -842,15 +841,6 @@ async function toggleArchiveFile(file, btn) {
 async function loadCsvFromPath(path) {
   try {
 
-    // ✅ уничтожаем предыдущую таблицу ТОЛЬКО если она есть
-    if ($.fn.DataTable.isDataTable('#statsTable')) {
-      $('#statsTable').DataTable().destroy();
-    }
-
-    // ✅ очищаем DOM
-    document.querySelector("#statsTable thead").innerHTML = "";
-    document.querySelector("#statsTable tbody").innerHTML = "";
-
     const response = await fetch(path + "?v=" + new Date().getTime());
     if (!response.ok) throw new Error("HTTP " + response.status);
 
@@ -871,10 +861,7 @@ async function loadCsvFromPath(path) {
       .filter(l => !l.startsWith("#"))
       .map(l => l.split(",").map(c => fixEncoding(c.trim())));
 
-    if (dataRows.length < 2) throw new Error("CSV пустой");
-
     const headers = dataRows[0];
-
     const totalIndex = headers.findIndex(h =>
       h.trim().toLowerCase() === "total"
     );
@@ -883,25 +870,14 @@ async function loadCsvFromPath(path) {
       .slice(1)
       .filter(r => r.length === headers.length);
 
-    const map = new Map();
-    data.forEach(r => {
-      const name = r[0].trim().toLowerCase();
-      const points = parseInt(r[headers.length - 1] || "0");
+    const cleaned = data.sort((a,b) =>
+      (parseInt(b[headers.length - 1])||0) -
+      (parseInt(a[headers.length - 1])||0)
+    );
 
-      if (!map.has(name) ||
-          parseInt(map.get(name)[headers.length - 1]) < points) {
-        map.set(name, r);
-      }
-    });
-
-    const cleaned = Array.from(map.values())
-      .sort((a, b) =>
-        (parseInt(b[headers.length - 1]) || 0) -
-        (parseInt(a[headers.length - 1]) || 0)
-      );
-
-    // ✅ СОЗДАЁМ DataTable ТОЛЬКО ОДИН РАЗ
+    // ✅ просто пересоздаем красиво
     $('#statsTable').DataTable({
+      destroy: true,
       data: cleaned,
       columns: headers.map((h, i) => ({
         title: h,
@@ -909,15 +885,13 @@ async function loadCsvFromPath(path) {
       })),
       order: [[headers.length - 1, "desc"]],
       paging: false,
-      info: true,
-      destroy: true
+      info: true
     });
 
   } catch (err) {
     console.error("Archive load error:", err);
   }
 }
-
 
 buildArchiveList();
 
