@@ -505,7 +505,7 @@ table.dataTable tbody tr:hover {
   </div>
 
 </div>
-  <table id="statsTable" class="display" style="width:100%">
+  <table id="statsTable" class="display compact" style="width:100%">
     <thead></thead>
     <tbody></tbody>
   </table>
@@ -850,6 +850,7 @@ async function loadCsvFromPath(path) {
       .map(l => l.trim())
       .filter(l => l.length > 0);
 
+    // ===== GeneratedAt =====
     let generatedAt = "";
     if (lines[0].startsWith("# GeneratedAt:")) {
       generatedAt = lines[0].replace("# GeneratedAt:", "").trim();
@@ -861,7 +862,10 @@ async function loadCsvFromPath(path) {
       .filter(l => !l.startsWith("#"))
       .map(l => l.split(",").map(c => fixEncoding(c.trim())));
 
+    if (dataRows.length < 2) throw new Error("CSV empty");
+
     const headers = dataRows[0];
+
     const totalIndex = headers.findIndex(h =>
       h.trim().toLowerCase() === "total"
     );
@@ -875,9 +879,34 @@ async function loadCsvFromPath(path) {
       (parseInt(a[headers.length - 1])||0)
     );
 
-    // ✅ просто пересоздаем красиво
+    // =========================================
+    // 💥 ВОТ ГЛАВНАЯ МАГИЯ — безопасный reset
+    // =========================================
+
+    if ($.fn.DataTable.isDataTable('#statsTable')) {
+      $('#statsTable').DataTable().destroy();
+    }
+
+    // пересоздаём THEAD под новые колонки
+    const thead = document.querySelector("#statsTable thead");
+    thead.innerHTML = "";
+
+    const headerRow = document.createElement("tr");
+    headers.forEach(h => {
+      const th = document.createElement("th");
+      th.textContent = h;
+      headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+
+    // очищаем tbody (без фанатизма)
+    document.querySelector("#statsTable tbody").innerHTML = "";
+
+    // =========================================
+    // 🚀 создаём заново
+    // =========================================
+
     $('#statsTable').DataTable({
-      destroy: true,
       data: cleaned,
       columns: headers.map((h, i) => ({
         title: h,
@@ -885,7 +914,8 @@ async function loadCsvFromPath(path) {
       })),
       order: [[headers.length - 1, "desc"]],
       paging: false,
-      info: true
+      info: true,
+      autoWidth: false
     });
 
   } catch (err) {
