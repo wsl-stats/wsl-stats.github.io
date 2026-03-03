@@ -372,16 +372,16 @@ table.dataTable tbody tr:hover {
   <div class="events-grid">
   <div class="event-card">
   
-    <div style="max-width:600px;">
+        <div class="event-header" data-target="pointsBody">
+        <h2>Weekly Chest Point Quota: <span id="weeklyLimit"></span></h2>
+        <span class="chevron">▼</span>
+      </div>
+      <div id="pointsBody" class="event-body">
     <div style="background:#1f2937; color:#d1d5db; border-radius:12px; padding:15px;">
       <table style="width:100%; border-collapse:collapse; table-layout:auto;">
         <tr>
           <td style="font-weight:bold; width:40%;">Cycle:</td>
           <td id="cycleInfo"></td>
-        </tr>
-        <tr>
-          <td style="font-weight:bold;">Weekly Chest Point Quota:</td>
-          <td id="weeklyLimit"></td>
         </tr>
         <tr>
           <td colspan="2" style="text-align:center; padding-top:10px;">
