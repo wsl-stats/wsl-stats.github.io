@@ -274,7 +274,7 @@ table.dataTable tbody tr:hover {
 /* ===== Grid ===== */
 .events-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 22px;
 }
 
@@ -508,7 +508,7 @@ table.dataTable tbody tr:hover {
   </div>
 
 </div>
-  <table id="statsTable" class="display compact" style="width:100%">
+  <table id="statsTable" class="display compact stripe hover" style="width:100%">
     <thead></thead>
     <tbody></tbody>
   </table>
@@ -904,6 +904,10 @@ async function loadCsvFromPath(path) {
 
     // очищаем tbody (без фанатизма)
     document.querySelector("#statsTable tbody").innerHTML = "";
+	
+	const tableEl = document.getElementById("statsTable");
+	tableEl.className = "display compact stripe hover";
+	tableEl.style.width = "100%";
 
     // =========================================
     // 🚀 создаём заново
@@ -918,7 +922,19 @@ async function loadCsvFromPath(path) {
       order: [[headers.length - 1, "desc"]],
       paging: false,
       info: true,
-      autoWidth: false
+      autoWidth: false,
+	  createdRow: function(row, data, dataIndex) {
+			const points = parseInt(data[headers.length - 1] || "0");
+			if(points >= weeklyLimit) {
+				$(row).addClass("done");
+			} else {
+				$(row).addClass("not-done");
+			}
+
+			// топ-1 и топ-10 подсветка
+			if(dataIndex === 0) $(row).addClass("top-1");
+			else if(dataIndex < 10) $(row).addClass("top-player");
+		}
     });
 
   } catch (err) {
