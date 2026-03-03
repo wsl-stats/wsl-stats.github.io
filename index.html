@@ -841,23 +841,27 @@ async function toggleArchiveFile(file, btn) {
 
 async function loadCsvFromPath(path) {
   try {
-  
-  // ✅ уничтожаем предыдущую таблицу
-if ($.fn.DataTable.isDataTable('#statsTable')) {
-  $('#statsTable').DataTable().destroy();
-}
 
-// ✅ очищаем таблицу
-document.querySelector("#statsTable thead").innerHTML = "";
-document.querySelector("#statsTable tbody").innerHTML = "";
-  
+    // ✅ уничтожаем предыдущую таблицу ТОЛЬКО если она есть
+    if ($.fn.DataTable.isDataTable('#statsTable')) {
+      $('#statsTable').DataTable().destroy();
+    }
+
+    // ✅ очищаем DOM
+    document.querySelector("#statsTable thead").innerHTML = "";
+    document.querySelector("#statsTable tbody").innerHTML = "";
+
     const response = await fetch(path + "?v=" + new Date().getTime());
+    if (!response.ok) throw new Error("HTTP " + response.status);
+
     const text = await response.text();
 
-    const lines = text.split("\n").map(l => l.trim()).filter(l => l.length > 0);
+    const lines = text.split("\n")
+      .map(l => l.trim())
+      .filter(l => l.length > 0);
 
     let generatedAt = "";
-    if(lines[0].startsWith("# GeneratedAt:")) {
+    if (lines[0].startsWith("# GeneratedAt:")) {
       generatedAt = lines[0].replace("# GeneratedAt:", "").trim();
       document.getElementById("generatedAt").textContent =
         "Updated: " + generatedAt + " Moscow";
@@ -867,33 +871,36 @@ document.querySelector("#statsTable tbody").innerHTML = "";
       .filter(l => !l.startsWith("#"))
       .map(l => l.split(",").map(c => fixEncoding(c.trim())));
 
+    if (dataRows.length < 2) throw new Error("CSV пустой");
+
     const headers = dataRows[0];
+
     const totalIndex = headers.findIndex(h =>
       h.trim().toLowerCase() === "total"
     );
 
-    const data = dataRows.slice(1).filter(r => r.length === headers.length);
+    const data = dataRows
+      .slice(1)
+      .filter(r => r.length === headers.length);
 
     const map = new Map();
     data.forEach(r => {
       const name = r[0].trim().toLowerCase();
       const points = parseInt(r[headers.length - 1] || "0");
-      if(!map.has(name) || parseInt(map.get(name)[headers.length - 1]) < points) {
+
+      if (!map.has(name) ||
+          parseInt(map.get(name)[headers.length - 1]) < points) {
         map.set(name, r);
       }
     });
 
     const cleaned = Array.from(map.values())
-      .sort((a,b) =>
-        (parseInt(b[headers.length - 1])||0) -
-        (parseInt(a[headers.length - 1])||0)
+      .sort((a, b) =>
+        (parseInt(b[headers.length - 1]) || 0) -
+        (parseInt(a[headers.length - 1]) || 0)
       );
 
-    const table = $('#statsTable').DataTable();
-    table.destroy();
-
-    document.querySelector("#statsTable thead").innerHTML = "";
-
+    // ✅ СОЗДАЁМ DataTable ТОЛЬКО ОДИН РАЗ
     $('#statsTable').DataTable({
       data: cleaned,
       columns: headers.map((h, i) => ({
@@ -902,7 +909,8 @@ document.querySelector("#statsTable tbody").innerHTML = "";
       })),
       order: [[headers.length - 1, "desc"]],
       paging: false,
-      info: true
+      info: true,
+      destroy: true
     });
 
   } catch (err) {
