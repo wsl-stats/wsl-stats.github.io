@@ -274,7 +274,7 @@ table.dataTable tbody tr:hover {
 /* ===== Grid ===== */
 .events-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: 22px;
 }
 
@@ -484,6 +484,21 @@ table.dataTable tbody tr:hover {
         <div id="darkOmensList" class="event-list"></div>
       </div>
     </div>
+	
+	  <!-- ===== Archive ===== -->
+	<div class="archive-wrapper event-card">
+
+  
+        <div class="event-header" data-target="archiveBody">
+        <h2>📦 Archive Results</h2>
+        <span class="chevron">▼</span>
+      </div>
+      <div id="archiveBody" class="event-body">
+        <div id="archiveList" class="event-list"></div>
+      </div>
+
+
+	</div>
 
   </div>
 
@@ -496,18 +511,7 @@ table.dataTable tbody tr:hover {
 
 <div class="container">
   <div id="generatedAt" style="text-align:right; margin-bottom:10px; color:#fbbf24;"></div>
-  <!-- ===== Archive ===== -->
-<div class="archive-wrapper">
 
-  <button id="toggleArchive" class="archive-toggle">
-    📦 Archive Results ▼
-  </button>
-
-  <div id="archiveBlock" style="display:none;">
-    <div id="archiveList" class="event-list"></div>
-  </div>
-
-</div>
   <table id="statsTable" class="display compact stripe hover" style="width:100%">
     <thead></thead>
     <tbody></tbody>
@@ -768,20 +772,6 @@ const archiveFiles = [
 ];
 
 let currentArchiveFile = null;
-
-// раскрытие архива
-document.getElementById("toggleArchive").addEventListener("click", () => {
-  const block = document.getElementById("archiveBlock");
-  const btn = document.getElementById("toggleArchive");
-
-  if (block.style.display === "none") {
-    block.style.display = "block";
-    btn.textContent = "📦 Archive Results ▲";
-  } else {
-    block.style.display = "none";
-    btn.textContent = "📦 Archive Results ▼";
-  }
-});
 
 // построение списка
 function buildArchiveList() {
