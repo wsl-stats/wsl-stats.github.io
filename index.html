@@ -524,7 +524,24 @@ table.dataTable tbody tr:hover {
 
 <script>
 
-const weeklyLimit = 500; // <-- change this each week
+const weeklyLimit = 550; // <-- change this each week
+
+const archiveFiles = [
+  "data_total_01032026.csv",
+  "data_total_08032026.csv"
+];
+
+// ===== Event files config =====
+
+const olimpusFiles = [
+
+
+];
+
+const darkOmensFiles = [
+  "24022026-25022026.csv"
+];
+
 
 // ==== Display weekly limit ====
 document.getElementById("weeklyLimit").innerHTML = `
@@ -659,16 +676,7 @@ function fixEncoding(str) {
 
 
 
-// ===== Event files config =====
 
-const olimpusFiles = [
-
-
-];
-
-const darkOmensFiles = [
-  "24022026-25022026.csv"
-];
 
 
 
@@ -766,10 +774,7 @@ renderEventButtons("darkOmensList", darkOmensFiles, "Dark omens", "TableWrap");
 
 
 
-// ===== ARCHIVE FILES (укажи свои реальные файлы) =====
-const archiveFiles = [
-  "data_total_01032026.csv"
-];
+
 
 let currentArchiveFile = null;
 
