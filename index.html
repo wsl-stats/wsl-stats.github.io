@@ -651,7 +651,7 @@ async function loadCsv() {
 
 	$('#statsTable').DataTable({
 		data: cleaned,
-		columns: headers.map((h, i) => ({
+		columns: headersMerged.map((h, i) => ({
 				  title: h,
 				  visible: i !== totalIndex // скрываем Total
 				})),
