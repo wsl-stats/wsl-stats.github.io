@@ -549,54 +549,53 @@ document.getElementById("weeklyLimit").innerHTML = `
 `;
 
 
-function normalizeHeader(h) {
-  return h
-    .replace(/JГіrmungandr/gi, "Jormungandr")
-    .replace(/Гі/g, "o")
-    .trim();
-}
+function mergeMungandrColumns(headers, rows) {
 
-function mergeDuplicateColumns(headers, rows) {
+  const shopIndexes = [];
+  const squadIndexes = [];
 
-  const normalized = headers.map(normalizeHeader);
+  headers.forEach((h, i) => {
 
-  const uniqueHeaders = [];
-  const indexMap = {};
+    const name = h.toLowerCase();
 
-  normalized.forEach((h, i) => {
+    if (name.includes("mungandr") && name.includes("shop"))
+      shopIndexes.push(i);
 
-    if (!(h in indexMap)) {
-      indexMap[h] = uniqueHeaders.length;
-      uniqueHeaders.push(h);
-    }
+    if (name.includes("mungandr") && name.includes("squad"))
+      squadIndexes.push(i);
 
   });
+
+  if (shopIndexes.length === 0 && squadIndexes.length === 0)
+    return { headers, rows };
+
+  const newHeaders = headers.filter((h,i) =>
+    !shopIndexes.includes(i) && !squadIndexes.includes(i)
+  );
+
+  newHeaders.push("Jormungandr Shop");
+  newHeaders.push("Epic Jormungandr squad");
 
   const newRows = rows.map(r => {
 
-    const newRow = new Array(uniqueHeaders.length).fill(0);
+    let shopSum = 0;
+    let squadSum = 0;
 
-    r.forEach((value, i) => {
+    shopIndexes.forEach(i => shopSum += parseInt(r[i]) || 0);
+    squadIndexes.forEach(i => squadSum += parseInt(r[i]) || 0);
 
-      const headerName = normalized[i];
-      const idx = indexMap[headerName];
+    const filtered = r.filter((v,i) =>
+      !shopIndexes.includes(i) && !squadIndexes.includes(i)
+    );
 
-      // первая колонка — имя
-      if (i === 0) {
-        newRow[idx] = value;
-        return;
-      }
+    filtered.push(shopSum);
+    filtered.push(squadSum);
 
-      const num = parseInt(value) || 0;
-      newRow[idx] = (parseInt(newRow[idx]) || 0) + num;
-
-    });
-
-    return newRow;
+    return filtered;
 
   });
 
-  return { headers: uniqueHeaders, rows: newRows };
+  return { headers: newHeaders, rows: newRows };
 }
 
 
@@ -623,7 +622,7 @@ async function loadCsv() {
 						);
     const data = dataRows.slice(1).filter(r => r.length === headers.length);
 	
-const merged = mergeDuplicateColumns(headers, data);
+const merged = mergeMungandrColumns(headers, data);
 
 const headersMerged = merged.headers;
 const dataMerged = merged.rows;
