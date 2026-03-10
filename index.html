@@ -549,6 +549,56 @@ document.getElementById("weeklyLimit").innerHTML = `
 `;
 
 
+
+
+function normalizeHeader(h) {
+  return h
+    .replace(/Гі/g, "o")   // фикс кодировки
+    .replace(/JГіrmungandr/g, "Jormungandr")
+    .trim();
+}
+
+function mergeDuplicateColumns(headers, rows) {
+
+  const map = {};
+  const newHeaders = [];
+  const indexMap = [];
+
+  headers.forEach((h, i) => {
+    const normalized = normalizeHeader(h);
+
+    if (map[normalized] === undefined) {
+      map[normalized] = newHeaders.length;
+      newHeaders.push(normalized);
+    }
+
+    indexMap[i] = map[normalized];
+  });
+
+  const newRows = rows.map(r => {
+
+    const newRow = new Array(newHeaders.length).fill(0);
+
+    r.forEach((value, i) => {
+
+      const idx = indexMap[i];
+
+      const num = parseInt(value) || 0;
+
+      if (!isNaN(num))
+        newRow[idx] = (parseInt(newRow[idx]) || 0) + num;
+      else
+        newRow[idx] = value;
+
+    });
+
+    return newRow;
+  });
+
+  return { headers: newHeaders, rows: newRows };
+}
+
+
 async function loadCsv() {
   try {
     const response = await fetch("data.csv?v=" + new Date().getTime()); // bypass cache
@@ -971,52 +1021,6 @@ document.querySelectorAll(".event-header").forEach(header => {
 
 
 
-function normalizeHeader(h) {
-  return h
-    .replace(/Гі/g, "o")   // фикс кодировки
-    .replace(/JГіrmungandr/g, "Jormungandr")
-    .trim();
-}
-
-function mergeDuplicateColumns(headers, rows) {
-
-  const map = {};
-  const newHeaders = [];
-  const indexMap = [];
-
-  headers.forEach((h, i) => {
-    const normalized = normalizeHeader(h);
-
-    if (map[normalized] === undefined) {
-      map[normalized] = newHeaders.length;
-      newHeaders.push(normalized);
-    }
-
-    indexMap[i] = map[normalized];
-  });
-
-  const newRows = rows.map(r => {
-
-    const newRow = new Array(newHeaders.length).fill(0);
-
-    r.forEach((value, i) => {
-
-      const idx = indexMap[i];
-
-      const num = parseInt(value) || 0;
-
-      if (!isNaN(num))
-        newRow[idx] = (parseInt(newRow[idx]) || 0) + num;
-      else
-        newRow[idx] = value;
-
-    });
-
-    return newRow;
-  });
-
-  return { headers: newHeaders, rows: newRows };
-}
 
 </script>
 
