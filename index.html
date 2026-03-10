@@ -712,17 +712,6 @@ function getCycleInfo() {
 
 document.getElementById("cycleInfo").textContent = getCycleInfo();
 
-document.getElementById("toggleChestPoints").addEventListener("click", function(){
-  const div = document.getElementById("chestPoints");
-  if(div.style.display === "none") {
-    div.style.display = "block";
-    this.textContent = "Hide Chest & Monster Points ▲";
-  } else {
-    div.style.display = "none";
-    this.textContent = "Show Chest & Monster Points ▼";
-  }
-});
-
 function fixEncoding(str) {
   try {
     return decodeURIComponent(escape(str));
