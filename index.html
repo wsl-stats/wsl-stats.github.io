@@ -548,7 +548,6 @@ document.getElementById("weeklyLimit").innerHTML = `
 <span style="color:#fbbf24; font-weight:bold;">${weeklyLimit} points</span>
 `;
 
-
 function mergeMungandrColumns(headers, rows) {
 
   const shopIndexes = [];
@@ -569,12 +568,17 @@ function mergeMungandrColumns(headers, rows) {
   if (shopIndexes.length === 0 && squadIndexes.length === 0)
     return { headers, rows };
 
+  const pointsIndex = headers.findIndex(h =>
+    h.toLowerCase().includes("points")
+  );
+
   const newHeaders = headers.filter((h,i) =>
     !shopIndexes.includes(i) && !squadIndexes.includes(i)
   );
 
-  newHeaders.push("Jormungandr Shop");
-  newHeaders.push("Epic Jormungandr squad");
+  // вставляем новые колонки ПЕРЕД Points
+  newHeaders.splice(pointsIndex, 0, "Jormungandr Shop");
+  newHeaders.splice(pointsIndex + 1, 0, "Epic Jormungandr squad");
 
   const newRows = rows.map(r => {
 
@@ -588,8 +592,8 @@ function mergeMungandrColumns(headers, rows) {
       !shopIndexes.includes(i) && !squadIndexes.includes(i)
     );
 
-    filtered.push(shopSum);
-    filtered.push(squadSum);
+    filtered.splice(pointsIndex, 0, shopSum);
+    filtered.splice(pointsIndex + 1, 0, squadSum);
 
     return filtered;
 
@@ -597,7 +601,6 @@ function mergeMungandrColumns(headers, rows) {
 
   return { headers: newHeaders, rows: newRows };
 }
-
 
 async function loadCsv() {
   try {
@@ -622,10 +625,10 @@ async function loadCsv() {
 						);
     const data = dataRows.slice(1).filter(r => r.length === headers.length);
 	
-const merged = mergeMungandrColumns(headers, data);
+	const merged = mergeMungandrColumns(headers, data);
 
-const headersMerged = merged.headers;
-const dataMerged = merged.rows;
+	const headersMerged = merged.headers;
+	const dataMerged = merged.rows;
 
     const map = new Map();
     dataMerged.forEach(r => {
@@ -928,6 +931,8 @@ async function loadCsvFromPath(path) {
     const data = dataRows
       .slice(1)
       .filter(r => r.length === headers.length);
+	  
+	  
 
     const cleaned = data.sort((a,b) =>
       (parseInt(b[headers.length - 1])||0) -
