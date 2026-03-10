@@ -375,24 +375,14 @@ table.dataTable tbody tr:hover {
         <div class="event-header" data-target="pointsBody">
         <h2>Weekly Chest Point Quota: <span id="weeklyLimit"></span></h2>
         <span class="chevron">▼</span>
+		<br>
+		<br>
+		<span id="cycleInfo"></span>
       </div>
       <div id="pointsBody" class="event-body">
     <div style="background:#1f2937; color:#d1d5db; border-radius:12px; padding:15px;">
-      <table style="width:100%; border-collapse:collapse; table-layout:auto;">
-        <tr>
-          <td style="font-weight:bold; width:40%;">Cycle:</td>
-          <td id="cycleInfo"></td>
-        </tr>
-        <tr>
-          <td colspan="2" style="text-align:center; padding-top:10px;">
-            <button id="toggleChestPoints" style="background:#374151; color:#fbbf24; border:none; border-radius:6px; padding:5px 10px; cursor:pointer;">
-              Show Chest Points ▼
-            </button>
-          </td>
-        </tr>
-      </table>
 
-		<div id="chestPoints" style="display:none; margin-top:10px; overflow-y:auto; max-height:350px;">
+		<div id="chestPoints" style="margin-top:10px; overflow-y:auto; max-height:350px;">
 				<table style="width:100%; border-collapse:collapse; table-layout:auto; background:#111827; border-radius:8px;">
 				  <thead>
 					<tr style="border-bottom:1px solid #374151;">
@@ -419,6 +409,9 @@ table.dataTable tbody tr:hover {
 					<tr><td>Level 25 Citadel</td><td style="text-align:right;">28</td></tr>
 					<tr><td>Level 20 Citadel</td><td style="text-align:right;">12</td></tr>
 					<tr><td>Level 15 Citadel</td><td style="text-align:right;">4</td></tr>
+					
+					<tr><td>Epic JГіrmungandr squad</td><td style="text-align:right;">60</td></tr>
+					<tr><td>Epic Jormungandr squad</td><td style="text-align:right;">60</td></tr>
 
 					<!-- Monsters -->
 					<tr><td>Heroic Monster Undead 16</td><td style="text-align:right;">5</td></tr>
@@ -568,15 +561,19 @@ function mergeMungandrColumns(headers, rows) {
   if (shopIndexes.length === 0 && squadIndexes.length === 0)
     return { headers, rows };
 
-  const pointsIndex = headers.findIndex(h =>
-    h.toLowerCase().includes("points")
-  );
-
-  const newHeaders = headers.filter((h,i) =>
+  // удаляем старые колонки
+  const filteredHeaders = headers.filter((h,i) =>
     !shopIndexes.includes(i) && !squadIndexes.includes(i)
   );
 
-  // вставляем новые колонки ПЕРЕД Points
+  // ищем Points после фильтрации
+  const pointsIndex = filteredHeaders.findIndex(h =>
+    h.toLowerCase().includes("points")
+  );
+
+  const newHeaders = [...filteredHeaders];
+
+  // вставляем перед Points
   newHeaders.splice(pointsIndex, 0, "Jormungandr Shop");
   newHeaders.splice(pointsIndex + 1, 0, "Epic Jormungandr squad");
 
