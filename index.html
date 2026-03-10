@@ -571,22 +571,27 @@ async function loadCsv() {
 						  h.trim().toLowerCase() === "total"
 						);
     const data = dataRows.slice(1).filter(r => r.length === headers.length);
+	
+	const merged = mergeDuplicateColumns(headers, data);
+
+	const headersMerged = merged.headers;
+	const dataMerged = merged.rows;
 
     const map = new Map();
-    data.forEach(r => {
+    dataMerged.forEach(r => {
       const name = r[0].trim().toLowerCase();
-      const points = parseInt(r[headers.length - 1] || "0");
-      if(!map.has(name) || parseInt(map.get(name)[headers.length - 1]) < points) {
+      const points = parseInt(r[headersMerged.length - 1] || "0");
+      if(!map.has(name) || parseInt(map.get(name)[headersMerged.length - 1]) < points) {
         map.set(name, r);
       }
     });
 
-    const cleaned = Array.from(map.values()).sort((a,b) => (parseInt(b[headers.length - 1])||0) - (parseInt(a[headers.length - 1])||0));
+    const cleaned = Array.from(map.values()).sort((a,b) => (parseInt(b[headersMerged.length - 1])||0) - (parseInt(a[headersMerged.length - 1])||0));
 
     // строим таблицу
     const thead = document.querySelector("#statsTable thead");
     const headerRow = document.createElement("tr");
-    headers.forEach(h => {
+    headersMerged.forEach(h => {
       const th = document.createElement("th");
       th.textContent = h;
       headerRow.appendChild(th);
@@ -600,12 +605,12 @@ async function loadCsv() {
 				  title: h,
 				  visible: i !== totalIndex // скрываем Total
 				})),
-		order: [[headers.length - 1, "desc"]],
+		order: [[headersMerged.length - 1, "desc"]],
 		pageLength: 200,
 		info: true,
 		paging: false,
 		createdRow: function(row, data, dataIndex) {
-			const points = parseInt(data[headers.length - 1] || "0");
+			const points = parseInt(data[headersMerged.length - 1] || "0");
 			if(points >= weeklyLimit) {
 				$(row).addClass("done");
 			} else {
@@ -962,6 +967,56 @@ document.querySelectorAll(".event-header").forEach(header => {
     }
   });
 });
+
+
+
+
+function normalizeHeader(h) {
+  return h
+    .replace(/Гі/g, "o")   // фикс кодировки
+    .replace(/JГіrmungandr/g, "Jormungandr")
+    .trim();
+}
+
+function mergeDuplicateColumns(headers, rows) {
+
+  const map = {};
+  const newHeaders = [];
+  const indexMap = [];
+
+  headers.forEach((h, i) => {
+    const normalized = normalizeHeader(h);
+
+    if (map[normalized] === undefined) {
+      map[normalized] = newHeaders.length;
+      newHeaders.push(normalized);
+    }
+
+    indexMap[i] = map[normalized];
+  });
+
+  const newRows = rows.map(r => {
+
+    const newRow = new Array(newHeaders.length).fill(0);
+
+    r.forEach((value, i) => {
+
+      const idx = indexMap[i];
+
+      const num = parseInt(value) || 0;
+
+      if (!isNaN(num))
+        newRow[idx] = (parseInt(newRow[idx]) || 0) + num;
+      else
+        newRow[idx] = value;
+
+    });
+
+    return newRow;
+  });
+
+  return { headers: newHeaders, rows: newRows };
+}
 
 </script>
 
