@@ -1,0 +1,58 @@
+(Any) 10 - 2
+(Any) 15 - 4
+(Any) 15 - 8
+(Any) 20 - 12
+(Any) 15 - 12
+(Any) 20 - 16
+(Any) 25 - 28
+(Any) 20 - 28
+(Any) 20 - 45
+(Any) 25 - 55
+(Any) 25 - 72
+(Any) 25 - 90
+(Any) 30 - 60
+(Any) 30 - 120
+(Any) 30 - 140
+(Any) 35 - 200
+(Any) 15 - 5
+Undead Chest 16 - 5
+Elven Chest 17 - 10
+Cursed Chest 18 - 15
+Barbarian Chest 19 - 20
+Inferno Chest 20 - 30
+Undead Chest 21 - 40
+Elven Chest 22 - 50
+Cursed Chest 23 - 60
+Barbarian Chest 24 - 70
+Inferno Chest 25 - 80
+Undead Chest 26 - 90
+Elven Chest 27 - 105
+Cursed Chest 28 - 120
+Barbarian Chest 29 - 135
+Inferno Chest 30 - 150
+Undead Chest 31 - 200
+Elven Chest 32 - 225
+Cursed Chest 33 - 250
+Barbarian Chest 34 - 300
+Inferno Chest 35 - 350
+Undead Chest 36 - 400
+Elven Chest 37 - 450
+Cursed Chest 38 - 500
+Barbarian Chest 39 - 550
+Inferno Chest 40 - 625
+Undead Chest 41 - 700
+Elven Chest 42 - 775
+Cursed Chest 43 - 850
+Barbarian Chest 44 - 925
+Inferno Chest 45 - 1000
+Rise of the Ancients event (Any) - 1
+Arcane Chest (Any) - 1000
+Spoils of Dread Chest (Any) - 100
+Hermes Chest (Any) - 1
+(Any) (Any) - 60
+(Any) (Any) - 60
+(Any) (Any) - 1
+(Any) (Any) - 60
+(Any) (Any) - 1
+Arachne Chest (Any) - 1000
+Fire Hydra Chest (Any) - 1000

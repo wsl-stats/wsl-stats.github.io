@@ -1,0 +1,350 @@
+[
+  {
+    "ChestName": "(Any)",
+    "ChestType": "Rare",
+    "Level": "10",
+    "PointValue": 2
+  },
+  {
+    "ChestName": "(Any)",
+    "ChestType": "Citadel",
+    "Level": "15",
+    "PointValue": 4
+  },
+  {
+    "ChestName": "(Any)",
+    "ChestType": "Rare",
+    "Level": "15",
+    "PointValue": 8
+  },
+  {
+    "ChestName": "(Any)",
+    "ChestType": "Citadel",
+    "Level": "20",
+    "PointValue": 12
+  },
+  {
+    "ChestName": "(Any)",
+    "ChestType": "Epic",
+    "Level": "15",
+    "PointValue": 12
+  },
+  {
+    "ChestName": "(Any)",
+    "ChestType": "Common",
+    "Level": "20",
+    "PointValue": 16
+  },
+  {
+    "ChestName": "(Any)",
+    "ChestType": "Citadel",
+    "Level": "25",
+    "PointValue": 28
+  },
+  {
+    "ChestName": "(Any)",
+    "ChestType": "Rare",
+    "Level": "20",
+    "PointValue": 28
+  },
+  {
+    "ChestName": "(Any)",
+    "ChestType": "Epic",
+    "Level": "20",
+    "PointValue": 45
+  },
+  {
+    "ChestName": "(Any)",
+    "ChestType": "Common",
+    "Level": "25",
+    "PointValue": 55
+  },
+  {
+    "ChestName": "(Any)",
+    "ChestType": "Rare",
+    "Level": "25",
+    "PointValue": 72
+  },
+  {
+    "ChestName": "(Any)",
+    "ChestType": "Epic",
+    "Level": "25",
+    "PointValue": 90
+  },
+  {
+    "ChestName": "(Any)",
+    "ChestType": "Citadel",
+    "Level": "30",
+    "PointValue": 60
+  },
+  {
+    "ChestName": "(Any)",
+    "ChestType": "Rare",
+    "Level": "30",
+    "PointValue": 120
+  },
+  {
+    "ChestName": "(Any)",
+    "ChestType": "Epic",
+    "Level": "30",
+    "PointValue": 140
+  },
+  {
+    "ChestName": "(Any)",
+    "ChestType": "Epic",
+    "Level": "35",
+    "PointValue": 200
+  },
+  {
+    "ChestName": "(Any)",
+    "ChestType": "Common",
+    "Level": "15",
+    "PointValue": 5
+  },
+  {
+    "ChestName": "Undead Chest",
+    "ChestType": "heroic Monster",
+    "Level": "16",
+    "PointValue": 5
+  },
+  {
+    "ChestName": "Elven Chest",
+    "ChestType": "heroic Monster",
+    "Level": "17",
+    "PointValue": 10
+  },
+  {
+    "ChestName": "Cursed Chest",
+    "ChestType": "heroic Monster",
+    "Level": "18",
+    "PointValue": 15
+  },
+  {
+    "ChestName": "Barbarian Chest",
+    "ChestType": "heroic Monster",
+    "Level": "19",
+    "PointValue": 20
+  },
+  {
+    "ChestName": "Inferno Chest",
+    "ChestType": "heroic Monster",
+    "Level": "20",
+    "PointValue": 30
+  },
+  {
+    "ChestName": "Undead Chest",
+    "ChestType": "heroic Monster",
+    "Level": "21",
+    "PointValue": 40
+  },
+  {
+    "ChestName": "Elven Chest",
+    "ChestType": "heroic Monster",
+    "Level": "22",
+    "PointValue": 50
+  },
+  {
+    "ChestName": "Cursed Chest",
+    "ChestType": "heroic Monster",
+    "Level": "23",
+    "PointValue": 60
+  },
+  {
+    "ChestName": "Barbarian Chest",
+    "ChestType": "heroic Monster",
+    "Level": "24",
+    "PointValue": 70
+  },
+  {
+    "ChestName": "Inferno Chest",
+    "ChestType": "heroic Monster",
+    "Level": "25",
+    "PointValue": 80
+  },
+  {
+    "ChestName": "Undead Chest",
+    "ChestType": "heroic Monster",
+    "Level": "26",
+    "PointValue": 90
+  },
+  {
+    "ChestName": "Elven Chest",
+    "ChestType": "heroic Monster",
+    "Level": "27",
+    "PointValue": 105
+  },
+  {
+    "ChestName": "Cursed Chest",
+    "ChestType": "heroic Monster",
+    "Level": "28",
+    "PointValue": 120
+  },
+  {
+    "ChestName": "Barbarian Chest",
+    "ChestType": "heroic Monster",
+    "Level": "29",
+    "PointValue": 135
+  },
+  {
+    "ChestName": "Inferno Chest",
+    "ChestType": "heroic Monster",
+    "Level": "30",
+    "PointValue": 150
+  },
+  {
+    "ChestName": "Undead Chest",
+    "ChestType": "heroic Monster",
+    "Level": "31",
+    "PointValue": 200
+  },
+  {
+    "ChestName": "Elven Chest",
+    "ChestType": "heroic Monster",
+    "Level": "32",
+    "PointValue": 225
+  },
+  {
+    "ChestName": "Cursed Chest",
+    "ChestType": "heroic Monster",
+    "Level": "33",
+    "PointValue": 250
+  },
+  {
+    "ChestName": "Barbarian Chest",
+    "ChestType": "heroic Monster",
+    "Level": "34",
+    "PointValue": 300
+  },
+  {
+    "ChestName": "Inferno Chest",
+    "ChestType": "heroic Monster",
+    "Level": "35",
+    "PointValue": 350
+  },
+  {
+    "ChestName": "Undead Chest",
+    "ChestType": "heroic Monster",
+    "Level": "36",
+    "PointValue": 400
+  },
+  {
+    "ChestName": "Elven Chest",
+    "ChestType": "heroic Monster",
+    "Level": "37",
+    "PointValue": 450
+  },
+  {
+    "ChestName": "Cursed Chest",
+    "ChestType": "heroic Monster",
+    "Level": "38",
+    "PointValue": 500
+  },
+  {
+    "ChestName": "Barbarian Chest",
+    "ChestType": "heroic Monster",
+    "Level": "39",
+    "PointValue": 550
+  },
+  {
+    "ChestName": "Inferno Chest",
+    "ChestType": "heroic Monster",
+    "Level": "40",
+    "PointValue": 625
+  },
+  {
+    "ChestName": "Undead Chest",
+    "ChestType": "heroic Monster",
+    "Level": "41",
+    "PointValue": 700
+  },
+  {
+    "ChestName": "Elven Chest",
+    "ChestType": "heroic Monster",
+    "Level": "42",
+    "PointValue": 775
+  },
+  {
+    "ChestName": "Cursed Chest",
+    "ChestType": "heroic Monster",
+    "Level": "43",
+    "PointValue": 850
+  },
+  {
+    "ChestName": "Barbarian Chest",
+    "ChestType": "heroic Monster",
+    "Level": "44",
+    "PointValue": 925
+  },
+  {
+    "ChestName": "Inferno Chest",
+    "ChestType": "heroic Monster",
+    "Level": "45",
+    "PointValue": 1000
+  },
+  {
+    "ChestName": "Rise of the Ancients event",
+    "ChestType": "Tinman",
+    "Level": "(Any)",
+    "PointValue": 1
+  },
+  {
+    "ChestName": "Arcane Chest",
+    "ChestType": "Dark Omens event",
+    "Level": "(Any)",
+    "PointValue": 1000
+  },
+  {
+    "ChestName": "Spoils of Dread Chest",
+    "ChestType": "Spoils of Dread event",
+    "Level": "(Any)",
+    "PointValue": 100
+  },
+  {
+    "ChestName": "Hermes Chest",
+    "ChestType": "Hermes' Store",
+    "Level": "(Any)",
+    "PointValue": 1
+  },
+  {
+    "ChestName": "(Any)",
+    "ChestType": "Epic JГіrmungandr squad",
+    "Level": "(Any)",
+    "PointValue": 60
+  },
+  {
+    "ChestName": "(Any)",
+    "ChestType": "Epic Fenrir squad",
+    "Level": "(Any)",
+    "PointValue": 60
+  },
+  {
+    "ChestName": "(Any)",
+    "ChestType": "JГіrmungandr Shop",
+    "Level": "(Any)",
+    "PointValue": 1
+  },
+  {
+    "ChestName": "(Any)",
+    "ChestType": "Epic Jormungandr squad",
+    "Level": "(Any)",
+    "PointValue": 60
+  },
+  {
+    "ChestName": "(Any)",
+    "ChestType": "Jormungandr Shop",
+    "Level": "(Any)",
+    "PointValue": 1
+  },
+  {
+    "ChestName": "Arachne Chest",
+    "ChestType": "Arachne's Swarm Epic Squad",
+    "Level": "(Any)",
+    "PointValue": 1000
+  },
+  {
+    "ChestName": "Fire Hydra Chest",
+    "ChestType": "Epic Inferno squad",
+    "Level": "(Any)",
+    "PointValue": 1000
+  }
+]
