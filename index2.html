@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -285,6 +284,36 @@ table.dataTable tbody tr:hover {
   color: white;
   font-weight: 600;
 }
+
+/* Аккуратное отображение данных в ячейках */
+#statsTable td {
+    white-space: normal;
+    text-align: left;
+    vertical-align: top;
+    line-height: 1.4;
+    padding: 8px 12px;
+}
+.chest-detail-line {
+    display: block;
+    margin: 2px 0;
+    font-size: 0.9em;
+}
+.chest-detail-total {
+    font-weight: bold;
+    margin-top: 4px;
+    border-top: 1px solid #ccc;
+    padding-top: 3px;
+}
+
+#statsTable td {
+    white-space: normal;
+    word-break: break-word;
+    vertical-align: top;
+}
+.chest-detail-line {
+    display: inline; /* чтобы строки не переносились внутри */
+}
+
 </style>
 </head>
 <body>
@@ -584,25 +613,26 @@ function aggregateByPlayerAndColumn(entries, columnConfig) {
 }
 
 function renderCellContent(levelMap) {
-  if (!levelMap || levelMap.size === 0) return "";
-  const lines = [];
-  let totalPoints = 0;
-  const levels = Array.from(levelMap.keys()).sort((a,b) => {
-    if (a === 'other') return 1;
-    if (b === 'other') return -1;
-    return a - b;
-  });
-  for (const level of levels) {
-    const data = levelMap.get(level);
-    totalPoints += data.pointsSum;
-    if (level === 'other') {
-      lines.push(`Other (${data.count}): ${data.pointsSum}`);
-    } else {
-      lines.push(`${level}(${data.count}): ${data.pointsSum}`);
+    if (!levelMap || levelMap.size === 0) return "";
+    const levelEntries = [];
+    let totalPoints = 0;
+    const levels = Array.from(levelMap.keys()).sort((a,b) => {
+        if (a === 'other') return 1;
+        if (b === 'other') return -1;
+        return a - b;
+    });
+    for (const level of levels) {
+        const data = levelMap.get(level);
+        totalPoints += data.pointsSum;
+        const levelStr = level === 'other'
+            ? `Other(${data.count})`
+            : `${level}(${data.count})`;
+        levelEntries.push(`${levelStr}: ${data.pointsSum}`);
     }
-  }
-  lines.push(`Total: ${totalPoints}`);
-  return lines.join('<br>');
+    // объединяем записи уровней через запятую
+    const levelsLine = levelEntries.join(', ');
+    // итог отдельной строкой
+    return `${levelsLine}<br><strong>Total: ${totalPoints}</strong>`;
 }
 
 // ======================== RENDER MAIN TABLE ========================
@@ -854,4 +884,3 @@ renderMainTable();
 </script>
 </body>
 </html>
-```
