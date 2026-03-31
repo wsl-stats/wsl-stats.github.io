@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
 <style>
-/* All original styles preserved exactly as in the user's file */
+/* ===== All original styles preserved ===== */
 body {
   font-family: Arial, sans-serif;
   background: #0f172a;
@@ -304,11 +304,11 @@ table.dataTable tbody tr:hover {
         <div style="background:#1f2937; color:#d1d5db; border-radius:12px; padding:15px;">
           <div id="chestPoints" style="margin-top:10px; overflow-y:auto; max-height:350px;">
             <table style="width:100%; border-collapse:collapse; table-layout:auto; background:#111827; border-radius:8px;">
-              <thead><tr style="border-bottom:1px solid #374151;"><th style="text-align:left; padding:5px;">Chest / Monster</th><th style="text-align:right; padding:5px;">Points</th></tr></thead>
+              <thead><tr style="border-bottom:1px solid #374151;"><th style="text-align:left; padding:5px;">Chest / Monster</th><th style="text-align:right; padding:5px;">Points</th> </tr></thead>
               <tbody style="color:#d1d5db; font-size:14px;">
                 <!-- Chests -->
                 <tr><td>Level 10 Rare Crypt</td><td style="text-align:right;">2</td></tr>
-                <tr><td>Level 15 Crypt</td><td style="text-align:right;">0</td></tr>
+                <tr><td>Level 15 Crypt</td><td style="text-align:right;">5</td></tr>
                 <tr><td>Level 15 Rare Crypt</td><td style="text-align:right;">8</td></tr>
                 <tr><td>Level 15 Epic Crypt</td><td style="text-align:right;">12</td></tr>
                 <tr><td>Level 20 Crypt</td><td style="text-align:right;">16</td></tr>
@@ -414,13 +414,29 @@ table.dataTable tbody tr:hover {
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
 <script>
-// --------------------------------------------------------------
-// 1. Global config & points map
-// --------------------------------------------------------------
+// ======================== CONFIGURATION ========================
+// Define columns: each column has a display name and a list of source patterns (case-insensitive)
+// The patterns are matched against the "Source:" line in chest files.
+// You can add new columns by adding an object to this array.
+const COLUMN_CONFIG = [
+  { name: "Crypt", sources: ["level 15 crypt", "level 20 crypt", "level 25 crypt"] },
+  { name: "Rare Crypt", sources: ["level 10 rare crypt", "level 15 rare crypt", "level 20 rare crypt", "level 25 rare crypt", "level 30 rare crypt"] },
+  { name: "Epic Crypt", sources: ["level 15 epic crypt", "level 20 epic crypt", "level 25 epic crypt", "level 30 epic crypt", "level 35 epic crypt"] },
+  { name: "Citadel", sources: ["level 20 citadel", "level 25 citadel", "level 30 citadel"] },
+  { name: "Epic Fenrir squad", sources: ["epic fenrir squad"] },
+  { name: "Epic Jormungandr squad", sources: ["epic jormungandr squad"] },
+  { name: "Epic Inferno squad", sources: ["epic inferno squad"] },
+  { name: "Epic Basilisk squad", sources: ["epic basilisk squad"] },
+  { name: "Epic Chimera squad", sources: ["epic chimera squad"] },
+  { name: "Arachne's Swarm Epic Squad", sources: ["arachne's swarm epic squad"] },
+  { name: "Heroic Monster", sources: ["heroic monster"] }   // matches all heroic monster levels
+];
+
+// Weekly point quota
 const WEEKLY_LIMIT = 700;
 document.getElementById("weeklyLimit").innerHTML = `<span style="color:#fbbf24; font-weight:bold;">${WEEKLY_LIMIT} points</span>`;
 
-// Build points map from the chestPoints table (embedded in the DOM)
+// ======================== POINTS LOOKUP ========================
 function buildPointsMap() {
   const map = new Map();
   const rows = document.querySelectorAll("#chestPoints tbody tr");
@@ -436,45 +452,18 @@ function buildPointsMap() {
 }
 const POINTS_MAP = buildPointsMap();
 
-// Helper: extract level number from source string (e.g., "Level 20 rare Crypt" → 20)
+// Helper: extract level number from source string (e.g., "level 20 rare crypt" → 20)
 function extractLevel(source) {
   const match = source.match(/level\s+(\d+)/i);
   if (match) return parseInt(match[1], 10);
   return null;
 }
 
-// Determine category for column grouping:
-// - Crypt with rarity → "Rare Crypt" / "Epic Crypt"
-// - Crypt without rarity → "Crypt"
-// - Citadel → "Citadel"
-// - Squad → squad name (e.g., "Fenrir squad")
-// - Heroic Monster → "Heroic Monster"
-// - Fallback → normalized source without level & spaces
-function getCategory(sourceNorm) {
-  sourceNorm = sourceNorm.toLowerCase();
-  if (sourceNorm.includes("crypt")) {
-    if (sourceNorm.includes("rare")) return "Rare Crypt";
-    if (sourceNorm.includes("epic")) return "Epic Crypt";
-    return "Crypt";
-  }
-  if (sourceNorm.includes("citadel")) return "Citadel";
-  if (sourceNorm.includes("squad")) {
-    // extract squad name: e.g., "epic fenrir squad" → "Fenrir squad"
-    let squad = sourceNorm.replace(/epic\s*/i, '').trim();
-    return squad.charAt(0).toUpperCase() + squad.slice(1);
-  }
-  if (sourceNorm.includes("heroic monster")) return "Heroic Monster";
-  // fallback: use the whole source (without level)
-  return sourceNorm.replace(/level\s+\d+\s*/i, '').trim();
-}
-
-// --------------------------------------------------------------
-// 2. Load and parse chest files for current week (Mon – Sun, MSK)
-// --------------------------------------------------------------
+// ======================== LOAD CHEST FILES FOR CURRENT WEEK ========================
 function getWeekDatesMSK() {
   const now = new Date();
-  const mskNow = new Date(now.getTime() + 3 * 60 * 60 * 1000); // UTC+3
-  const day = mskNow.getUTCDay(); // 0=Sun, 1=Mon ... 6=Sat
+  const mskNow = new Date(now.getTime() + 3 * 60 * 60 * 1000);
+  const day = mskNow.getUTCDay();
   let diffToMonday = (day === 0 ? 6 : day - 1);
   const mondayMSK = new Date(mskNow);
   mondayMSK.setUTCDate(mskNow.getUTCDate() - diffToMonday);
@@ -501,7 +490,7 @@ async function loadAllChestsForWeek() {
     cur.setUTCDate(cur.getUTCDate() + 1);
   }
 
-  const entries = []; // { player, sourceRaw, points, category, level }
+  const entries = []; // { player, sourceRaw, points }
   for (const file of files) {
     try {
       const resp = await fetch(`Data/${file}?v=${Date.now()}`);
@@ -525,21 +514,14 @@ async function loadAllChestsForWeek() {
           currentSource = line.substring(7).trim();
           if (currentPlayer && currentSource) {
             const normSource = currentSource.toLowerCase();
-            let points = POINTS_MAP.get(normSource) || 0;
-            // If not found, try to remove "lvl" variations like "Lvl 25-29 Raid Runic squad"
-            let altSource = normSource.replace(/lvl\s+[\d\-]+\s*/i, '').trim();
-            if (points === 0 && altSource !== normSource) {
-              points = POINTS_MAP.get(altSource) || 0;
+            const points = POINTS_MAP.get(normSource) || 0;
+            if (points > 0) { // only include entries that have known points
+              entries.push({
+                player: currentPlayer,
+                sourceRaw: currentSource,
+                points: points
+              });
             }
-            const category = getCategory(normSource);
-            const level = extractLevel(currentSource);
-            entries.push({
-              player: currentPlayer,
-              sourceRaw: currentSource,
-              points: points,
-              category: category,
-              level: level
-            });
           }
           currentChest = null;
           currentPlayer = null;
@@ -553,31 +535,47 @@ async function loadAllChestsForWeek() {
   return entries;
 }
 
-// --------------------------------------------------------------
-// 3. Aggregate data and build dynamic columns
-// --------------------------------------------------------------
-function aggregateByPlayer(entries) {
-  const playerMap = new Map(); // key: player, value: { total, categories: Map<category, Map<level, {count, pointsSum}> > }
+// ======================== AGGREGATION PER COLUMN CONFIG ========================
+// For each entry, find which column it belongs to (first match)
+function assignEntryToColumn(entry, columnConfig) {
+  const sourceLower = entry.sourceRaw.toLowerCase();
+  for (let col of columnConfig) {
+    for (let pattern of col.sources) {
+      if (sourceLower.includes(pattern.toLowerCase())) {
+        return col.name;
+      }
+    }
+  }
+  return null; // not assigned to any column
+}
+
+function aggregateByPlayerAndColumn(entries, columnConfig) {
+  const playerMap = new Map(); // key: player, value: { total: number, columns: Map<columnName, Map<levelKey, {count, pointsSum}>> }
   for (const e of entries) {
+    const colName = assignEntryToColumn(e, columnConfig);
+    if (!colName) continue; // skip unassigned entries (they don't match any configured column)
+
     if (!playerMap.has(e.player)) {
       playerMap.set(e.player, {
         total: 0,
-        categories: new Map()
+        columns: new Map()
       });
     }
     const playerData = playerMap.get(e.player);
     playerData.total += e.points;
 
-    let catMap = playerData.categories.get(e.category);
-    if (!catMap) {
-      catMap = new Map(); // level -> { count, pointsSum }
-      playerData.categories.set(e.category, catMap);
+    let colMap = playerData.columns.get(colName);
+    if (!colMap) {
+      colMap = new Map(); // level -> { count, pointsSum }
+      playerData.columns.set(colName, colMap);
     }
-    const levelKey = e.level !== null ? e.level : 'other';
-    let levelData = catMap.get(levelKey);
+
+    const level = extractLevel(e.sourceRaw);
+    const levelKey = level !== null ? level : 'other';
+    let levelData = colMap.get(levelKey);
     if (!levelData) {
       levelData = { count: 0, pointsSum: 0 };
-      catMap.set(levelKey, levelData);
+      colMap.set(levelKey, levelData);
     }
     levelData.count += 1;
     levelData.pointsSum += e.points;
@@ -585,30 +583,17 @@ function aggregateByPlayer(entries) {
   return playerMap;
 }
 
-function buildColumnHeaders(playerMap) {
-  const allCategories = new Set();
-  for (const data of playerMap.values()) {
-    for (const cat of data.categories.keys()) {
-      allCategories.add(cat);
-    }
-  }
-  const sortedCategories = Array.from(allCategories).sort((a,b) => a.localeCompare(b));
-  return sortedCategories;
-}
-
-function renderCellContent(categoryMap) {
-  // categoryMap: Map<level, {count, pointsSum}>
-  if (!categoryMap || categoryMap.size === 0) return "";
+function renderCellContent(levelMap) {
+  if (!levelMap || levelMap.size === 0) return "";
   const lines = [];
   let totalPoints = 0;
-  // Sort levels numerically, 'other' last
-  const levels = Array.from(categoryMap.keys()).sort((a,b) => {
+  const levels = Array.from(levelMap.keys()).sort((a,b) => {
     if (a === 'other') return 1;
     if (b === 'other') return -1;
     return a - b;
   });
   for (const level of levels) {
-    const data = categoryMap.get(level);
+    const data = levelMap.get(level);
     totalPoints += data.pointsSum;
     if (level === 'other') {
       lines.push(`Other (${data.count}): ${data.pointsSum}`);
@@ -620,41 +605,38 @@ function renderCellContent(categoryMap) {
   return lines.join('<br>');
 }
 
-// --------------------------------------------------------------
-// 4. Render main table with DataTables
-// --------------------------------------------------------------
+// ======================== RENDER MAIN TABLE ========================
 let currentDataTable = null;
 
 async function renderMainTable() {
   const entries = await loadAllChestsForWeek();
-  const playerMap = aggregateByPlayer(entries);
-  const categories = buildColumnHeaders(playerMap);
-
+  const playerMap = aggregateByPlayerAndColumn(entries, COLUMN_CONFIG);
+  
+  // Build headers: Player, then each column in config order, then Total Points
+  const columnNames = COLUMN_CONFIG.map(c => c.name);
+  const headers = ["Player", ...columnNames, "Total Points"];
+  
   // Build rows
   const players = Array.from(playerMap.keys());
   const rows = [];
   for (const player of players) {
     const data = playerMap.get(player);
     const row = [player];
-    for (const cat of categories) {
-      const catMap = data.categories.get(cat) || new Map();
-      row.push(renderCellContent(catMap));
+    for (const colName of columnNames) {
+      const colMap = data.columns.get(colName);
+      row.push(renderCellContent(colMap));
     }
-    row.push(data.total); // Total Points
+    row.push(data.total);
     rows.push(row);
   }
-  // sort by total points desc
-  rows.sort((a,b) => b[b.length-1] - a[a.length-1]);
-
-  // Header: Player, [categories], Total Points
-  const headers = ["Player", ...categories, "Total Points"];
-
-  // Destroy previous DataTable if any
+  rows.sort((a,b) => b[b.length-1] - a[a.length-1]); // sort by total points desc
+  
+  // Destroy previous DataTable if exists
   if ($.fn.DataTable.isDataTable('#statsTable')) {
     $('#statsTable').DataTable().destroy();
   }
-
-  // Clear thead and rebuild
+  
+  // Rebuild thead
   const thead = document.querySelector("#statsTable thead");
   thead.innerHTML = "";
   const headerRow = document.createElement("tr");
@@ -664,17 +646,16 @@ async function renderMainTable() {
     headerRow.appendChild(th);
   });
   thead.appendChild(headerRow);
-
-  // Re-init DataTable
+  
+  // Init DataTable
   $('#statsTable').DataTable({
     data: rows,
     columns: headers.map((h, idx) => ({
       title: h,
       className: idx === 0 || idx === headers.length-1 ? 'dt-left' : 'dt-center',
-      // Allow HTML in category columns
       render: function(data, type, row, meta) {
         if (type === 'display' && idx !== 0 && idx !== headers.length-1) {
-          return data; // already HTML with <br>
+          return data; // HTML already
         }
         return data;
       }
@@ -691,14 +672,14 @@ async function renderMainTable() {
       else if (dataIndex < 10) $(row).addClass("top-player");
     }
   });
-
-  // Update generated timestamp
+  
+  // Update timestamp
   const now = new Date();
   const mskNow = new Date(now.getTime() + 3*60*60*1000);
   document.getElementById("generatedAt").textContent = `Updated: ${mskNow.toLocaleString("ru-RU")} Moscow (detailed chests)`;
 }
 
-// Cycle info display (Monday – Sunday MSK)
+// Cycle info display
 function updateCycleInfo() {
   const { start, end } = getWeekDatesMSK();
   const opts = { day:"2-digit", month:"2-digit", year:"numeric" };
@@ -708,9 +689,7 @@ function updateCycleInfo() {
 }
 updateCycleInfo();
 
-// --------------------------------------------------------------
-// 5. Event & archive handlers (unchanged logic, preserve existing)
-// --------------------------------------------------------------
+// ======================== EVENT HANDLERS (unchanged) ========================
 function renderEventButtons(containerId, files, folder, tableWrapId) {
   const container = document.getElementById(containerId);
   if (!container) return;
@@ -769,7 +748,7 @@ const darkOmensFiles = ["24022026-25022026.csv", "20032026-21032026.csv"];
 renderEventButtons("olimpusList", olimpusFiles, "Olimpus", "TableWrap");
 renderEventButtons("darkOmensList", darkOmensFiles, "Dark omens", "TableWrap");
 
-// Archive handling (unchanged)
+// ======================== ARCHIVE (unchanged) ========================
 const archiveFiles = [
   "data_total_01032026.csv",
   "data_total_08032026.csv",
@@ -852,7 +831,7 @@ async function toggleArchiveFile(file, btn) {
 }
 buildArchiveList();
 
-// Accordion logic
+// ======================== ACCORDION ========================
 document.querySelectorAll(".event-header").forEach(header => {
   header.addEventListener("click", () => {
     const card = header.closest(".event-card");
