@@ -642,31 +642,40 @@ async function renderMainTable() {
   const entries = await loadAllChestsForWeek();
   const playerMap = aggregateByPlayerAndColumn(entries, COLUMN_CONFIG);
   
-  // Build headers: Player, then each column in config order, then Total Points
-  const columnNames = COLUMN_CONFIG.map(c => c.name);
-  const headers = ["Player", ...columnNames, "Total Points"];
+  // === Определяем, какие колонки имеют данные (хотя бы у одного игрока) ===
+  const allColumnNames = COLUMN_CONFIG.map(c => c.name);
+  const activeColumns = allColumnNames.filter(colName => {
+    for (let playerData of playerMap.values()) {
+      const colMap = playerData.columns.get(colName);
+      if (colMap && colMap.size > 0) return true;
+    }
+    return false;
+  });
   
-  // Build rows
+  // Заголовки: Игрок + активные колонки + Total Points
+  const headers = ["Player", ...activeColumns, "Total Points"];
+  
+  // Собираем строки
   const players = Array.from(playerMap.keys());
   const rows = [];
   for (const player of players) {
     const data = playerMap.get(player);
     const row = [player];
-    for (const colName of columnNames) {
+    for (const colName of activeColumns) {
       const colMap = data.columns.get(colName);
       row.push(renderCellContent(colMap));
     }
     row.push(data.total);
     rows.push(row);
   }
-  rows.sort((a,b) => b[b.length-1] - a[a.length-1]); // sort by total points desc
+  rows.sort((a,b) => b[b.length-1] - a[a.length-1]);
   
-  // Destroy previous DataTable if exists
+  // === Уничтожаем старую таблицу, если есть ===
   if ($.fn.DataTable.isDataTable('#statsTable')) {
     $('#statsTable').DataTable().destroy();
   }
   
-  // Rebuild thead
+  // Перестраиваем thead
   const thead = document.querySelector("#statsTable thead");
   thead.innerHTML = "";
   const headerRow = document.createElement("tr");
@@ -677,7 +686,10 @@ async function renderMainTable() {
   });
   thead.appendChild(headerRow);
   
-  // Init DataTable
+  // Очищаем tbody
+  document.querySelector("#statsTable tbody").innerHTML = "";
+  
+  // Инициализируем DataTable
   $('#statsTable').DataTable({
     data: rows,
     columns: headers.map((h, idx) => ({
@@ -685,7 +697,7 @@ async function renderMainTable() {
       className: idx === 0 || idx === headers.length-1 ? 'dt-left' : 'dt-center',
       render: function(data, type, row, meta) {
         if (type === 'display' && idx !== 0 && idx !== headers.length-1) {
-          return data; // HTML already
+          return data; // HTML-контент колонок уже сформирован
         }
         return data;
       }
@@ -703,7 +715,7 @@ async function renderMainTable() {
     }
   });
   
-  // Update timestamp
+  // Обновляем время генерации
   const now = new Date();
   const mskNow = new Date(now.getTime() + 3*60*60*1000);
   document.getElementById("generatedAt").textContent = `Updated: ${mskNow.toLocaleString("ru-RU")} Moscow (detailed chests)`;
