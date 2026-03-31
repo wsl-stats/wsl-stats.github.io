@@ -314,6 +314,32 @@ table.dataTable tbody tr:hover {
     display: inline; /* чтобы строки не переносились внутри */
 }
 
+
+/* Компактное отображение данных в ячейках */
+#statsTable td {
+    white-space: normal;
+    text-align: left;
+    vertical-align: top;
+    padding: 6px 8px;
+    font-size: 13px;
+    line-height: 1.3;
+}
+
+/* Стиль для каждой строки детализации (уровень/сундук) */
+.chest-detail-line {
+    display: block;
+    font-size: 0.85em;
+    margin: 1px 0;
+}
+
+/* Итоговая строка – жирная, без лишних границ */
+.chest-detail-total {
+    font-weight: bold;
+    margin-top: 3px;
+    font-size: 0.9em;
+    display: block;
+}
+
 </style>
 </head>
 <body>
@@ -652,31 +678,27 @@ function renderCellContent(levelMap) {
     if (!levelMap || levelMap.size === 0) return "";
     const lines = [];
     let totalPoints = 0;
-    
-    // Разделяем числовые ключи (уровни) и строковые (названия источников)
     const numericKeys = [];
     const stringKeys = [];
     for (let key of levelMap.keys()) {
         if (typeof key === 'number') numericKeys.push(key);
         else stringKeys.push(key);
     }
-    numericKeys.sort((a, b) => a - b);
+    numericKeys.sort((a,b) => a - b);
     stringKeys.sort();
-    
-    // Сначала выводим уровни
+
     for (const level of numericKeys) {
         const data = levelMap.get(level);
         totalPoints += data.pointsSum;
-        lines.push(`${level} (${data.count}): ${data.pointsSum}`);
+        lines.push(`<span class="chest-detail-line">${level} (${data.count}): ${data.pointsSum}</span>`);
     }
-    // Затем — именованные источники
     for (const name of stringKeys) {
         const data = levelMap.get(name);
         totalPoints += data.pointsSum;
-        lines.push(`${name} (${data.count}): ${data.pointsSum}`);
+        lines.push(`<span class="chest-detail-line">${name} (${data.count}): ${data.pointsSum}</span>`);
     }
-    
-    return lines.join('<br>') + `<br><strong>Total: ${totalPoints}</strong>`;
+    lines.push(`<span class="chest-detail-total">Total: ${totalPoints}</span>`);
+    return lines.join('');
 }
 
 // ======================== RENDER MAIN TABLE ========================
