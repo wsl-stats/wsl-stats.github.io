@@ -340,6 +340,26 @@ table.dataTable tbody tr:hover {
     display: block;
 }
 
+/* Компактная таблица с детализацией */
+#statsTable td {
+    padding: 6px 8px;
+    line-height: 1.2;
+    vertical-align: top;
+    font-size: 13px;
+}
+
+.chest-detail-line {
+    display: block;
+    font-size: 0.85em;
+    margin: 1px 0;
+}
+.chest-detail-total {
+    display: block;
+    font-weight: bold;
+    font-size: 0.9em;
+    margin-top: 2px;
+}
+
 </style>
 </head>
 <body>
@@ -610,14 +630,11 @@ async function loadTimestamp() {
     const response = await fetch(`last_update.txt?v=${Date.now()}`);
     if (response.ok) {
       const timestamp = await response.text();
-      document.getElementById("generatedAt").textContent = `Updated: ${timestamp.trim()} Moscow (chest details)`;
+      document.getElementById("generatedAt").textContent = `Updated: ${timestamp.trim()} Moscow`;
       return;
     }
   } catch (e) { /* ignore */ }
-  // fallback: текущее время
-  const now = new Date();
-  const mskNow = new Date(now.getTime() + 3*60*60*1000);
-  document.getElementById("generatedAt").textContent = `Updated: ${mskNow.toLocaleString("ru-RU")} Moscow (chest details)`;
+
 }
 
 
