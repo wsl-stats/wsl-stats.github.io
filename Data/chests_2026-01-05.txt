@@ -1,0 +1,945 @@
+Bone Chest
+From: Kekelv
+Source: Level 20 Crypt
+Ancient Bastion Chest
+From: TurinTurambar
+Source: Level 15 epic Crypt
+Minotaur Chest
+From: TurinTurambar
+Source: Level 15 epic Crypt
+Cobra Chest
+From: Grikelv
+Source: Level 5 Crypt
+Sand Chest
+From: Grikelv
+Source: Level 5 Crypt
+Cobra Chest
+From: Mel
+Source: Level 10 Crypt
+Mayan Chest
+From: Grikelv
+Source: Level 20 Crypt
+Titansteel Chest
+From: TurinTurambar
+Source: Level 20 epic Crypt
+Stone Chest
+From: arcael
+Source: Level 5 Crypt
+Sand Chest
+From: WADA
+Source: Level 20 Crypt
+Trillium Chest
+From: Mel
+Source: Level 15 epic Crypt
+Mayan Chest
+From: arcael
+Source: Level 5 Crypt
+Stone Chest
+From: arcael
+Source: Level 5 Crypt
+Gladiator's Chest
+From: Kekelv
+Source: Arena
+Stone Chest
+From: Mel
+Source: Level 20 Crypt
+Union Chest
+From: Buzafym
+Source: Union of Triumph personal reward
+Union Chest
+From: Buzafym
+Source: Union of Triumph personal reward
+Union Chest
+From: Buzafym
+Source: Union of Triumph personal reward
+Union Chest
+From: Buzafym
+Source: Union of Triumph personal reward
+Gnome Workshop Chest
+From: Mel
+Source: Level 20 Crypt
+Elegant Chest
+From: WADA
+Source: Level 25 Crypt
+Titansteel Chest
+From: Mel
+Source: Level 20 epic Crypt
+Stone Chest
+From: Buzafym
+Source: Level 10 Crypt
+Cobra Chest
+From: Buzafym
+Source: Level 10 Crypt
+Fire Chest
+From: Safa2017
+Source: Level 10 Crypt
+Gnome Workshop Chest
+From: Safa2017
+Source: Level 10 Crypt
+Fire Chest
+From: Safa2017
+Source: Level 10 Crypt
+Sand Chest
+From: WADA
+Source: Level 25 Crypt
+Gladiator's Chest
+From: arcael
+Source: Arena
+Gnome Workshop Chest
+From: arcael
+Source: Level 5 Crypt
+Gnome Workshop Chest
+From: Safa2017
+Source: Level 15 Crypt
+Ancient Warrior's Chest
+From: Safa2017
+Source: Level 20 epic Crypt
+Elegant Chest
+From: Safa2017
+Source: Level 20 Crypt
+Barbarian Chest
+From: Se7en87
+Source: Level 20 Crypt
+Cobra Chest
+From: Se7en87
+Source: Level 20 Crypt
+Rare Dragon Chest
+From: Se7en87
+Source: Level 10 rare Crypt
+Sand Chest
+From: Se7en87
+Source: Level 20 Crypt
+Gnome Workshop Chest
+From: Meninad
+Source: Level 10 Crypt
+Elven Citadel Chest
+From: Meninad
+Source: Level 10 Citadel
+Stone Chest
+From: Legolas
+Source: Level 10 Crypt
+Gnome Workshop Chest
+From: Legolas
+Source: Level 15 Crypt
+Infernal Chest
+From: Graveleye
+Source: Level 10 Crypt
+Bone Chest
+From: Meninad
+Source: Level 15 Crypt
+Elven Citadel Chest
+From: Meninad
+Source: Level 15 Citadel
+Rare Dragon Chest
+From: Meninad
+Source: Level 15 rare Crypt
+Forgotten Chest
+From: Legolas
+Source: Level 10 Crypt
+Scorpion Chest
+From: WADA
+Source: Level 20 epic Crypt
+Scarab Chest
+From: Grikelv
+Source: Level 20 epic Crypt
+Rare Dragon Chest
+From: Legolas
+Source: Level 10 rare Crypt
+Forgotten Chest
+From: Arazuru
+Source: Level 10 Crypt
+Rare Dragon Chest
+From: Meninad
+Source: Level 10 rare Crypt
+Elven Citadel Chest
+From: Meninad
+Source: Level 10 Citadel
+Trillium Chest
+From: Legolas
+Source: Level 15 epic Crypt
+Chest of the Cursed
+From: Legolas
+Source: Level 15 epic Crypt
+Rare Dragon Chest
+From: Grikelv
+Source: Level 15 rare Crypt
+Rare Dragon Chest
+From: Legolas
+Source: Level 10 rare Crypt
+Elven Citadel Chest
+From: Meninad
+Source: Level 15 Citadel
+Infernal Chest
+From: Meninad
+Source: Level 15 Crypt
+Orc Chest
+From: Arazuru
+Source: Level 5 Crypt
+Rare Dragon Chest
+From: Meninad
+Source: Level 15 rare Crypt
+Forgotten Chest
+From: Legolas
+Source: Level 10 Crypt
+Rare Dragon Chest
+From: Meninad
+Source: Level 10 rare Crypt
+Infernal Chest
+From: Legolas
+Source: Level 10 Crypt
+Elven Citadel Chest
+From: Meninad
+Source: Level 10 Citadel
+Elegant Chest
+From: Legolas
+Source: Level 10 Crypt
+Rare Dragon Chest
+From: WADA
+Source: Level 15 rare Crypt
+Elven Citadel Chest
+From: Arazuru
+Source: Level 15 Citadel
+Rare Dragon Chest
+From: Meninad
+Source: Level 10 rare Crypt
+Fire Chest
+From: Arazuru
+Source: Level 5 Crypt
+Elven Citadel Chest
+From: Legolas
+Source: Level 10 Citadel
+Elven Citadel Chest
+From: Legolas
+Source: Level 15 Citadel
+Elegant Chest
+From: Graveleye
+Source: Level 10 Crypt
+Rare Dragon Chest
+From: Legolas
+Source: Level 15 rare Crypt
+Sand Chest
+From: Karen
+Source: Level 10 Crypt
+Infernal Chest
+From: Gleladod
+Source: Level 10 Crypt
+Stone Chest
+From: Karen
+Source: Level 15 Crypt
+Cobra Chest
+From: Legolas
+Source: Level 10 Crypt
+Sand Chest
+From: Karen
+Source: Level 15 Crypt
+Cobra Chest
+From: Legolas
+Source: Level 10 Crypt
+Stone Chest
+From: Graveleye
+Source: Level 10 Crypt
+Fire Chest
+From: Legolas
+Source: Level 10 Crypt
+Elegant Chest
+From: Legolas
+Source: Level 15 Crypt
+Rare Dragon Chest
+From: Legolas
+Source: Level 10 rare Crypt
+Elven Citadel Chest
+From: Thel
+Source: Level 20 Citadel
+Undead Chest
+From: Thel
+Source: Level 16 heroic Monster
+Pacified Mimic Chest
+From: Arazuru
+Source: Mimic Chest
+Cursed Citadel Chest
+From: Maffy
+Source: Level 20 Citadel
+Barbarian Chest
+From: Legolas
+Source: Level 10 Crypt
+Elven Citadel Chest
+From: Thel
+Source: Level 15 Citadel
+Stone Chest
+From: Legolas
+Source: Level 10 Crypt
+Elven Citadel Chest
+From: Thel
+Source: Level 20 Citadel
+House of Horrors Chest
+From: Legolas
+Source: Level 15 epic Crypt
+Fire Chest
+From: alking1
+Source: Level 10 Crypt
+Titansteel Chest
+From: Legolas
+Source: Level 20 epic Crypt
+Elven Citadel Chest
+From: The1
+Source: Level 20 Citadel
+Rare Dragon Chest
+From: nicklaus
+Source: Level 20 rare Crypt
+Forgotten Chest
+From: alking1
+Source: Level 10 Crypt
+Cursed Citadel Chest
+From: Legolas
+Source: Level 20 Citadel
+Braided Chest
+From: nicklaus
+Source: Level 15 epic Crypt
+Rare Dragon Chest
+From: Arazuru
+Source: Level 15 rare Crypt
+Elven Citadel Chest
+From: Thel
+Source: Level 20 Citadel
+Barbarian Chest
+From: Arazuru
+Source: Level 10 Crypt
+Elven Citadel Chest
+From: Thel
+Source: Level 20 Citadel
+Infernal Chest
+From: nicklaus
+Source: Level 20 Crypt
+Cobra Chest
+From: alking1
+Source: Level 15 Crypt
+Stone Chest
+From: nicklaus
+Source: Level 20 Crypt
+Elven Citadel Chest
+From: The1
+Source: Level 20 Citadel
+Bone Chest
+From: Arazuru
+Source: Level 5 Crypt
+Stone Chest
+From: alking1
+Source: Level 10 Crypt
+Elven Citadel Chest
+From: Maffy
+Source: Level 10 Citadel
+Abandoned Chest
+From: Cordanaya
+Source: Level 15 epic Crypt
+Fire Chest
+From: Arazuru
+Source: Level 10 Crypt
+Barbarian Chest
+From: Buzafym
+Source: Level 10 Crypt
+Cobra Chest
+From: Maffy
+Source: Level 15 Crypt
+Cobra Chest
+From: Fankayel
+Source: Level 10 Crypt
+Barbarian Chest
+From: Fankayel
+Source: Level 15 Crypt
+Barbarian Chest
+From: Arazuru
+Source: Level 5 Crypt
+Elven Citadel Chest
+From: wodessen
+Source: Level 15 Citadel
+Fire Chest
+From: Cordanaya
+Source: Level 15 Crypt
+Cobra Chest
+From: Arazuru
+Source: Level 5 Crypt
+Orc Chest
+From: Arazuru
+Source: Level 5 Crypt
+Gladiator's Chest
+From: Arazuru
+Source: Arena
+Stone Chest
+From: Arazuru
+Source: Level 10 Crypt
+Bone Chest
+From: Arazuru
+Source: Level 5 Crypt
+Orc Chest
+From: Arazuru
+Source: Level 15 Crypt
+Infernal Chest
+From: Gleladod
+Source: Level 15 Crypt
+Rare Dragon Chest
+From: wodessen
+Source: Level 15 rare Crypt
+Stone Chest
+From: Buzafym
+Source: Level 15 Crypt
+Barbarian Chest
+From: Arazuru
+Source: Level 10 Crypt
+Stone Chest
+From: Pudge
+Source: Level 10 Crypt
+Rare Dragon Chest
+From: Pudge
+Source: Level 10 rare Crypt
+Rare Dragon Chest
+From: Arazuru
+Source: Level 15 rare Crypt
+Rare Dragon Chest
+From: Pudge
+Source: Level 10 rare Crypt
+Cursed Citadel Chest
+From: Maffy
+Source: Level 20 Citadel
+Elegant Chest
+From: alking1
+Source: Level 20 Crypt
+Sand Chest
+From: Andromeda
+Source: Level 10 Crypt
+Cobra Chest
+From: Earfiren
+Source: Level 10 Crypt
+Cobra Chest
+From: Andromeda
+Source: Level 10 Crypt
+Infernal Chest
+From: Starhunter
+Source: Level 5 Crypt
+Elven Citadel Chest
+From: Defur
+Source: Level 10 Citadel
+Orc Chest
+From: Sharpstone
+Source: Level 10 Crypt
+Sand Chest
+From: Starhunter
+Source: Level 10 Crypt
+Gnome Workshop Chest
+From: Earfiren
+Source: Level 10 Crypt
+Stone Chest
+From: arcael
+Source: Level 5 Crypt
+Elven Citadel Chest
+From: Maffy
+Source: Level 10 Citadel
+Elven Citadel Chest
+From: Defur
+Source: Level 10 Citadel
+Stone Chest
+From: Defur
+Source: Level 10 Crypt
+Elven Citadel Chest
+From: wodessen
+Source: Level 15 Citadel
+Stone Chest
+From: Defur
+Source: Level 15 Crypt
+Gladiator's Chest
+From: wodessen
+Source: Arena
+Elven Citadel Chest
+From: Defur
+Source: Level 15 Citadel
+Elegant Chest
+From: Heof
+Source: Level 10 Crypt
+Barbarian Chest
+From: Heof
+Source: Level 15 Crypt
+Infernal Chest
+From: WaDa
+Source: Level 20 Crypt
+Rare Dragon Chest
+From: WADA
+Source: Level 10 rare Crypt
+Forgotten Chest
+From: Heof
+Source: Level 15 Crypt
+Sand Chest
+From: WaDa
+Source: Level 10 Crypt
+Rare Dragon Chest
+From: Defur
+Source: Level 15 rare Crypt
+Forgotten Chest
+From: WaDa
+Source: Level 10 Crypt
+Infernal Chest
+From: Heof
+Source: Level 10 Crypt
+Rare Dragon Chest
+From: Buzafym
+Source: Level 20 rare Crypt
+Rare Dragon Chest
+From: WaDa
+Source: Level 15 rare Crypt
+Elegant Chest
+From: Starhunter
+Source: Level 10 Crypt
+Rare Dragon Chest
+From: WaDa
+Source: Level 15 rare Crypt
+Elven Citadel Chest
+From: wodessen
+Source: Level 15 Citadel
+Cobalt Chest
+From: Caesar
+Source: Level 20 epic Crypt
+Trillium Chest
+From: Heof
+Source: Level 15 epic Crypt
+Rare Dragon Chest
+From: Caesar
+Source: Level 15 rare Crypt
+Rare Dragon Chest
+From: Starhunter
+Source: Level 10 rare Crypt
+Mayan Chest
+From: Maffy
+Source: Level 10 Crypt
+Turtle Chest
+From: Maffy
+Source: Level 15 epic Crypt
+Elven Citadel Chest
+From: Heof
+Source: Level 15 Citadel
+Gnome Workshop Chest
+From: Godfather
+Source: Level 15 Crypt
+Barbarian Chest
+From: Godfather
+Source: Level 20 Crypt
+White Wood Chest
+From: Godfather
+Source: Level 20 epic Crypt
+Rare Dragon Chest
+From: Heof
+Source: Level 15 rare Crypt
+Forgotten Chest
+From: Godfather
+Source: Level 15 Crypt
+Mayan Chest
+From: Graveleye
+Source: Level 10 Crypt
+Elven Citadel Chest
+From: Heof
+Source: Level 10 Citadel
+Rare Dragon Chest
+From: Defur
+Source: Level 10 rare Crypt
+Rare Dragon Chest
+From: Defur
+Source: Level 10 rare Crypt
+Rare Dragon Chest
+From: Pudge
+Source: Level 10 rare Crypt
+Cobra Chest
+From: alking1
+Source: Level 10 Crypt
+Elegant Chest
+From: Frostworker
+Source: Level 15 Crypt
+Rare Dragon Chest
+From: Pudge
+Source: Level 10 rare Crypt
+Rare Dragon Chest
+From: Heof
+Source: Level 10 rare Crypt
+Harpy Chest
+From: Maffy
+Source: Level 15 epic Crypt
+Stone Chest
+From: Defur
+Source: Level 15 Crypt
+Infernal Chest
+From: Frostworker
+Source: Level 15 Crypt
+Rare Dragon Chest
+From: Pudge
+Source: Level 10 rare Crypt
+Barbarian Chest
+From: Pudge
+Source: Level 15 epic Crypt
+Ancient Warrior's Chest
+From: Pudge
+Source: Level 15 epic Crypt
+Gnome Workshop Chest
+From: Pudge
+Source: Level 15 Crypt
+Stone Chest
+From: Pudge
+Source: Level 10 Crypt
+Elegant Chest
+From: Rainterror
+Source: Level 15 Crypt
+Stone Chest
+From: Pudge
+Source: Level 10 Crypt
+Stone Chest
+From: Pudge
+Source: Level 15 Crypt
+Elven Citadel Chest
+From: Maffy
+Source: Level 15 Citadel
+Stone Chest
+From: Pudge
+Source: Level 10 Crypt
+Gnome Workshop Chest
+From: Rainterror
+Source: Level 10 Crypt
+Bone Chest
+From: Rainterror
+Source: Level 5 Crypt
+Stone Chest
+From: Pudge
+Source: Level 10 Crypt
+Ancient Bastion Chest
+From: Heof
+Source: Level 20 epic Crypt
+Elven Citadel Chest
+From: Pudge
+Source: Level 10 Citadel
+Forgotten Chest
+From: Coris
+Source: Level 20 Crypt
+Turtle Chest
+From: Coris
+Source: Level 15 epic Crypt
+Braided Chest
+From: Coris
+Source: Level 20 epic Crypt
+Rare Dragon Chest
+From: wodessen
+Source: Level 15 rare Crypt
+Rare Dragon Chest
+From: Coris
+Source: Level 15 rare Crypt
+Bone Chest
+From: Coris
+Source: Level 15 Crypt
+Scarab Chest
+From: xoana
+Source: Level 20 epic Crypt
+Infernal Chest
+From: xoana
+Source: Level 15 Crypt
+Cobalt Chest
+From: С…РѕР°РїР°
+Source: Level 20 epic Crypt
+Sand Chest
+From: Harald B
+Source: Level 20 Crypt
+Bone Chest
+From: Rainterror
+Source: Level 10 Crypt
+Scarab Chest
+From: Rainterror
+Source: Level 15 epic Crypt
+Bone Chest
+From: wodessen
+Source: Level 5 Crypt
+Fire Chest
+From: Rainterror
+Source: Level 15 Crypt
+Minotaur Chest
+From: Harald B
+Source: Level 20 epic Crypt
+Barbarian Chest
+From: Bebur
+Source: Level 15 Crypt
+Fire Chest
+From: Bebur
+Source: Level 15 Crypt
+Fire Chest
+From: wodessen
+Source: Level 10 Crypt
+Sand Chest
+From: Bebur
+Source: Level 15 Crypt
+Gnome Workshop Chest
+From: Mirathis
+Source: Level 20 Crypt
+Ancient Warrior's Chest
+From: Mirathis
+Source: Level 20 epic Crypt
+Orc Chest
+From: Bebur
+Source: Level 15 Crypt
+Elegant Chest
+From: Mofym
+Source: Level 25 Crypt
+Elven Citadel Chest
+From: Defur
+Source: Level 10 Citadel
+Rare Dragon Chest
+From: Defur
+Source: Level 10 rare Crypt
+Stone Chest
+From: Defur
+Source: Level 15 Crypt
+Gladiator's Chest
+From: martinman
+Source: Arena
+Elven Citadel Chest
+From: Defur
+Source: Level 10 Citadel
+Stone Chest
+From: Defur
+Source: Level 10 Crypt
+Mayan Chest
+From: arcael
+Source: Level 5 Crypt
+Rare Dragon Chest
+From: Defur
+Source: Level 10 rare Crypt
+Stone Chest
+From: Defur
+Source: Level 10 Crypt
+Stone Chest
+From: Defur
+Source: Level 15 Crypt
+Stone Chest
+From: Defur
+Source: Level 10 Crypt
+Stone Chest
+From: Defur
+Source: Level 15 Crypt
+Stone Chest
+From: Defur
+Source: Level 20 Crypt
+Common Chest of Wealth
+From: Mirathis
+Source: Clan wealth
+Uncommon Chest of Wealth
+From: Mirathis
+Source: Clan wealth
+Rare Chest of Wealth
+From: Mirathis
+Source: Clan wealth
+Fire Chest
+From: Sharpstone
+Source: Level 10 Crypt
+Stone Chest
+From: Sharpstone
+Source: Level 5 Crypt
+Elegant Chest
+From: Sharpstone
+Source: Level 10 Crypt
+Elven Citadel Chest
+From: martinman
+Source: Level 15 Citadel
+Bone Chest
+From: Mikasa
+Source: Level 15 Crypt
+Fire Chest
+From: Mikasa
+Source: Level 15 Crypt
+Cobra Chest
+From: Mikasa
+Source: Level 15 Crypt
+Stone Chest
+From: Mikasa
+Source: Level 15 Crypt
+Abandoned Chest
+From: Mikasa
+Source: Level 15 epic Crypt
+Gnome Workshop Chest
+From: arcael
+Source: Level 10 Crypt
+Barbarian Chest
+From: Sharpstone
+Source: Level 10 Crypt
+Fire Chest
+From: Sharpstone
+Source: Level 5 Crypt
+Elven Citadel Chest
+From: Mikasa
+Source: Level 15 Citadel
+Elven Citadel Chest
+From: Graveleye
+Source: Level 10 Citadel
+Rare Dragon Chest
+From: Graveleye
+Source: Level 10 rare Crypt
+Rare Dragon Chest
+From: Graveleye
+Source: Level 10 rare Crypt
+Barbarian Chest
+From: Graveleye
+Source: Level 10 Crypt
+Sand Chest
+From: Graveleye
+Source: Level 10 Crypt
+Elven Citadel Chest
+From: Mikasa
+Source: Level 15 Citadel
+Cobra Chest
+From: Graveleye
+Source: Level 10 Crypt
+Gnome Workshop Chest
+From: Graveleye
+Source: Level 10 Crypt
+Elven Citadel Chest
+From: Mikasa
+Source: Level 15 Citadel
+Cobra Chest
+From: Oliviaa
+Source: Level 10 Crypt
+Infernal Chest
+From: Arazuru
+Source: Level 10 Crypt
+Gnome Workshop Chest
+From: Ironwind
+Source: Level 15 Crypt
+Gnome Workshop Chest
+From: Ironwind
+Source: Level 25 Crypt
+Gnome Workshop Chest
+From: Ironwind
+Source: Level 15 Crypt
+Bone Chest
+From: Ironwind
+Source: Level 10 Crypt
+Barbarian Chest
+From: Ironwind
+Source: Level 15 Crypt
+Orc Chest
+From: Ironwind
+Source: Level 10 Crypt
+Orc Chest
+From: Ironwind
+Source: Level 10 Crypt
+Chest of the Cursed
+From: Ironwind
+Source: Level 20 epic Crypt
+Elven Citadel Chest
+From: Graveleye
+Source: Level 10 Citadel
+Gnome Workshop Chest
+From: Graveleye
+Source: Level 10 Crypt
+Gnome Workshop Chest
+From: Graveleye
+Source: Level 10 Crypt
+Orc Chest
+From: Mel
+Source: Level 20 Crypt
+Scorpion Chest
+From: Mel
+Source: Level 20 epic Crypt
+Turtle Chest
+From: nicklaus
+Source: Level 15 epic Crypt
+Elegant Chest
+From: Anzhelika
+Source: Level 10 Crypt
+Cobra Chest
+From: Anzhelika
+Source: Level 15 Crypt
+Stone Chest
+From: Eydaen
+Source: Level 10 Crypt
+Fire Chest
+From: Coris
+Source: Level 20 Crypt
+Infernal Chest
+From: Anzhelika
+Source: Level 15 Crypt
+Elegant Chest
+From: Anzhelika
+Source: Level 10 Crypt
+Sand Chest
+From: Anzhelika
+Source: Level 10 Crypt
+Barbarian Chest
+From: Starhunter
+Source: Level 10 Crypt
+Elven Citadel Chest
+From: Starhunter
+Source: Level 15 Citadel
+Orc Chest
+From: Starhunter
+Source: Level 15 Crypt
+Forgotten Chest
+From: Earfiren
+Source: Level 10 Crypt
+Gnome Workshop Chest
+From: Earfiren
+Source: Level 10 Crypt
+Mayan Chest
+From: Fankayel
+Source: Level 15 Crypt
+Stone Chest
+From: Defur
+Source: Level 10 Crypt
+Elven Citadel Chest
+From: Defur
+Source: Level 15 Citadel
+Sand Chest
+From: Cordanaya
+Source: Level 10 Crypt
+Infernal Chest
+From: Cordanaya
+Source: Level 10 Crypt
+Mayan Chest
+From: Cordanaya
+Source: Level 10 Crypt
+Elven Citadel Chest
+From: Cordanaya
+Source: Level 10 Citadel
+Rare Dragon Chest
+From: Cordanaya
+Source: Level 10 rare Crypt
+Stone Chest
+From: Defur
+Source: Level 20 Crypt
+Rare Dragon Chest
+From: Defur
+Source: Level 15 rare Crypt
+Common Chest of Wealth
+From: Giulio Cesare
+Source: Clan wealth
+Uncommon Chest of Wealth
+From: Giulio Cesare
+Source: Clan wealth
+Rare Chest of Wealth
+From: Giulio Cesare
+Source: Clan wealth
+Gnome Workshop Chest
+From: Caesar
+Source: Level 20 Crypt
+Orc Chest
+From: Maffy
+Source: Level 15 Crypt
+Gnome Workshop Chest
+From: Heof
+Source: Level 10 Crypt
+Elegant Chest
+From: Heof
+Source: Level 10 Crypt
+Forgotten Chest
+From: Heof
+Source: Level 10 Crypt
+Barbarian Chest
+From: Heof
+Source: Level 10 Crypt
+Minotaur Chest
+From: Harald B
+Source: Level 20 epic Crypt
+Rare Dragon Chest
+From: Magnuss
+Source: Level 20 rare Crypt
+Barbarian Chest
+From: Magnuss
+Source: Level 15 epic Crypt
