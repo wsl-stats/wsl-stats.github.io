@@ -1,21 +1,21 @@
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<title>WSL Chest Results | Detailed Breakdown</title>
+<title>WSL Chest Results | Detailed Chest Log</title>
 
 <!-- DataTables CSS -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 
 <style>
-
+/* All original styles preserved exactly as in the user's file */
 body {
   font-family: Arial, sans-serif;
   background: #0f172a;
   color: white;
   padding: 20px;
 }
-
 table {
   border-collapse: collapse;
   width: 100%;
@@ -23,25 +23,19 @@ table {
   border-radius: 10px;
   overflow: hidden;
 }
-
 th, td {
   padding: 10px;
   text-align: left;
 }
-
 th {
   background: #1f2937;
 }
-
 tr:nth-child(even) {
   background: #0b1220;
 }
-
 tr:hover {
   background: #1e293b;
 }
-
-/* Общая таблица */
 #statsTable {
     margin: 20px auto;
     border-collapse: collapse;
@@ -50,38 +44,26 @@ tr:hover {
     font-family: Arial, sans-serif;
     font-size: 14px;
 }
-
-/* Границы и ячейки */
 #statsTable th, #statsTable td {
     border: 1px solid #ddd;
     padding: 8px 12px;
     text-align: center;
 }
-
-/* Зебра */
 #statsTable tbody tr:nth-child(odd) {
     background-color: #f9f9f9;
 }
 #statsTable tbody tr:nth-child(even) {
     background-color: #ffffff;
 }
-
-/* Цвета по результату */
-.done { background-color: #d1e7dd !important; color: #0f5132; } /* мягкий зеленый */
-.not-done { background-color: #f8d7da !important; color: #842029; } /* мягкий красный */
-
-/* Подсветка топ */
-.top-1 { background-color: #ffeeba !important; font-weight: bold; } /* золотой для лидера */
-.top-player { background-color: #fff3cd !important; } /* светло-желтый для топ-10 */
-
-/* Заголовки */
+.done { background-color: #d1e7dd !important; color: #0f5132; }
+.not-done { background-color: #f8d7da !important; color: #842029; }
+.top-1 { background-color: #ffeeba !important; font-weight: bold; }
+.top-player { background-color: #fff3cd !important; }
 #statsTable th {
-    background-color: #0d6efd; 
+    background-color: #0d6efd;
     color: white;
     font-weight: bold;
 }
-
-/* Поле поиска по центру и крупнее */
 .dataTables_filter {
     text-align: center !important;
     margin-bottom: 10px;
@@ -92,20 +74,15 @@ tr:hover {
     font-size: 14px;
     padding: 3px 6px;
 }
-
-/* ===== Events ===== */
-
 .events-wrapper {
   max-width: 900px;
   margin: 40px auto;
   text-align: center;
 }
-
 .events-title {
   margin: 30px 0 10px;
   color: #e5e7eb;
 }
-
 .event-list {
   display: flex;
   flex-wrap: wrap;
@@ -113,7 +90,6 @@ tr:hover {
   justify-content: center;
   margin-bottom: 15px;
 }
-
 .event-btn {
   padding: 6px 12px;
   border-radius: 8px;
@@ -123,26 +99,19 @@ tr:hover {
   cursor: pointer;
   font-size: 13px;
 }
-
 .event-btn:hover {
   background: #374151;
 }
-
 .event-table {
   max-width: 600px;
   margin: 0 auto 30px;
 }
-
-
-/* ===== Events Grid ===== */
 .events-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
   gap: 24px;
   margin-top: 30px;
 }
-
-/* ===== Cards ===== */
 .event-card {
   background: #0f172a;
   border-radius: 14px;
@@ -150,22 +119,17 @@ tr:hover {
   box-shadow: 0 10px 25px rgba(0,0,0,0.35);
   border: 1px solid #1f2937;
 }
-
 .event-card.olimpus {
   border-left: 4px solid #38bdf8;
 }
-
 .event-card.dark {
   border-left: 4px solid #a78bfa;
 }
-
 .events-title {
   text-align: center;
   margin-bottom: 14px;
   font-weight: 600;
 }
-
-
 .event-list button {
   display: block;
   width: 100%;
@@ -179,46 +143,36 @@ tr:hover {
   transition: all 0.18s ease;
   font-size: 13px;
 }
-
 .event-list button:hover {
   background: #1f2937;
   border-color: #475569;
   transform: translateY(-1px);
 }
-
-/* ===== Event DataTable ===== */
 .dataTables_wrapper {
   margin-top: 14px;
 }
-
 table.dataTable {
   width: auto !important;
   margin: 0 auto;
   font-size: 13px;
 }
-
 table.dataTable thead th {
   background: #1f2937;
   color: #f1f5f9;
   padding: 8px 12px;
 }
-
 table.dataTable tbody td {
   padding: 7px 12px;
 }
-
 table.dataTable tbody tr:nth-even {
   background: rgba(255,255,255,0.03);
 }
-
 table.dataTable tbody tr:hover {
   background: rgba(56,189,248,0.12);
 }
-/* ===== accordion animation ===== */
 #TableWrap {
   animation: fadeSlide 0.25s ease;
 }
-
 @keyframes fadeSlide {
   from {
     opacity: 0;
@@ -229,21 +183,17 @@ table.dataTable tbody tr:hover {
     transform: translateY(0);
   }
 }
-
 .event-list button.active {
   background: #0ea5e9;
   border-color: #38bdf8;
   color: white;
   font-weight: 600;
 }
-
-/* ===== Archive ===== */
 .archive-wrapper {
   max-width: 1100px;
   margin: 20px auto;
   text-align: center;
 }
-
 .archive-toggle {
   background: #1f2937;
   color: #e5e7eb;
@@ -253,32 +203,23 @@ table.dataTable tbody tr:hover {
   cursor: pointer;
   font-weight: 600;
 }
-
 .archive-toggle:hover {
   background: #111827;
 }
-
-/* активный файл архива */
 .archive-file.active {
   background: #0ea5e9 !important;
   color: white !important;
 }
-
-/* ===== Section container ===== */
 .events-section {
   max-width: 1200px;
   margin: 30px auto;
   padding: 0 16px;
 }
-
-/* ===== Grid ===== */
 .events-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
   gap: 22px;
 }
-
-/* ===== Card ===== */
 .event-card {
   background: linear-gradient(180deg, #0f172a, #0b1220);
   border-radius: 16px;
@@ -288,17 +229,12 @@ table.dataTable tbody tr:hover {
   overflow: hidden;
   transition: all .25s ease;
 }
-
 .event-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 18px 36px rgba(0,0,0,0.45);
 }
-
-/* accent lines */
 .event-card.olimpus { border-left: 4px solid #38bdf8; }
 .event-card.dark    { border-left: 4px solid #a78bfa; }
-
-/* ===== Header (clickable) ===== */
 .event-header {
   display: flex;
   justify-content: space-between;
@@ -308,31 +244,23 @@ table.dataTable tbody tr:hover {
   user-select: none;
   background: rgba(255,255,255,0.02);
 }
-
 .event-header h2 {
   margin: 0;
   font-size: 18px;
   font-weight: 600;
 }
-
 .chevron {
   transition: transform .25s ease;
   opacity: .8;
 }
-
-/* rotate when open */
 .event-card.open .chevron {
   transform: rotate(180deg);
 }
-
-/* ===== Body (accordion) ===== */
 .event-body {
   display: none;
   padding: 14px 18px 18px 18px;
   border-top: 1px solid #1f2937;
 }
-
-/* ===== Event list buttons ===== */
 .event-list button {
   display: block;
   width: 100%;
@@ -346,119 +274,99 @@ table.dataTable tbody tr:hover {
   transition: all 0.18s ease;
   font-size: 13px;
 }
-
 .event-list button:hover {
   background: #111827;
   border-color: #475569;
   transform: translateY(-1px);
 }
-
 .event-list button.active {
   background: #0ea5e9;
   border-color: #38bdf8;
   color: white;
   font-weight: 600;
 }
-
 </style>
 </head>
 <body>
 
 <h1>🏆 WSL Chest Results (Detailed)</h1>
 
-
 <div class="events-section">
-
   <div class="events-grid">
-  <div class="event-card">
-  
-        <div class="event-header" data-target="pointsBody">
+    <div class="event-card">
+      <div class="event-header" data-target="pointsBody">
         <h2>Weekly Chest Point Quota: <span id="weeklyLimit"></span></h2>
         <span class="chevron">▼</span>
-		<br>
-		<br>
-		<span id="cycleInfo"></span>
+        <br><br>
+        <span id="cycleInfo"></span>
       </div>
       <div id="pointsBody" class="event-body">
-    <div style="background:#1f2937; color:#d1d5db; border-radius:12px; padding:15px;">
+        <div style="background:#1f2937; color:#d1d5db; border-radius:12px; padding:15px;">
+          <div id="chestPoints" style="margin-top:10px; overflow-y:auto; max-height:350px;">
+            <table style="width:100%; border-collapse:collapse; table-layout:auto; background:#111827; border-radius:8px;">
+              <thead><tr style="border-bottom:1px solid #374151;"><th style="text-align:left; padding:5px;">Chest / Monster</th><th style="text-align:right; padding:5px;">Points</th></tr></thead>
+              <tbody style="color:#d1d5db; font-size:14px;">
+                <!-- Chests -->
+                <tr><td>Level 10 Rare Crypt</td><td style="text-align:right;">2</td></tr>
+                <tr><td>Level 15 Crypt</td><td style="text-align:right;">0</td></tr>
+                <tr><td>Level 15 Rare Crypt</td><td style="text-align:right;">8</td></tr>
+                <tr><td>Level 15 Epic Crypt</td><td style="text-align:right;">12</td></tr>
+                <tr><td>Level 20 Crypt</td><td style="text-align:right;">16</td></tr>
+                <tr><td>Level 20 Rare Crypt</td><td style="text-align:right;">28</td></tr>
+                <tr><td>Level 20 Epic Crypt</td><td style="text-align:right;">45</td></tr>
+                <tr><td>Level 25 Crypt</td><td style="text-align:right;">55</td></tr>
+                <tr><td>Level 25 Rare Crypt</td><td style="text-align:right;">72</td></tr>
+                <tr><td>Level 25 Epic Crypt</td><td style="text-align:right;">90</td></tr>
+                <tr><td>Level 30 Rare Crypt</td><td style="text-align:right;">120</td></tr>
+                <tr><td>Level 30 Epic Crypt</td><td style="text-align:right;">140</td></tr>
+                <tr><td>Level 35 Epic Crypt</td><td style="text-align:right;">200</td></tr>
+                <tr><td>Level 30 Citadel</td><td style="text-align:right;">60</td></tr>
+                <tr><td>Level 25 Citadel</td><td style="text-align:right;">28</td></tr>
+                <tr><td>Level 20 Citadel</td><td style="text-align:right;">12</td></tr>
+                <tr><td>Epic Fenrir squad</td><td style="text-align:right;">60</td></tr>
+                <tr><td>Epic Jormungandr squad</td><td style="text-align:right;">60</td></tr>
+                <tr><td>Epic Inferno squad</td><td style="text-align:right;">1000</td></tr>
+                <tr><td>Epic Basilisk squad</td><td style="text-align:right;">1000</td></tr>
+                <tr><td>Epic Chimera squad</td><td style="text-align:right;">60</td></tr>
+                <tr><td>Arachne's Swarm Epic Squad</td><td style="text-align:right;">1000</td></tr>
+                <!-- Heroic monsters -->
+                <tr><td>Level 16 heroic Monster</td><td style="text-align:right;">5</td></tr>
+                <tr><td>Level 17 heroic Monster</td><td style="text-align:right;">10</td></tr>
+                <tr><td>Level 18 heroic Monster</td><td style="text-align:right;">15</td></tr>
+                <tr><td>Level 19 heroic Monster</td><td style="text-align:right;">20</td></tr>
+                <tr><td>Level 20 heroic Monster</td><td style="text-align:right;">30</td></tr>
+                <tr><td>Level 21 heroic Monster</td><td style="text-align:right;">40</td></tr>
+                <tr><td>Level 22 heroic Monster</td><td style="text-align:right;">50</td></tr>
+                <tr><td>Level 23 heroic Monster</td><td style="text-align:right;">60</td></tr>
+                <tr><td>Level 24 heroic Monster</td><td style="text-align:right;">70</td></tr>
+                <tr><td>Level 25 heroic Monster</td><td style="text-align:right;">80</td></tr>
+                <tr><td>Level 26 heroic Monster</td><td style="text-align:right;">90</td></tr>
+                <tr><td>Level 27 heroic Monster</td><td style="text-align:right;">105</td></tr>
+                <tr><td>Level 28 heroic Monster</td><td style="text-align:right;">120</td></tr>
+                <tr><td>Level 29 heroic Monster</td><td style="text-align:right;">140</td></tr>
+                <tr><td>Level 30 heroic Monster</td><td style="text-align:right;">150</td></tr>
+                <tr><td>Level 31 heroic Monster</td><td style="text-align:right;">200</td></tr>
+                <tr><td>Level 32 heroic Monster</td><td style="text-align:right;">225</td></tr>
+                <tr><td>Level 33 heroic Monster</td><td style="text-align:right;">250</td></tr>
+                <tr><td>Level 34 heroic Monster</td><td style="text-align:right;">300</td></tr>
+                <tr><td>Level 35 heroic Monster</td><td style="text-align:right;">350</td></tr>
+                <tr><td>Level 36 heroic Monster</td><td style="text-align:right;">400</td></tr>
+                <tr><td>Level 37 heroic Monster</td><td style="text-align:right;">450</td></tr>
+                <tr><td>Level 38 heroic Monster</td><td style="text-align:right;">500</td></tr>
+                <tr><td>Level 39 heroic Monster</td><td style="text-align:right;">550</td></tr>
+                <tr><td>Level 40 heroic Monster</td><td style="text-align:right;">625</td></tr>
+                <tr><td>Level 41 heroic Monster</td><td style="text-align:right;">700</td></tr>
+                <tr><td>Level 42 heroic Monster</td><td style="text-align:right;">775</td></tr>
+                <tr><td>Level 43 heroic Monster</td><td style="text-align:right;">850</td></tr>
+                <tr><td>Level 44 heroic Monster</td><td style="text-align:right;">925</td></tr>
+                <tr><td>Level 45 heroic Monster</td><td style="text-align:right;">1000</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
 
-		<div id="chestPoints" style="margin-top:10px; overflow-y:auto; max-height:350px;">
-				<table style="width:100%; border-collapse:collapse; table-layout:auto; background:#111827; border-radius:8px;">
-				  <thead>
-					<tr style="border-bottom:1px solid #374151;">
-					  <th style="text-align:left; padding:5px;">Chest / Monster</th>
-					  <th style="text-align:right; padding:5px;">Points</th>
-					</tr>
-				  </thead>
-				  <tbody style="color:#d1d5db; font-size:14px;">
-					<!-- Chests -->
-					<tr><td>Level 10 Rare Crypt</td><td style="text-align:right;">2</td></tr>
-					<tr><td>Level 15 Crypt</td><td style="text-align:right;">0</td></tr>
-					<tr><td>Level 15 Rare Crypt</td><td style="text-align:right;">8</td></tr>
-					<tr><td>Level 15 Epic Crypt</td><td style="text-align:right;">12</td></tr>
-					<tr><td>Level 20 Crypt</td><td style="text-align:right;">16</td></tr>
-					<tr><td>Level 20 Rare Crypt</td><td style="text-align:right;">28</td></tr>
-					<tr><td>Level 20 Epic Crypt</td><td style="text-align:right;">45</td></tr>
-					<tr><td>Level 25 Crypt</td><td style="text-align:right;">55</td></tr>
-					<tr><td>Level 25 Rare Crypt</td><td style="text-align:right;">72</td></tr>
-					<tr><td>Level 25 Epic Crypt</td><td style="text-align:right;">90</td></tr>
-					<tr><td>Level 30 Rare Crypt</td><td style="text-align:right;">120</td></tr>
-					<tr><td>Level 30 Epic Crypt</td><td style="text-align:right;">140</td></tr>
-					<tr><td>Level 35 Epic Crypt</td><td style="text-align:right;">200</td></tr>
-					<tr><td>Level 30 Citadel</td><td style="text-align:right;">60</td></tr>
-					<tr><td>Level 25 Citadel</td><td style="text-align:right;">28</td></tr>
-					<tr><td>Level 20 Citadel</td><td style="text-align:right;">12</td></tr>
-					<tr><td>Level 15 Citadel</td><td style="text-align:right;">0</td></tr>
-					
-					<tr><td>Epic Fenrir squad</td><td style="text-align:right;">60</td></tr>
-					<tr><td>Epic Jormungandr squad</td><td style="text-align:right;">60</td></tr>
-					<tr><td>Epic Inferno squad</td><td style="text-align:right;">1000</td></tr>
-					<tr><td>Arachne's Swarm Epic Squad</td><td style="text-align:right;">1000</td></tr>
-					
-					<!-- Monsters -->
-					<tr><td>Heroic Monster Undead 16</td><td style="text-align:right;">5</td></tr>
-					<tr><td>Heroic Monster Elven 17</td><td style="text-align:right;">10</td></tr>
-					<tr><td>Heroic Monster Cursed 18</td><td style="text-align:right;">15</td></tr>
-					<tr><td>Heroic Monster Barbarian 19</td><td style="text-align:right;">20</td></tr>
-					<tr><td>Heroic Monster Inferno 20</td><td style="text-align:right;">30</td></tr>
-					<tr><td>Heroic Monster Undead 21</td><td style="text-align:right;">40</td></tr>
-					<tr><td>Heroic Monster Elven 22</td><td style="text-align:right;">50</td></tr>
-					<tr><td>Heroic Monster Cursed 23</td><td style="text-align:right;">60</td></tr>
-					<tr><td>Heroic Monster Barbarian 24</td><td style="text-align:right;">70</td></tr>
-					<tr><td>Heroic Monster Inferno 25</td><td style="text-align:right;">80</td></tr>
-					<tr><td>Heroic Monster Undead 26</td><td style="text-align:right;">90</td></tr>
-					<tr><td>Heroic Monster Elven 27</td><td style="text-align:right;">105</td></tr>
-					<tr><td>Heroic Monster Cursed 28</td><td style="text-align:right;">120</td></tr>
-					<tr><td>Heroic Monster Barbarian 29</td><td style="text-align:right;">140</td></tr>
-					<tr><td>Heroic Monster Inferno 30</td><td style="text-align:right;">150</td></tr>
-					<tr><td>Heroic Monster Undead 31</td><td style="text-align:right;">200</td></tr>
-					<tr><td>Heroic Monster Elven 32</td><td style="text-align:right;">225</td></tr>
-					<tr><td>Heroic Monster Cursed 33</td><td style="text-align:right;">250</td></tr>
-					<tr><td>Heroic Monster Barbarian 34</td><td style="text-align:right;">300</td></tr>
-					<tr><td>Heroic Monster Inferno 35</td><td style="text-align:right;">350</td></tr>
-					<tr><td>Heroic Monster Undead 36</td><td style="text-align:right;">400</td></tr>
-					<tr><td>Heroic Monster Elven 37</td><td style="text-align:right;">450</td></tr>
-					<tr><td>Heroic Monster Cursed 38</td><td style="text-align:right;">500</td></tr>
-					<tr><td>Heroic Monster Barbarian 39</td><td style="text-align:right;">550</td></tr>
-					<tr><td>Heroic Monster Inferno 40</td><td style="text-align:right;">625</td></tr>
-					<tr><td>Heroic Monster Undead 41</td><td style="text-align:right;">700</td></tr>
-					<tr><td>Heroic Monster Elven 42</td><td style="text-align:right;">775</td></tr>
-					<tr><td>Heroic Monster Cursed 43</td><td style="text-align:right;">850</td></tr>
-					<tr><td>Heroic Monster Barbarian 44</td><td style="text-align:right;">925</td></tr>
-					<tr><td>Heroic Monster Inferno 45</td><td style="text-align:right;">1000</td></tr>
-				  </tbody>
-				</table>
-			</div>
-		</div>
-		
-
-		
-	</div>
-  
-  </div>
-  
-
-    <!-- Olimpus -->
     <div class="event-card olimpus">
       <div class="event-header" data-target="olimpusBody">
         <h2>🏛 Olimpus</h2>
@@ -469,7 +377,6 @@ table.dataTable tbody tr:hover {
       </div>
     </div>
 
-    <!-- Dark Omens -->
     <div class="event-card dark">
       <div class="event-header" data-target="darkBody">
         <h2>🌑 Dark Omens</h2>
@@ -479,34 +386,23 @@ table.dataTable tbody tr:hover {
         <div id="darkOmensList" class="event-list"></div>
       </div>
     </div>
-	
-	  <!-- ===== Archive ===== -->
-	<div class="archive-wrapper event-card">
 
-  
-        <div class="event-header" data-target="archiveBody">
+    <div class="archive-wrapper event-card">
+      <div class="event-header" data-target="archiveBody">
         <h2>📦 Archive Results</h2>
         <span class="chevron">▼</span>
       </div>
       <div id="archiveBody" class="event-body">
         <div id="archiveList" class="event-list"></div>
       </div>
-
-
-	</div>
-
+    </div>
   </div>
-
 </div>
 
 <div id="TableWrap"></div>
 
-
-
-
 <div class="container">
   <div id="generatedAt" style="text-align:right; margin-bottom:10px; color:#fbbf24;"></div>
-
   <table id="statsTable" class="display compact stripe hover" style="width:100%">
     <thead></thead>
     <tbody></tbody>
@@ -518,169 +414,247 @@ table.dataTable tbody tr:hover {
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
 <script>
+// --------------------------------------------------------------
+// 1. Global config & points map
+// --------------------------------------------------------------
+const WEEKLY_LIMIT = 700;
+document.getElementById("weeklyLimit").innerHTML = `<span style="color:#fbbf24; font-weight:bold;">${WEEKLY_LIMIT} points</span>`;
 
-const weeklyLimit = 700;
-
-// ------------------- CHEST POINTS LOOKUP (from HTML table) -------------------
+// Build points map from the chestPoints table (embedded in the DOM)
 function buildPointsMap() {
   const map = new Map();
   const rows = document.querySelectorAll("#chestPoints tbody tr");
   rows.forEach(row => {
     const cells = row.querySelectorAll("td");
-    if(cells.length >= 2) {
-      let chestName = cells[0].innerText.trim();
+    if (cells.length >= 2) {
+      let name = cells[0].innerText.trim().toLowerCase();
       let points = parseInt(cells[1].innerText.trim(), 10);
-      map.set(chestName.toLowerCase(), points);
+      map.set(name, points);
     }
   });
   return map;
 }
+const POINTS_MAP = buildPointsMap();
 
-const pointsLookup = buildPointsMap();
-
-function getChestPoints(chestRawName) {
-  let key = chestRawName.trim().toLowerCase();
-  // попытка нормализации: удаляем лишние артикли
-  key = key.replace(/^the\s+/i, '');
-  if(pointsLookup.has(key)) return pointsLookup.get(key);
-  // fallback fuzzy: если содержит "level 20 rare crypt"
-  for(let [k, val] of pointsLookup.entries()) {
-    if(key.includes(k) || k.includes(key)) return val;
-  }
-  console.warn("Points not found for:", chestRawName);
-  return 0;
+// Helper: extract level number from source string (e.g., "Level 20 rare Crypt" → 20)
+function extractLevel(source) {
+  const match = source.match(/level\s+(\d+)/i);
+  if (match) return parseInt(match[1], 10);
+  return null;
 }
 
-// ------------------- LOAD CHEST FILES FROM Data/ -------------------
-async function loadAllChestData() {
-  const startDate = getCurrentCycleStart(); // понедельник (МСК)
-  const endDate = new Date(startDate);
-  endDate.setDate(startDate.getDate() + 6);
-  
-  const filesToLoad = [];
-  let current = new Date(startDate);
-  while(current <= endDate) {
-    const yyyy = current.getFullYear();
-    const mm = String(current.getMonth() + 1).padStart(2,'0');
-    const dd = String(current.getDate()).padStart(2,'0');
-    const filename = `chests_${yyyy}-${mm}-${dd}.txt`;
-    filesToLoad.push(filename);
-    current.setDate(current.getDate() + 1);
+// Determine category for column grouping:
+// - Crypt with rarity → "Rare Crypt" / "Epic Crypt"
+// - Crypt without rarity → "Crypt"
+// - Citadel → "Citadel"
+// - Squad → squad name (e.g., "Fenrir squad")
+// - Heroic Monster → "Heroic Monster"
+// - Fallback → normalized source without level & spaces
+function getCategory(sourceNorm) {
+  sourceNorm = sourceNorm.toLowerCase();
+  if (sourceNorm.includes("crypt")) {
+    if (sourceNorm.includes("rare")) return "Rare Crypt";
+    if (sourceNorm.includes("epic")) return "Epic Crypt";
+    return "Crypt";
+  }
+  if (sourceNorm.includes("citadel")) return "Citadel";
+  if (sourceNorm.includes("squad")) {
+    // extract squad name: e.g., "epic fenrir squad" → "Fenrir squad"
+    let squad = sourceNorm.replace(/epic\s*/i, '').trim();
+    return squad.charAt(0).toUpperCase() + squad.slice(1);
+  }
+  if (sourceNorm.includes("heroic monster")) return "Heroic Monster";
+  // fallback: use the whole source (without level)
+  return sourceNorm.replace(/level\s+\d+\s*/i, '').trim();
+}
+
+// --------------------------------------------------------------
+// 2. Load and parse chest files for current week (Mon – Sun, MSK)
+// --------------------------------------------------------------
+function getWeekDatesMSK() {
+  const now = new Date();
+  const mskNow = new Date(now.getTime() + 3 * 60 * 60 * 1000); // UTC+3
+  const day = mskNow.getUTCDay(); // 0=Sun, 1=Mon ... 6=Sat
+  let diffToMonday = (day === 0 ? 6 : day - 1);
+  const mondayMSK = new Date(mskNow);
+  mondayMSK.setUTCDate(mskNow.getUTCDate() - diffToMonday);
+  mondayMSK.setUTCHours(0, 0, 0, 0);
+  const sundayMSK = new Date(mondayMSK);
+  sundayMSK.setUTCDate(mondayMSK.getUTCDate() + 6);
+  sundayMSK.setUTCHours(23, 59, 59, 999);
+  return { start: mondayMSK, end: sundayMSK };
+}
+
+function formatDateForFile(dateMSK) {
+  const yyyy = dateMSK.getUTCFullYear();
+  const mm = String(dateMSK.getUTCMonth() + 1).padStart(2, '0');
+  const dd = String(dateMSK.getUTCDate()).padStart(2, '0');
+  return `chests_${yyyy}-${mm}-${dd}.txt`;
+}
+
+async function loadAllChestsForWeek() {
+  const { start, end } = getWeekDatesMSK();
+  const files = [];
+  let cur = new Date(start);
+  while (cur <= end) {
+    files.push(formatDateForFile(cur));
+    cur.setUTCDate(cur.getUTCDate() + 1);
   }
 
-  const allEntries = []; // { player, chestType, points, rawSource }
-  for(const file of filesToLoad) {
+  const entries = []; // { player, sourceRaw, points, category, level }
+  for (const file of files) {
     try {
       const resp = await fetch(`Data/${file}?v=${Date.now()}`);
-      if(!resp.ok) continue;
+      if (!resp.ok) continue;
       const text = await resp.text();
       const lines = text.split(/\r?\n/);
-      let currentChest = null;
-      let currentPlayer = null;
-      let currentSource = null;
-
-      for(let i=0; i<lines.length; i++) {
+      let currentChest = null, currentPlayer = null, currentSource = null;
+      for (let i = 0; i < lines.length; i++) {
         let line = lines[i].trim();
-        if(line === "") continue;
-        // Chest name line (не начинается с From: / Source:)
-        if(!line.toLowerCase().startsWith("from:") && !line.toLowerCase().startsWith("source:")) {
+        if (line === "") continue;
+        const lower = line.toLowerCase();
+        if (!lower.startsWith("from:") && !lower.startsWith("source:")) {
           currentChest = line;
           continue;
         }
-        if(line.toLowerCase().startsWith("from:")) {
+        if (lower.startsWith("from:")) {
           currentPlayer = line.substring(5).trim();
           continue;
         }
-        if(line.toLowerCase().startsWith("source:")) {
+        if (lower.startsWith("source:")) {
           currentSource = line.substring(7).trim();
-          if(currentChest && currentPlayer) {
-            const points = getChestPoints(currentChest);
-            allEntries.push({
+          if (currentPlayer && currentSource) {
+            const normSource = currentSource.toLowerCase();
+            let points = POINTS_MAP.get(normSource) || 0;
+            // If not found, try to remove "lvl" variations like "Lvl 25-29 Raid Runic squad"
+            let altSource = normSource.replace(/lvl\s+[\d\-]+\s*/i, '').trim();
+            if (points === 0 && altSource !== normSource) {
+              points = POINTS_MAP.get(altSource) || 0;
+            }
+            const category = getCategory(normSource);
+            const level = extractLevel(currentSource);
+            entries.push({
               player: currentPlayer,
-              chestType: currentChest,
-              source: currentSource,
+              sourceRaw: currentSource,
               points: points,
-              rawChest: currentChest
+              category: category,
+              level: level
             });
           }
-          // reset after source
           currentChest = null;
           currentPlayer = null;
           currentSource = null;
         }
       }
     } catch(e) {
-      console.log("skip missing", file);
+      // file missing – skip
     }
   }
-  return allEntries;
+  return entries;
 }
 
-// ------------------- DYNAMIC COLUMN BUILDER -------------------
-function buildDetailedTable(entries) {
-  const playerMap = new Map(); // key: playerName, value: { totalPoints, chestDetails: Map<chestType, count> }
-  for(const entry of entries) {
-    if(!playerMap.has(entry.player)) {
-      playerMap.set(entry.player, {
-        totalPoints: 0,
-        chestDetails: new Map()
+// --------------------------------------------------------------
+// 3. Aggregate data and build dynamic columns
+// --------------------------------------------------------------
+function aggregateByPlayer(entries) {
+  const playerMap = new Map(); // key: player, value: { total, categories: Map<category, Map<level, {count, pointsSum}> > }
+  for (const e of entries) {
+    if (!playerMap.has(e.player)) {
+      playerMap.set(e.player, {
+        total: 0,
+        categories: new Map()
       });
     }
-    const playerData = playerMap.get(entry.player);
-    playerData.totalPoints += entry.points;
-    let chestKey = entry.chestType;
-    // group by exact chest name as in source
-    let count = playerData.chestDetails.get(chestKey) || 0;
-    playerData.chestDetails.set(chestKey, count + 1);
-  }
-  
-  // collect all distinct chest types across all players
-  const allChestTypes = new Set();
-  for(let data of playerMap.values()) {
-    for(let chest of data.chestDetails.keys()) {
-      allChestTypes.add(chest);
+    const playerData = playerMap.get(e.player);
+    playerData.total += e.points;
+
+    let catMap = playerData.categories.get(e.category);
+    if (!catMap) {
+      catMap = new Map(); // level -> { count, pointsSum }
+      playerData.categories.set(e.category, catMap);
     }
-  }
-  const chestTypeArray = Array.from(allChestTypes).sort();
-  
-  // Build header: Player Name, then each chest type column (count), then Total Points
-  const headers = ["Player", ...chestTypeArray, "Total Points"];
-  
-  // Build rows
-  const rows = [];
-  for(let [player, data] of playerMap.entries()) {
-    const row = [];
-    row.push(player);
-    for(let chest of chestTypeArray) {
-      const count = data.chestDetails.get(chest) || 0;
-      row.push(count);
+    const levelKey = e.level !== null ? e.level : 'other';
+    let levelData = catMap.get(levelKey);
+    if (!levelData) {
+      levelData = { count: 0, pointsSum: 0 };
+      catMap.set(levelKey, levelData);
     }
-    row.push(data.totalPoints);
-    rows.push(row);
+    levelData.count += 1;
+    levelData.pointsSum += e.points;
   }
-  
-  // sort by total points desc
-  rows.sort((a,b) => b[b.length-1] - a[a.length-1]);
-  
-  return { headers, rows };
+  return playerMap;
 }
 
-// ------------------- Render DataTable with dynamic columns & style -------------------
+function buildColumnHeaders(playerMap) {
+  const allCategories = new Set();
+  for (const data of playerMap.values()) {
+    for (const cat of data.categories.keys()) {
+      allCategories.add(cat);
+    }
+  }
+  const sortedCategories = Array.from(allCategories).sort((a,b) => a.localeCompare(b));
+  return sortedCategories;
+}
+
+function renderCellContent(categoryMap) {
+  // categoryMap: Map<level, {count, pointsSum}>
+  if (!categoryMap || categoryMap.size === 0) return "";
+  const lines = [];
+  let totalPoints = 0;
+  // Sort levels numerically, 'other' last
+  const levels = Array.from(categoryMap.keys()).sort((a,b) => {
+    if (a === 'other') return 1;
+    if (b === 'other') return -1;
+    return a - b;
+  });
+  for (const level of levels) {
+    const data = categoryMap.get(level);
+    totalPoints += data.pointsSum;
+    if (level === 'other') {
+      lines.push(`Other (${data.count}): ${data.pointsSum}`);
+    } else {
+      lines.push(`${level}(${data.count}): ${data.pointsSum}`);
+    }
+  }
+  lines.push(`Total: ${totalPoints}`);
+  return lines.join('<br>');
+}
+
+// --------------------------------------------------------------
+// 4. Render main table with DataTables
+// --------------------------------------------------------------
 let currentDataTable = null;
+
 async function renderMainTable() {
-  const entries = await loadAllChestData();
-  const { headers, rows } = buildDetailedTable(entries);
-  
-  // generated date info
-  const now = new Date();
-  const msk = new Date(now.getTime() + 3*60*60*1000);
-  document.getElementById("generatedAt").textContent = `Updated: ${msk.toLocaleString("ru-RU")} Moscow (chest breakdown)`;
-  
-  // Destroy old DataTable if exists
+  const entries = await loadAllChestsForWeek();
+  const playerMap = aggregateByPlayer(entries);
+  const categories = buildColumnHeaders(playerMap);
+
+  // Build rows
+  const players = Array.from(playerMap.keys());
+  const rows = [];
+  for (const player of players) {
+    const data = playerMap.get(player);
+    const row = [player];
+    for (const cat of categories) {
+      const catMap = data.categories.get(cat) || new Map();
+      row.push(renderCellContent(catMap));
+    }
+    row.push(data.total); // Total Points
+    rows.push(row);
+  }
+  // sort by total points desc
+  rows.sort((a,b) => b[b.length-1] - a[a.length-1]);
+
+  // Header: Player, [categories], Total Points
+  const headers = ["Player", ...categories, "Total Points"];
+
+  // Destroy previous DataTable if any
   if ($.fn.DataTable.isDataTable('#statsTable')) {
     $('#statsTable').DataTable().destroy();
   }
-  
+
+  // Clear thead and rebuild
   const thead = document.querySelector("#statsTable thead");
   thead.innerHTML = "";
   const headerRow = document.createElement("tr");
@@ -690,65 +664,56 @@ async function renderMainTable() {
     headerRow.appendChild(th);
   });
   thead.appendChild(headerRow);
-  
-  // clear tbody
-  document.querySelector("#statsTable tbody").innerHTML = "";
-  
-  // init new DataTable
-  const table = $('#statsTable').DataTable({
+
+  // Re-init DataTable
+  $('#statsTable').DataTable({
     data: rows,
     columns: headers.map((h, idx) => ({
       title: h,
-      visible: true,
-      className: (idx === 0 || idx === headers.length-1) ? 'dt-left' : 'dt-center'
+      className: idx === 0 || idx === headers.length-1 ? 'dt-left' : 'dt-center',
+      // Allow HTML in category columns
+      render: function(data, type, row, meta) {
+        if (type === 'display' && idx !== 0 && idx !== headers.length-1) {
+          return data; // already HTML with <br>
+        }
+        return data;
+      }
     })),
     order: [[headers.length-1, "desc"]],
-    pageLength: 200,
     paging: false,
     info: true,
+    autoWidth: false,
     createdRow: function(row, data, dataIndex) {
       const totalPoints = parseInt(data[headers.length-1] || 0);
-      if(totalPoints >= weeklyLimit) {
-        $(row).addClass("done");
-      } else {
-        $(row).addClass("not-done");
-      }
-      if(dataIndex === 0) $(row).addClass("top-1");
-      else if(dataIndex < 10) $(row).addClass("top-player");
+      if (totalPoints >= WEEKLY_LIMIT) $(row).addClass("done");
+      else $(row).addClass("not-done");
+      if (dataIndex === 0) $(row).addClass("top-1");
+      else if (dataIndex < 10) $(row).addClass("top-player");
     }
   });
-  currentDataTable = table;
-}
 
-// ------------------- CYCLE INFO: Monday 00:00 MSK -> Sunday 23:59 MSK -------------------
-function getCurrentCycleStart() {
+  // Update generated timestamp
   const now = new Date();
   const mskNow = new Date(now.getTime() + 3*60*60*1000);
-  const day = mskNow.getUTCDay(); // 0 = sunday, 1 = monday ... 6 = saturday
-  let diffToMonday = (day === 0 ? 6 : day - 1);
-  const monday = new Date(mskNow);
-  monday.setUTCDate(mskNow.getUTCDate() - diffToMonday);
-  monday.setUTCHours(0,0,0,0);
-  return new Date(monday.getTime() - 3*60*60*1000); // revert to UTC for storage
+  document.getElementById("generatedAt").textContent = `Updated: ${mskNow.toLocaleString("ru-RU")} Moscow (detailed chests)`;
 }
 
-function getCycleInfo() {
-  const startUTC = getCurrentCycleStart();
-  const startMSK = new Date(startUTC.getTime() + 3*60*60*1000);
-  const endMSK = new Date(startMSK);
-  endMSK.setDate(startMSK.getDate() + 6);
-  endMSK.setUTCHours(23,59,59);
-  const options = { day:"2-digit", month:"2-digit", year:"numeric" };
-  return `${startMSK.toLocaleString("ru-RU", options)} — ${endMSK.toLocaleString("ru-RU", options)} msk`;
+// Cycle info display (Monday – Sunday MSK)
+function updateCycleInfo() {
+  const { start, end } = getWeekDatesMSK();
+  const opts = { day:"2-digit", month:"2-digit", year:"numeric" };
+  const startStr = start.toLocaleString("ru-RU", opts);
+  const endStr = end.toLocaleString("ru-RU", opts);
+  document.getElementById("cycleInfo").textContent = `${startStr} — ${endStr} msk`;
 }
+updateCycleInfo();
 
-document.getElementById("cycleInfo").textContent = getCycleInfo();
-document.getElementById("weeklyLimit").innerHTML = `<span style="color:#fbbf24; font-weight:bold;">${weeklyLimit} points</span>`;
-
-// ---------- EVENT FILES (unchanged logic, but keep folder structure) ----------
+// --------------------------------------------------------------
+// 5. Event & archive handlers (unchanged logic, preserve existing)
+// --------------------------------------------------------------
 function renderEventButtons(containerId, files, folder, tableWrapId) {
   const container = document.getElementById(containerId);
-  if(!container) return;
+  if (!container) return;
   files.forEach(file => {
     const btn = document.createElement("button");
     btn.className = "event-btn";
@@ -770,7 +735,7 @@ async function loadEventTable(folder, file, wrapId) {
     const rows = lines.map(l => l.split(delimiter).map(x => x.trim()));
     const headers = rows[0];
     const data = rows.slice(1).filter(r => r.length === headers.length);
-    wrap.innerHTML = `<table id="eventTable" class="display event-table"></table>`;
+    wrap.innerHTML = `<table id="eventTable" class="display event-table">\x3ctable>`;
     $('#eventTable').DataTable({
       destroy: true,
       data: data,
@@ -804,7 +769,7 @@ const darkOmensFiles = ["24022026-25022026.csv", "20032026-21032026.csv"];
 renderEventButtons("olimpusList", olimpusFiles, "Olimpus", "TableWrap");
 renderEventButtons("darkOmensList", darkOmensFiles, "Dark omens", "TableWrap");
 
-// ---------- ARCHIVE FILES (unchanged logic) ----------
+// Archive handling (unchanged)
 const archiveFiles = [
   "data_total_01032026.csv",
   "data_total_08032026.csv",
@@ -815,7 +780,7 @@ const archiveFiles = [
 let currentArchiveFile = null;
 function buildArchiveList() {
   const list = document.getElementById("archiveList");
-  if(!list) return;
+  if (!list) return;
   list.innerHTML = "";
   archiveFiles.slice().reverse().forEach(file => {
     const btn = document.createElement("button");
@@ -865,7 +830,7 @@ async function loadCsvFromPath(path) {
       autoWidth: false,
       createdRow: function(row, data, dataIndex) {
         const points = parseInt(data[headers.length-1] || "0");
-        if(points >= weeklyLimit) $(row).addClass("done");
+        if(points >= WEEKLY_LIMIT) $(row).addClass("done");
         else $(row).addClass("not-done");
         if(dataIndex === 0) $(row).addClass("top-1");
         else if(dataIndex < 10) $(row).addClass("top-player");
@@ -905,10 +870,9 @@ document.querySelectorAll(".event-header").forEach(header => {
   });
 });
 
-// INITIAL RENDER
+// Start
 renderMainTable();
-
 </script>
-
 </body>
 </html>
+```
