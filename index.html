@@ -361,6 +361,30 @@ table.dataTable tbody tr:hover {
     margin-top: 2px;
 }
 
+
+/* Легкие границы для ячеек */
+#statsTable th,
+#statsTable td {
+    border: 1px solid #ddd;          /* тонкая серая граница */
+}
+
+/* Если хотите, чтобы заголовки имели чуть более заметную нижнюю границу */
+#statsTable th {
+    border-bottom: 2px solid #ccc;
+}
+
+/* Небольшое скругление углов таблицы */
+#statsTable {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* При наведении на строку — легкая подсветка (опционально) */
+#statsTable tbody tr:hover {
+    background-color: rgba(0,0,0,0.05);
+    transition: background 0.2s;
+}
+
 </style>
 </head>
 <body>
