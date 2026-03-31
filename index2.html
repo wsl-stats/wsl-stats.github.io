@@ -614,7 +614,7 @@ function aggregateByPlayerAndColumn(entries, columnConfig) {
 
 function renderCellContent(levelMap) {
     if (!levelMap || levelMap.size === 0) return "";
-    const levelEntries = [];
+    const lines = [];
     let totalPoints = 0;
     const levels = Array.from(levelMap.keys()).sort((a,b) => {
         if (a === 'other') return 1;
@@ -624,15 +624,13 @@ function renderCellContent(levelMap) {
     for (const level of levels) {
         const data = levelMap.get(level);
         totalPoints += data.pointsSum;
-        const levelStr = level === 'other'
-            ? `Other(${data.count})`
-            : `${level}(${data.count})`;
-        levelEntries.push(`${levelStr}: ${data.pointsSum}`);
+        const line = level === 'other'
+            ? `Other (${data.count}): ${data.pointsSum}`
+            : `${level} (${data.count}): ${data.pointsSum}`;
+        lines.push(line);
     }
-    // объединяем записи уровней через запятую
-    const levelsLine = levelEntries.join(', ');
-    // итог отдельной строкой
-    return `${levelsLine}<br><strong>Total: ${totalPoints}</strong>`;
+    // каждая строка на новой строке, итог жирным
+    return lines.join('<br>') + `<br><strong>Total: ${totalPoints}</strong>`;
 }
 
 // ======================== RENDER MAIN TABLE ========================
