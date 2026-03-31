@@ -461,24 +461,86 @@ const COLUMN_CONFIG = [
   { name: "Heroic Monster", sources: ["heroic monster"] }   // matches all heroic monster levels
 ];
 
+
+
+const POINTS_CONFIG = {
+  // ----- Крипты (Crypt) -----
+  "level 10 rare crypt": 2,
+  "level 15 crypt": 5,
+  "level 15 rare crypt": 8,
+  "level 15 epic crypt": 12,
+  "level 20 crypt": 16,
+  "level 20 rare crypt": 28,
+  "level 20 epic crypt": 45,
+  "level 25 crypt": 55,
+  "level 25 rare crypt": 72,
+  "level 25 epic crypt": 90,
+  "level 30 rare crypt": 120,
+  "level 30 epic crypt": 140,
+  "level 35 epic crypt": 200,
+
+  // ----- Цитадели (Citadel) -----
+  "level 30 citadel": 60,
+  "level 25 citadel": 28,
+  "level 20 citadel": 12,
+
+  // ----- Эпические отряды (Squads) -----
+  "epic fenrir squad": 60,
+  "epic jormungandr squad": 60,
+  "epic inferno squad": 1000,
+  "epic basilisk squad": 1000,      // базовое значение, но будет переопределено для конкретных сундуков
+  "epic chimera squad": 60,
+  "arachne's swarm epic squad": 1000,
+
+  // ----- Героические монстры (Heroic Monsters) -----
+  "level 16 heroic monster": 5,
+  "level 17 heroic monster": 10,
+  "level 18 heroic monster": 15,
+  "level 19 heroic monster": 20,
+  "level 20 heroic monster": 30,
+  "level 21 heroic monster": 40,
+  "level 22 heroic monster": 50,
+  "level 23 heroic monster": 60,
+  "level 24 heroic monster": 70,
+  "level 25 heroic monster": 80,
+  "level 26 heroic monster": 90,
+  "level 27 heroic monster": 105,
+  "level 28 heroic monster": 120,
+  "level 29 heroic monster": 140,
+  "level 30 heroic monster": 150,
+  "level 31 heroic monster": 200,
+  "level 32 heroic monster": 225,
+  "level 33 heroic monster": 250,
+  "level 34 heroic monster": 300,
+  "level 35 heroic monster": 350,
+  "level 36 heroic monster": 400,
+  "level 37 heroic monster": 450,
+  "level 38 heroic monster": 500,
+  "level 39 heroic monster": 550,
+  "level 40 heroic monster": 625,
+  "level 41 heroic monster": 700,
+  "level 42 heroic monster": 775,
+  "level 43 heroic monster": 850,
+  "level 44 heroic monster": 925,
+  "level 45 heroic monster": 1000,
+
+  // ----- Специфичные сундуки от Epic Basilisk squad -----
+  "epic basilisk squad|basilisk chest": 1000,
+  "epic basilisk squad|arcane chest": 60
+};
+
 // Weekly point quota
 const WEEKLY_LIMIT = 700;
 document.getElementById("weeklyLimit").innerHTML = `<span style="color:#fbbf24; font-weight:bold;">${WEEKLY_LIMIT} points</span>`;
 
-// ======================== POINTS LOOKUP ========================
 function buildPointsMap() {
   const map = new Map();
-  const rows = document.querySelectorAll("#chestPoints tbody tr");
-  rows.forEach(row => {
-    const cells = row.querySelectorAll("td");
-    if (cells.length >= 2) {
-      let name = cells[0].innerText.trim().toLowerCase();
-      let points = parseInt(cells[1].innerText.trim(), 10);
-      map.set(name, points);
-    }
-  });
+  for (const [key, value] of Object.entries(POINTS_CONFIG)) {
+    map.set(key.toLowerCase(), value);
+  }
   return map;
 }
+
 const POINTS_MAP = buildPointsMap();
 
 // Helper: extract level number from source string (e.g., "level 20 rare crypt" → 20)
@@ -542,16 +604,26 @@ async function loadAllChestsForWeek() {
         if (lower.startsWith("source:")) {
           currentSource = line.substring(7).trim();
           if (currentPlayer && currentSource) {
-            const normSource = currentSource.toLowerCase();
-            const points = POINTS_MAP.get(normSource) || 0;
-            if (points > 0) { // only include entries that have known points
-              entries.push({
-                player: currentPlayer,
-                sourceRaw: currentSource,
-                points: points
-              });
-            }
-          }
+			  const normSource = currentSource.toLowerCase();
+			  const normChest = currentChest ? currentChest.toLowerCase() : '';
+			  
+			  // Сначала ищем комбинацию source|chestName
+			  let points = POINTS_MAP.get(`${normSource}|${normChest}`);
+			  if (points === undefined) {
+				// Если нет, ищем только по source
+				points = POINTS_MAP.get(normSource) || 0;
+			  }
+			  
+			  if (points > 0) {
+				entries.push({
+				  player: currentPlayer,
+				  chestName: currentChest,
+				  sourceRaw: currentSource,
+				  points: points
+				});
+			  }
+			}
+		  
           currentChest = null;
           currentPlayer = null;
           currentSource = null;
@@ -579,10 +651,11 @@ function assignEntryToColumn(entry, columnConfig) {
 }
 
 function aggregateByPlayerAndColumn(entries, columnConfig) {
-  const playerMap = new Map(); // key: player, value: { total: number, columns: Map<columnName, Map<levelKey, {count, pointsSum}>> }
+  const playerMap = new Map(); // key: player, value: { total: number, columns: Map<columnName, Map<groupKey, {count, pointsSum}>> }
+
   for (const e of entries) {
     const colName = assignEntryToColumn(e, columnConfig);
-    if (!colName) continue; // skip unassigned entries (they don't match any configured column)
+    if (!colName) continue; // skip entries that don't match any column
 
     if (!playerMap.has(e.player)) {
       playerMap.set(e.player, {
@@ -595,20 +668,24 @@ function aggregateByPlayerAndColumn(entries, columnConfig) {
 
     let colMap = playerData.columns.get(colName);
     if (!colMap) {
-      colMap = new Map(); // level -> { count, pointsSum }
+      colMap = new Map();
       playerData.columns.set(colName, colMap);
     }
 
+    // Determine grouping key: if source contains a level, use the level number;
+    // otherwise use the chest name (e.g., "Basilisk Chest") which is stored in e.chestName
     const level = extractLevel(e.sourceRaw);
-    const levelKey = level !== null ? level : 'other';
-    let levelData = colMap.get(levelKey);
-    if (!levelData) {
-      levelData = { count: 0, pointsSum: 0 };
-      colMap.set(levelKey, levelData);
+    const groupKey = level !== null ? level : e.chestName;
+
+    let groupData = colMap.get(groupKey);
+    if (!groupData) {
+      groupData = { count: 0, pointsSum: 0 };
+      colMap.set(groupKey, groupData);
     }
-    levelData.count += 1;
-    levelData.pointsSum += e.points;
+    groupData.count += 1;
+    groupData.pointsSum += e.points;
   }
+
   return playerMap;
 }
 
@@ -616,20 +693,30 @@ function renderCellContent(levelMap) {
     if (!levelMap || levelMap.size === 0) return "";
     const lines = [];
     let totalPoints = 0;
-    const levels = Array.from(levelMap.keys()).sort((a,b) => {
-        if (a === 'other') return 1;
-        if (b === 'other') return -1;
-        return a - b;
-    });
-    for (const level of levels) {
+    
+    // Разделяем числовые ключи (уровни) и строковые (названия источников)
+    const numericKeys = [];
+    const stringKeys = [];
+    for (let key of levelMap.keys()) {
+        if (typeof key === 'number') numericKeys.push(key);
+        else stringKeys.push(key);
+    }
+    numericKeys.sort((a, b) => a - b);
+    stringKeys.sort();
+    
+    // Сначала выводим уровни
+    for (const level of numericKeys) {
         const data = levelMap.get(level);
         totalPoints += data.pointsSum;
-        const line = level === 'other'
-            ? `Other (${data.count}): ${data.pointsSum}`
-            : `${level} (${data.count}): ${data.pointsSum}`;
-        lines.push(line);
+        lines.push(`${level} (${data.count}): ${data.pointsSum}`);
     }
-    // каждая строка на новой строке, итог жирным
+    // Затем — именованные источники
+    for (const name of stringKeys) {
+        const data = levelMap.get(name);
+        totalPoints += data.pointsSum;
+        lines.push(`${name} (${data.count}): ${data.pointsSum}`);
+    }
+    
     return lines.join('<br>') + `<br><strong>Total: ${totalPoints}</strong>`;
 }
 
