@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>WSL Chest Results</title>
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+<style>
+
+body {
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: white;
+  padding: 20px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background: #111827;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background: #1f2937;
+}
+
+tr:nth-child(even) {
+  background: #0b1220;
+}
+
+tr:hover {
+  background: #1e293b;
+}
+
+/* Общая таблица */
+#statsTable {
+    margin: 20px auto;
+    border-collapse: collapse;
+    width: auto;
+    max-width: 90%;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+/* Границы и ячейки */
+#statsTable th, #statsTable td {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    text-align: center;
+}
+
+/* Зебра */
+#statsTable tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+#statsTable tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+/* Цвета по результату */
+.done { background-color: #d1e7dd !important; color: #0f5132; } /* мягкий зеленый */
+.not-done { background-color: #f8d7da !important; color: #842029; } /* мягкий красный */
+
+/* Подсветка топ */
+.top-1 { background-color: #ffeeba !important; font-weight: bold; } /* золотой для лидера */
+.top-player { background-color: #fff3cd !important; } /* светло-желтый для топ-10 */
+
+/* Заголовки */
+#statsTable th {
+    background-color: #0d6efd; 
+    color: white;
+    font-weight: bold;
+}
+
+/* Поле поиска по центру и крупнее */
+.dataTables_filter {
+    text-align: center !important;
+    margin-bottom: 10px;
+}
+.dataTables_filter input {
+    width: 250px;
+    height: 28px;
+    font-size: 14px;
+    padding: 3px 6px;
+}
+
+/* ===== Events ===== */
+
+.events-wrapper {
+  max-width: 900px;
+  margin: 40px auto;
+  text-align: center;
+}
+
+.events-title {
+  margin: 30px 0 10px;
+  color: #e5e7eb;
+}
+
+.event-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.event-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #374151;
+  background: #1f2937;
+  color: #e5e7eb;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.event-btn:hover {
+  background: #374151;
+}
+
+.event-table {
+  max-width: 600px;
+  margin: 0 auto 30px;
+}
+
+
+/* ===== Events Grid ===== */
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 24px;
+  margin-top: 30px;
+}
+
+/* ===== Cards ===== */
+.event-card {
+  background: #0f172a;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+  border: 1px solid #1f2937;
+}
+
+.event-card.olimpus {
+  border-left: 4px solid #38bdf8;
+}
+
+.event-card.dark {
+  border-left: 4px solid #a78bfa;
+}
+
+.events-title {
+  text-align: center;
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+
+
+.event-list button {
+  display: block;
+  width: 100%;
+  margin: 6px 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  background: #111827;
+  color: #e5e7eb;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  font-size: 13px;
+}
+
+.event-list button:hover {
+  background: #1f2937;
+  border-color: #475569;
+  transform: translateY(-1px);
+}
+
+/* ===== Event DataTable ===== */
+.dataTables_wrapper {
+  margin-top: 14px;
+}
+
+table.dataTable {
+  width: auto !important;
+  margin: 0 auto;
+  font-size: 13px;
+}
+
+table.dataTable thead th {
+  background: #1f2937;
+  color: #f1f5f9;
+  padding: 8px 12px;
+}
+
+table.dataTable tbody td {
+  padding: 7px 12px;
+}
+
+table.dataTable tbody tr:nth-child(even) {
+  background: rgba(255,255,255,0.03);
+}
+
+table.dataTable tbody tr:hover {
+  background: rgba(56,189,248,0.12);
+}
+/* ===== accordion animation ===== */
+#TableWrap {
+  animation: fadeSlide 0.25s ease;
+}
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.event-list button.active {
+  background: #0ea5e9;
+  border-color: #38bdf8;
+  color: white;
+  font-weight: 600;
+}
+
+/* ===== Archive ===== */
+.archive-wrapper {
+  max-width: 1100px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.archive-toggle {
+  background: #1f2937;
+  color: #e5e7eb;
+  border: 1px solid #374151;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.archive-toggle:hover {
+  background: #111827;
+}
+
+/* активный файл архива */
+.archive-file.active {
+  background: #0ea5e9 !important;
+  color: white !important;
+}
+
+/* ===== Section container ===== */
+.events-section {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 0 16px;
+}
+
+/* ===== Grid ===== */
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 22px;
+}
+
+/* ===== Card ===== */
+.event-card {
+  background: linear-gradient(180deg, #0f172a, #0b1220);
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.35);
+  border: 1px solid #1f2937;
+  overflow: hidden;
+  transition: all .25s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px rgba(0,0,0,0.45);
+}
+
+/* accent lines */
+.event-card.olimpus { border-left: 4px solid #38bdf8; }
+.event-card.dark    { border-left: 4px solid #a78bfa; }
+
+/* ===== Header (clickable) ===== */
+.event-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 18px;
+  cursor: pointer;
+  user-select: none;
+  background: rgba(255,255,255,0.02);
+}
+
+.event-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.chevron {
+  transition: transform .25s ease;
+  opacity: .8;
+}
+
+/* rotate when open */
+.event-card.open .chevron {
+  transform: rotate(180deg);
+}
+
+/* ===== Body (accordion) ===== */
+.event-body {
+  display: none;
+  padding: 14px 18px 18px 18px;
+  border-top: 1px solid #1f2937;
+}
+
+/* ===== Event list buttons ===== */
+.event-list button {
+  display: block;
+  width: 100%;
+  margin: 6px 0;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid #334155;
+  background: #0b1220;
+  color: #e5e7eb;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  font-size: 13px;
+}
+
+.event-list button:hover {
+  background: #111827;
+  border-color: #475569;
+  transform: translateY(-1px);
+}
+
+.event-list button.active {
+  background: #0ea5e9;
+  border-color: #38bdf8;
+  color: white;
+  font-weight: 600;
+}
+
+</style>
+</head>
+<body>
+
+<h1>🏆 WSL Chest Results</h1>
+
+
+<div class="events-section">
+
+  <div class="events-grid">
+  <div class="event-card">
+  
+        <div class="event-header" data-target="pointsBody">
+        <h2>Weekly Chest Point Quota: <span id="weeklyLimit"></span></h2>
+        <span class="chevron">▼</span>
+		<br>
+		<br>
+		<span id="cycleInfo"></span>
+      </div>
+      <div id="pointsBody" class="event-body">
+    <div style="background:#1f2937; color:#d1d5db; border-radius:12px; padding:15px;">
+
+		<div id="chestPoints" style="margin-top:10px; overflow-y:auto; max-height:350px;">
+				<table style="width:100%; border-collapse:collapse; table-layout:auto; background:#111827; border-radius:8px;">
+				  <thead>
+					<tr style="border-bottom:1px solid #374151;">
+					  <th style="text-align:left; padding:5px;">Chest / Monster</th>
+					  <th style="text-align:right; padding:5px;">Points</th>
+					</tr>
+				  </thead>
+				  <tbody style="color:#d1d5db; font-size:14px;">
+					<!-- Chests -->
+					<tr><td>Level 10 Rare Crypt</td><td style="text-align:right;">2</td></tr>
+					<tr><td>Level 15 Crypt</td><td style="text-align:right;">0</td></tr>
+					<tr><td>Level 15 Rare Crypt</td><td style="text-align:right;">8</td></tr>
+					<tr><td>Level 15 Epic Crypt</td><td style="text-align:right;">12</td></tr>
+					<tr><td>Level 20 Crypt</td><td style="text-align:right;">16</td></tr>
+					<tr><td>Level 20 Rare Crypt</td><td style="text-align:right;">28</td></tr>
+					<tr><td>Level 20 Epic Crypt</td><td style="text-align:right;">45</td></tr>
+					<tr><td>Level 25 Crypt</td><td style="text-align:right;">55</td></tr>
+					<tr><td>Level 25 Rare Crypt</td><td style="text-align:right;">72</td></tr>
+					<tr><td>Level 25 Epic Crypt</td><td style="text-align:right;">90</td></tr>
+					<tr><td>Level 30 Rare Crypt</td><td style="text-align:right;">120</td></tr>
+					<tr><td>Level 30 Epic Crypt</td><td style="text-align:right;">140</td></tr>
+					<tr><td>Level 35 Epic Crypt</td><td style="text-align:right;">200</td></tr>
+					<tr><td>Level 30 Citadel</td><td style="text-align:right;">60</td></tr>
+					<tr><td>Level 25 Citadel</td><td style="text-align:right;">28</td></tr>
+					<tr><td>Level 20 Citadel</td><td style="text-align:right;">12</td></tr>
+					<tr><td>Level 15 Citadel</td><td style="text-align:right;">0</td></tr>
+					
+					<tr><td>Epic Fenrir squad</td><td style="text-align:right;">60</td></tr>
+					<tr><td>Epic Jormungandr squad</td><td style="text-align:right;">60</td></tr>
+					<tr><td>Epic Inferno squad</td><td style="text-align:right;">1000</td></tr>
+					<tr><td>Arachne's Swarm Epic Squad</td><td style="text-align:right;">1000</td></tr>
+					
+					<!-- Monsters -->
+					<tr><td>Heroic Monster Undead 16</td><td style="text-align:right;">5</td></tr>
+					<tr><td>Heroic Monster Elven 17</td><td style="text-align:right;">10</td></tr>
+					<tr><td>Heroic Monster Cursed 18</td><td style="text-align:right;">15</td></tr>
+					<tr><td>Heroic Monster Barbarian 19</td><td style="text-align:right;">20</td></tr>
+					<tr><td>Heroic Monster Inferno 20</td><td style="text-align:right;">30</td></tr>
+					<tr><td>Heroic Monster Undead 21</td><td style="text-align:right;">40</td></tr>
+					<tr><td>Heroic Monster Elven 22</td><td style="text-align:right;">50</td></tr>
+					<tr><td>Heroic Monster Cursed 23</td><td style="text-align:right;">60</td></tr>
+					<tr><td>Heroic Monster Barbarian 24</td><td style="text-align:right;">70</td></tr>
+					<tr><td>Heroic Monster Inferno 25</td><td style="text-align:right;">80</td></tr>
+					<tr><td>Heroic Monster Undead 26</td><td style="text-align:right;">90</td></tr>
+					<tr><td>Heroic Monster Elven 27</td><td style="text-align:right;">105</td></tr>
+					<tr><td>Heroic Monster Cursed 28</td><td style="text-align:right;">120</td></tr>
+					<tr><td>Heroic Monster Barbarian 29</td><td style="text-align:right;">140</td></tr>
+					<tr><td>Heroic Monster Inferno 30</td><td style="text-align:right;">150</td></tr>
+					<tr><td>Heroic Monster Undead 31</td><td style="text-align:right;">200</td></tr>
+					<tr><td>Heroic Monster Elven 32</td><td style="text-align:right;">225</td></tr>
+					<tr><td>Heroic Monster Cursed 33</td><td style="text-align:right;">250</td></tr>
+					<tr><td>Heroic Monster Barbarian 34</td><td style="text-align:right;">300</td></tr>
+					<tr><td>Heroic Monster Inferno 35</td><td style="text-align:right;">350</td></tr>
+					<tr><td>Heroic Monster Undead 36</td><td style="text-align:right;">400</td></tr>
+					<tr><td>Heroic Monster Elven 37</td><td style="text-align:right;">450</td></tr>
+					<tr><td>Heroic Monster Cursed 38</td><td style="text-align:right;">500</td></tr>
+					<tr><td>Heroic Monster Barbarian 39</td><td style="text-align:right;">550</td></tr>
+					<tr><td>Heroic Monster Inferno 40</td><td style="text-align:right;">625</td></tr>
+					<tr><td>Heroic Monster Undead 41</td><td style="text-align:right;">700</td></tr>
+					<tr><td>Heroic Monster Elven 42</td><td style="text-align:right;">775</td></tr>
+					<tr><td>Heroic Monster Cursed 43</td><td style="text-align:right;">850</td></tr>
+					<tr><td>Heroic Monster Barbarian 44</td><td style="text-align:right;">925</td></tr>
+					<tr><td>Heroic Monster Inferno 45</td><td style="text-align:right;">1000</td></tr>
+				  </tbody>
+				</table>
+			</div>
+		</div>
+		
+
+		
+	</div>
+  
+  </div>
+  
+
+    <!-- Olimpus -->
+    <div class="event-card olimpus">
+      <div class="event-header" data-target="olimpusBody">
+        <h2>🏛 Olimpus</h2>
+        <span class="chevron">▼</span>
+      </div>
+      <div id="olimpusBody" class="event-body">
+        <div id="olimpusList" class="event-list"></div>
+      </div>
+    </div>
+
+    <!-- Dark Omens -->
+    <div class="event-card dark">
+      <div class="event-header" data-target="darkBody">
+        <h2>🌑 Dark Omens</h2>
+        <span class="chevron">▼</span>
+      </div>
+      <div id="darkBody" class="event-body">
+        <div id="darkOmensList" class="event-list"></div>
+      </div>
+    </div>
+	
+	  <!-- ===== Archive ===== -->
+	<div class="archive-wrapper event-card">
+
+  
+        <div class="event-header" data-target="archiveBody">
+        <h2>📦 Archive Results</h2>
+        <span class="chevron">▼</span>
+      </div>
+      <div id="archiveBody" class="event-body">
+        <div id="archiveList" class="event-list"></div>
+      </div>
+
+
+	</div>
+
+  </div>
+
+</div>
+
+<div id="TableWrap"></div>
+
+
+
+
+<div class="container">
+  <div id="generatedAt" style="text-align:right; margin-bottom:10px; color:#fbbf24;"></div>
+
+  <table id="statsTable" class="display compact stripe hover" style="width:100%">
+    <thead></thead>
+    <tbody></tbody>
+  </table>
+</div>
+
+<!-- jQuery & DataTables -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+
+const weeklyLimit = 700;
+
+const archiveFiles = [
+  "data_total_01032026.csv",
+  "data_total_08032026.csv",
+  "data_total_15032026.csv",
+  "data_total_22032026.csv",
+  "data_total_29032026.csv"
+];
+
+// ===== Event files config =====
+
+const olimpusFiles = [
+"04032026-09032026.csv"
+
+];
+
+const darkOmensFiles = [
+  "24022026-25022026.csv",
+  "20032026-21032026.csv"
+];
+
+
+// ==== Display weekly limit ====
+document.getElementById("weeklyLimit").innerHTML = `
+<span style="color:#fbbf24; font-weight:bold;">${weeklyLimit} points</span>
+`;
+
+function mergeMungandrColumns(headers, rows) {
+
+  const shopIndexes = [];
+  const squadIndexes = [];
+
+  headers.forEach((h, i) => {
+
+    const name = h.toLowerCase();
+
+    if (name.includes("mungandr") && name.includes("shop"))
+      shopIndexes.push(i);
+
+    if (name.includes("mungandr") && name.includes("squad"))
+      squadIndexes.push(i);
+
+  });
+
+  if (shopIndexes.length === 0 && squadIndexes.length === 0)
+    return { headers, rows };
+
+  // удаляем старые колонки
+  const filteredHeaders = headers.filter((h,i) =>
+    !shopIndexes.includes(i) && !squadIndexes.includes(i)
+  );
+
+  // ищем Points после фильтрации
+  const pointsIndex = filteredHeaders.findIndex(h =>
+    h.toLowerCase().includes("points")
+  );
+
+  const newHeaders = [...filteredHeaders];
+
+  // вставляем перед Points
+  newHeaders.splice(pointsIndex, 0, "Jormungandr Shop");
+  newHeaders.splice(pointsIndex + 1, 0, "Epic Jormungandr squad");
+
+  const newRows = rows.map(r => {
+
+    let shopSum = 0;
+    let squadSum = 0;
+
+    shopIndexes.forEach(i => shopSum += parseInt(r[i]) || 0);
+    squadIndexes.forEach(i => squadSum += parseInt(r[i]) || 0);
+
+    const filtered = r.filter((v,i) =>
+      !shopIndexes.includes(i) && !squadIndexes.includes(i)
+    );
+
+    filtered.splice(pointsIndex, 0, shopSum);
+    filtered.splice(pointsIndex + 1, 0, squadSum);
+
+    return filtered;
+
+  });
+
+  return { headers: newHeaders, rows: newRows };
+}
+
+async function loadCsv() {
+  try {
+    const response = await fetch("data.csv?v=" + new Date().getTime()); // bypass cache
+    const text = await response.text();
+
+    const lines = text.split("\n").map(l => l.trim()).filter(l => l.length > 0);
+
+    let generatedAt = "";
+    if(lines[0].startsWith("# GeneratedAt:")) {
+      generatedAt = lines[0].replace("# GeneratedAt:", "").trim();
+      document.getElementById("generatedAt").textContent = "Updated: " + generatedAt+" Moscow";
+    }
+
+    const dataRows = lines.filter(l => !l.startsWith("#")).map(l => l.split(",").map(c => fixEncoding(c.trim())));
+
+    if(dataRows.length < 2) throw new Error("Нет данных в CSV");
+
+    const headers = dataRows[0];
+	const totalIndex = headers.findIndex(h =>
+						  h.trim().toLowerCase() === "total"
+						);
+    const data = dataRows.slice(1).filter(r => r.length === headers.length);
+	
+	const merged = mergeMungandrColumns(headers, data);
+
+	const headersMerged = merged.headers;
+	const dataMerged = merged.rows;
+
+    const map = new Map();
+    dataMerged.forEach(r => {
+      const name = r[0].trim().toLowerCase();
+      const points = parseInt(r[headersMerged.length - 1] || "0");
+      if(!map.has(name) || parseInt(map.get(name)[headersMerged.length - 1]) < points) {
+        map.set(name, r);
+      }
+    });
+
+    const cleaned = Array.from(map.values()).sort((a,b) => (parseInt(b[headersMerged.length - 1])||0) - (parseInt(a[headersMerged.length - 1])||0));
+
+    // строим таблицу
+    const thead = document.querySelector("#statsTable thead");
+    const headerRow = document.createElement("tr");
+    headersMerged.forEach(h => {
+      const th = document.createElement("th");
+      th.textContent = h;
+      headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+	
+
+	$('#statsTable').DataTable({
+    data: cleaned,
+    columns: headersMerged.map((h) => ({
+        title: h,
+        visible: h.trim().toLowerCase() !== "total"
+    })),
+    order: [[headersMerged.length - 1, "desc"]],
+    pageLength: 200,
+    info: true,
+    paging: false,
+    createdRow: function(row, data, dataIndex) {
+
+        const points = parseInt(data[headersMerged.length - 1] || "0");
+
+        if(points >= weeklyLimit)
+            $(row).addClass("done");
+        else
+            $(row).addClass("not-done");
+
+        if(dataIndex === 0)
+            $(row).addClass("top-1");
+        else if(dataIndex < 10)
+            $(row).addClass("top-player");
+    }
+});
+
+  } catch(err) {
+    console.error("Ошибка при загрузке CSV:", err);
+    document.body.innerHTML += "<p style='color:red;'>Ошибка загрузки CSV. Проверьте консоль.</p>";
+  }
+}
+
+loadCsv();
+
+// ==== Цикл 7 дней: с воскресенья 20:00 МСК до следующего воскресенья 20:00 МСК ====
+function getCycleInfo() {
+  const now = new Date();
+  // смещение МСК: UTC+3
+  const mskNow = new Date(now.getTime() + 3*60*60*1000);
+
+  // день недели: 0=Воскресенье ... 6=Суббота
+  const day = mskNow.getUTCDay();
+  const hour = mskNow.getUTCHours();
+  
+  // вычисляем начало текущего цикла
+  // если сегодня воскресенье и после 20:00 МСК, цикл начался сегодня
+  let startCycle = new Date(mskNow);
+  startCycle.setUTCMilliseconds(0); startCycle.setUTCSeconds(0); startCycle.setUTCMinutes(0);
+  startCycle.setUTCHours(17); // 20:00 МСК = 17:00 UTC
+  const diffDays = (day + 7 - 0) % 7; // дней с воскресенья
+  startCycle.setUTCDate(mskNow.getUTCDate() - diffDays);
+  if(day === 0 && hour < 17) startCycle.setUTCDate(startCycle.getUTCDate() - 7);
+
+  // конец цикла = через 7 дней
+  const endCycle = new Date(startCycle.getTime() + 7*24*60*60*1000);
+
+  // формат даты
+  const options = { day:"2-digit", month:"2-digit", year:"numeric", hour:"2-digit", minute:"2-digit" };
+  return `${startCycle.toLocaleString("ru-RU", options)} — ${endCycle.toLocaleString("ru-RU", options)} msk`;
+}
+
+document.getElementById("cycleInfo").textContent = getCycleInfo();
+
+function fixEncoding(str) {
+  try {
+    return decodeURIComponent(escape(str));
+  } catch {
+    return str;
+  }
+}
+
+
+
+
+
+
+
+function renderEventButtons(containerId, files, folder, tableWrapId) {
+  const container = document.getElementById(containerId);
+
+  files.forEach(file => {
+    const btn = document.createElement("button");
+    btn.className = "event-btn";
+    btn.textContent = file.replace(".csv", "");
+
+    btn.onclick = () => toggleEvent(folder, file, tableWrapId, btn);
+
+    container.appendChild(btn);
+  });
+}
+
+
+async function loadEventTable(folder, file, wrapId) {
+  const wrap = document.getElementById(wrapId);
+
+  try {
+    const response = await fetch(`${folder}/${file}?v=` + Date.now());
+    const text = await response.text();
+
+    const lines = text.split("\n")
+      .map(l => l.trim())
+      .filter(l => l.length > 0);
+
+	// автоопределение разделителя
+	let delimiter = ";";
+	if (lines[0].includes("\t")) delimiter = "\t";
+	else if (lines[0].includes(",")) delimiter = ",";
+
+	const rows = lines.map(l =>
+	  l.split(delimiter).map(x => x.trim())
+	);
+
+	const headers = rows[0];
+	const data = rows
+	  .slice(1)
+	  .filter(r => r.length === headers.length);
+
+    // очищаем старую таблицу
+    wrap.innerHTML = `<table id="eventTable" class="display event-table"></table>`;
+
+	$('#eventTable').DataTable({
+	  destroy: true,
+	  data: data,
+	  columns: headers.map(h => ({ title: h })),
+	  order: [[1, "desc"]], // Points desc
+	  paging: false,
+	  info: false,
+	  searching: true,
+	  autoWidth: false
+	});
+
+  } catch (err) {
+    console.error("Event load error:", err);
+  }
+}
+
+let currentOpen = {};
+
+async function toggleEvent(folder, file, tableWrapId, btn) {
+  const wrap = document.getElementById(tableWrapId);
+
+  // если уже открыт — закрываем
+  if (currentOpen[tableWrapId] === file) {
+    wrap.innerHTML = "";
+    currentOpen[tableWrapId] = null;
+    btn.classList.remove("active");
+    return;
+  }
+
+  // снимаем active со всех кнопок в этом списке
+  btn.parentElement.querySelectorAll("button")
+    .forEach(b => b.classList.remove("active"));
+
+  btn.classList.add("active");
+
+  // загружаем таблицу
+  await loadEventTable(folder, file, tableWrapId);
+
+  currentOpen[tableWrapId] = file;
+}
+
+
+// ===== Init events =====
+
+renderEventButtons("olimpusList", olimpusFiles, "Olimpus", "TableWrap");
+renderEventButtons("darkOmensList", darkOmensFiles, "Dark omens", "TableWrap");
+
+
+
+
+
+
+
+let currentArchiveFile = null;
+
+// построение списка
+function buildArchiveList() {
+  const list = document.getElementById("archiveList");
+  list.innerHTML = "";
+
+  archiveFiles
+    .slice()
+    .reverse() // новые сверху
+    .forEach(file => {
+
+      const btn = document.createElement("button");
+      btn.className = "archive-file";
+      btn.textContent = formatArchiveName(file);
+
+      btn.onclick = () => toggleArchiveFile(file, btn);
+
+      list.appendChild(btn);
+    });
+}
+
+// красивое имя
+function formatArchiveName(file) {
+  const m = file.match(/(\d{2})(\d{2})(\d{4})/);
+  if (!m) return file;
+  return `${m[1]}.${m[2]}.${m[3]}`;
+}
+
+
+async function toggleArchiveFile(file, btn) {
+  const table = $('#statsTable').DataTable();
+
+  // закрытие
+  if (currentArchiveFile === file) {
+    currentArchiveFile = null;
+
+    document.querySelectorAll(".archive-file")
+      .forEach(b => b.classList.remove("active"));
+
+    table.destroy();
+    document.querySelector("#statsTable thead").innerHTML = "";
+
+    await loadCsv(); // вернуть основной файл
+    return;
+  }
+
+  // подсветка
+  document.querySelectorAll(".archive-file")
+    .forEach(b => b.classList.remove("active"));
+
+  btn.classList.add("active");
+  currentArchiveFile = file;
+
+  await loadCsvFromPath("archive/" + file);
+}
+
+
+
+
+async function loadCsvFromPath(path) {
+  try {
+
+    const response = await fetch(path + "?v=" + new Date().getTime());
+    if (!response.ok) throw new Error("HTTP " + response.status);
+
+    const text = await response.text();
+
+    const lines = text.split("\n")
+      .map(l => l.trim())
+      .filter(l => l.length > 0);
+
+    // ===== GeneratedAt =====
+    let generatedAt = "";
+    if (lines[0].startsWith("# GeneratedAt:")) {
+      generatedAt = lines[0].replace("# GeneratedAt:", "").trim();
+      document.getElementById("generatedAt").textContent =
+        "Updated: " + generatedAt + " Moscow";
+    }
+
+    const dataRows = lines
+      .filter(l => !l.startsWith("#"))
+      .map(l => l.split(",").map(c => fixEncoding(c.trim())));
+
+    if (dataRows.length < 2) throw new Error("CSV empty");
+
+    const headers = dataRows[0];
+
+    const totalIndex = headers.findIndex(h =>
+      h.trim().toLowerCase() === "total"
+    );
+
+    const data = dataRows
+      .slice(1)
+      .filter(r => r.length === headers.length);
+	  
+	  
+
+    const cleaned = data.sort((a,b) =>
+      (parseInt(b[headers.length - 1])||0) -
+      (parseInt(a[headers.length - 1])||0)
+    );
+
+    // =========================================
+    // 💥 ВОТ ГЛАВНАЯ МАГИЯ — безопасный reset
+    // =========================================
+
+    if ($.fn.DataTable.isDataTable('#statsTable')) {
+      $('#statsTable').DataTable().destroy();
+    }
+
+    // пересоздаём THEAD под новые колонки
+    const thead = document.querySelector("#statsTable thead");
+    thead.innerHTML = "";
+
+    const headerRow = document.createElement("tr");
+    headers.forEach(h => {
+      const th = document.createElement("th");
+      th.textContent = h;
+      headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+
+    // очищаем tbody (без фанатизма)
+    document.querySelector("#statsTable tbody").innerHTML = "";
+	
+	const tableEl = document.getElementById("statsTable");
+	tableEl.className = "display compact stripe hover";
+	tableEl.style.width = "100%";
+
+    // =========================================
+    // 🚀 создаём заново
+    // =========================================
+
+    $('#statsTable').DataTable({
+      data: cleaned,
+      columns: headers.map((h, i) => ({
+        title: h,
+        visible: i !== totalIndex
+      })),
+      order: [[headers.length - 1, "desc"]],
+      paging: false,
+      info: true,
+      autoWidth: false,
+	  createdRow: function(row, data, dataIndex) {
+			const points = parseInt(data[headers.length - 1] || "0");
+			if(points >= weeklyLimit) {
+				$(row).addClass("done");
+			} else {
+				$(row).addClass("not-done");
+			}
+
+			// топ-1 и топ-10 подсветка
+			if(dataIndex === 0) $(row).addClass("top-1");
+			else if(dataIndex < 10) $(row).addClass("top-player");
+		}
+    });
+
+  } catch (err) {
+    console.error("Archive load error:", err);
+  }
+}
+
+buildArchiveList();
+
+
+// ===== Event cards accordion =====
+document.querySelectorAll(".event-header").forEach(header => {
+  header.addEventListener("click", () => {
+    const card = header.closest(".event-card");
+    const bodyId = header.dataset.target;
+    const body = document.getElementById(bodyId);
+
+    const isOpen = card.classList.contains("open");
+
+    // закрываем все
+    document.querySelectorAll(".event-card").forEach(c => {
+      c.classList.remove("open");
+      c.querySelector(".event-body").style.display = "none";
+    });
+
+    // если был закрыт — открываем
+    if (!isOpen) {
+      card.classList.add("open");
+      body.style.display = "block";
+    }
+  });
+});
+
+
+
+
+
+</script>
+
+</body>
+</html>

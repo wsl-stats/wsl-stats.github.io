@@ -3,15 +3,12 @@ REM ============================
 REM WSL Stats Publisher (Batch)
 REM ============================
 
-REM --- Обновляем GeneratedAt ---
+REM --- Обновляем timestamp в папке Data ---
 powershell -NoProfile -ExecutionPolicy Bypass -Command ^
-    "$csvPath = '.\data.csv';" ^
     "$timestamp = Get-Date -Format 'yyyy-MM-dd HH:mm';" ^
-    "$lines = Get-Content $csvPath;" ^
-    "if($lines[0] -match '^# GeneratedAt:') { $lines[0] = '# GeneratedAt: ' + $timestamp }" ^
-    "else { $lines = @('# GeneratedAt: ' + $timestamp) + $lines };" ^
-    "Set-Content $csvPath $lines -Encoding UTF8;" ^
-    "Write-Host 'Timestamp updated to ' + $timestamp"
+    "$path = '.\last_update.txt';" ^
+    "Set-Content $path $timestamp -Encoding UTF8;" ^
+    "Write-Host 'Timestamp saved to ' + $path + ' -> ' + $timestamp"
 
 REM --- Добавляем, коммитим и пушим ---
 git add .
