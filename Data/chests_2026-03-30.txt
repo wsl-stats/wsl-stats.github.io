@@ -694,7 +694,7 @@ Source: Level 10 Crypt
 Basilisk Chest
 From: Ceciel
 Source: Epic Basilisk squad
-Basiliskq Chest
+Arcane Chest
 From: Ceciel
 Source: Epic Basilisk squad
 Mayan Chest
