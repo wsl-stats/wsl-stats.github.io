@@ -617,7 +617,7 @@ function formatDateForFile(dateMSK) {
 async function loadAllChestsForWeek() {
   const { start, end } = getWeekDatesMSK();
   
-  document.getElementById('periodAt').textContent = `From: ${start} — To: ${end}`;
+ 
    
   const files = [];
   let cur = new Date(start);
