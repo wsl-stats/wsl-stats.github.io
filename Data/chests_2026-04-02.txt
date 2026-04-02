@@ -2881,3 +2881,27 @@ Source: Level 25 epic Crypt
 Orc Chest
 From: Soft Grace
 Source: Level 25 Crypt
+Elven Citadel Chest
+From: AkhmAn
+Source: Level 20 Citadel
+Briareus Chest
+From: Se7en87
+Source: Epic Briareus squad
+Elegant Chest
+From: Shadowbringer SK
+Source: Level 25 Crypt
+Barbarian Chest
+From: AkhmAn
+Source: Level 25 epic Crypt
+Sapphire Chest
+From: Shadowbringer SK
+Source: Level 30-34 Vault of the Ancients
+Rare Dragon Chest
+From: Shadowbringer SK
+Source: Level 20 rare Crypt
+Sand Chest
+From: AkhmAn
+Source: Level 20 Crypt
+Sapphire Chest
+From: Shadowbringer SK
+Source: Level 30-34 Vault of the Ancients
