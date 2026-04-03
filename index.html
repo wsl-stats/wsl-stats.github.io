@@ -604,6 +604,7 @@ function normalizeMungandrSource(source) {
   if (lower.includes('mungandr')) {
     if (lower.includes('shop')) return 'jormungandr shop';
     if (lower.includes('squad')) return 'epic jormungandr squad';
+	if (lower.includes('chest')) return 'Jormungandr's Chest';
   }
   return fixed;  // возвращаем исправленное название без дополнительной замены
 }
