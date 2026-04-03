@@ -598,14 +598,14 @@ function extractLevel(source) {
 
 function normalizeMungandrSource(source) {
   if (!source) return source;
-  const lower = source.toLowerCase();
+  // Замена конкретного искажения JГіrmungandr на Jormungandr
+  let fixed = source.replace(/JГіrmungandr/gi, 'Jormungandr');
+  const lower = fixed.toLowerCase();
   if (lower.includes('mungandr')) {
     if (lower.includes('shop')) return 'jormungandr shop';
     if (lower.includes('squad')) return 'epic jormungandr squad';
-    // Для названий сундуков (например, "JГіrmungandr's Chest") заменяем "mungandr" на "jormungandr"
-    return source.replace(/mungandr/i, 'jormungandr');
   }
-  return source;
+  return fixed;  // возвращаем исправленное название без дополнительной замены
 }
 
 // ======================== LOAD CHEST FILES FOR CURRENT WEEK ========================
