@@ -601,7 +601,7 @@ function normalizeMungandrSource(source) {
   const lower = source.toLowerCase();
   if (lower.includes('mungandr')) {
     if (lower.includes('shop')) return 'jormungandr shop';
-    if (lower.includes('squad')) return 'jormungandr squad';
+    if (lower.includes('squad')) return 'epic jormungandr squad';
     // Для названий сундуков (например, "JГіrmungandr's Chest") заменяем "mungandr" на "jormungandr"
     return source.replace(/mungandr/i, 'jormungandr');
   }
