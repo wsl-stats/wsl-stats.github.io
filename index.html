@@ -596,6 +596,18 @@ function extractLevel(source) {
   return null;
 }
 
+function normalizeMungandrSource(source) {
+  if (!source) return source;
+  const lower = source.toLowerCase();
+  if (lower.includes('mungandr')) {
+    if (lower.includes('shop')) return 'jormungandr shop';
+    if (lower.includes('squad')) return 'jormungandr squad';
+    // Для названий сундуков (например, "JГіrmungandr's Chest") заменяем "mungandr" на "jormungandr"
+    return source.replace(/mungandr/i, 'jormungandr');
+  }
+  return source;
+}
+
 // ======================== LOAD CHEST FILES FOR CURRENT WEEK ========================
 function getWeekDatesMSK() {
   const now = new Date();
@@ -661,32 +673,34 @@ async function loadAllChestsForWeek() {
           continue;
         }
         if (lower.startsWith("source:")) {
-          currentSource = line.substring(7).trim();
-          if (currentPlayer && currentSource) {
-			  const normSource = currentSource.toLowerCase();
-			  const normChest = currentChest ? currentChest.toLowerCase() : '';
+			currentSource = line.substring(7).trim();
+		  if (currentPlayer && currentSource) {
+			  // Нормализуем источник (JГіrmungandr Shop → jormungandr shop)
+			  const normalizedSource = normalizeMungandrSource(currentSource);
+			  // Нормализуем также название сундука (для красивого отображения)
+			  const normalizedChest = normalizeMungandrSource(currentChest || '');
 			  
-			  // Сначала ищем комбинацию source|chestName
+			  const normSource = normalizedSource.toLowerCase();
+			  const normChest = normalizedChest.toLowerCase();
+			  
 			  let points = POINTS_MAP.get(`${normSource}|${normChest}`);
 			  if (points === undefined) {
-				// Если нет, ищем только по source
 				points = POINTS_MAP.get(normSource) || 0;
 			  }
 			  
 			  if (points > 0) {
 				entries.push({
 				  player: currentPlayer,
-				  chestName: currentChest,
-				  sourceRaw: currentSource,
+				  chestName: normalizedChest,   // нормализованное имя сундука
+				  sourceRaw: normalizedSource,  // нормализованный источник
 				  points: points
 				});
 			  }
-			}
-		  
-          currentChest = null;
-          currentPlayer = null;
-          currentSource = null;
-        }
+		  }
+		  currentChest = null;
+		  currentPlayer = null;
+		  currentSource = null;
+		}
       }
     } catch(e) {
       // file missing – skip
