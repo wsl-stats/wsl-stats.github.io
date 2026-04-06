@@ -305,11 +305,6 @@ table.dataTable tbody tr:hover {
     padding-top: 3px;
 }
 
-#statsTable td {
-    white-space: normal;
-    word-break: break-word;
-    vertical-align: top;
-}
 .chest-detail-line {
     display: inline; /* чтобы строки не переносились внутри */
 }
@@ -317,7 +312,6 @@ table.dataTable tbody tr:hover {
 
 /* Компактное отображение данных в ячейках */
 #statsTable td {
-    white-space: normal;
     text-align: left;
     vertical-align: top;
     padding: 6px 8px;
@@ -469,23 +463,32 @@ const COLUMN_CONFIG = [
   { name: "Rare Crypt", sources: ["level 10 rare crypt", "level 15 rare crypt", "level 20 rare crypt", "level 25 rare crypt", "level 30 rare crypt"] },
   { name: "Epic Crypt", sources: ["level 15 epic crypt", "level 20 epic crypt", "level 25 epic crypt", "level 30 epic crypt", "level 35 epic crypt"] },
   { name: "Citadel", sources: ["level 20 citadel", "level 25 citadel", "level 30 citadel"] },
-  { name: "Epic Fenrir squad", sources: ["epic fenrir squad"] },
-  { name: "Epic Jormungandr squad", sources: ["epic jormungandr squad"] },
-  { name: "Epic Inferno squad", sources: ["epic inferno squad"] },
-  { name: "Epic Basilisk squad", sources: ["epic basilisk squad"] },
-  { name: "Epic Chimera squad", sources: ["epic chimera squad"] },
-  { name: "Arachne's Swarm Epic Squad", sources: ["arachne's swarm epic squad"] },
+ 
+  { name: "Epic monster big Chests", sources: 
+	  [
+	  "beastman",
+	  "epic briareus squad",
+	  "arachne's swarm epic squad",
+	  "epic undead squad",
+	  "Shadow City",
+	  "epic basilisk squad",
+	  "epic inferno squad",
+	  "dark omens event"
+	  ] 
+  },  
+  { name: "Epic monster small Chests", sources: 
+	  [
+	  "epic chimera squad",
+	  "epic jormungandr squad",
+	  "epic fenrir squad"
+	  ] 
+  },
+  
   { name: "Heroic Monster", sources: ["heroic monster"] },   // matches all heroic monster levels
-  { name: "Shadow City", sources: ["Shadow City"] },
-  { name: "Epic Undead squad", sources: ["epic undead squad"] },
   { name: "Hermes' Store", sources: ["hermes' store"] },
-  { name: "Arachne's Swarm Epic Squad", sources: ["arachne's swarm epic squad"] },
   { name: "Rise of the Ancients event", sources: ["Rise of the Ancients event"] },
   { name: "Jormungandr Shop", sources: ["jormungandr shop"] },
-  { name: "Epic Briareus squad", sources: ["epic briareus squad"] },
-  { name: "beastman", sources: ["beastman"] },
-  
-  
+
   { name: "Tartaros Crypt", sources: 
 	  [
 	  "tartaros crypt level 10",
@@ -580,12 +583,12 @@ const POINTS_CONFIG = {
   "level 45 heroic monster": 1000,
 
   // ----- Специфичные сундуки от Epic Basilisk squad -----
-  "epic basilisk squad|basilisk chest": 1000,
-  "epic basilisk squad|arcane chest": 60
+  "epic basilisk squad|basilisk chest": 500,
+  "dark omens event|arcane chest": 500
 };
 
 // Weekly point quota
-const WEEKLY_LIMIT = 700;
+const WEEKLY_LIMIT = 750;
 document.getElementById("weeklyLimit").innerHTML = `<span style="color:#fbbf24; font-weight:bold;">${WEEKLY_LIMIT} points</span>`;
 
 function buildPointsMap() {
