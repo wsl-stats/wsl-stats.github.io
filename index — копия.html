@@ -818,7 +818,82 @@ let currentDataTable = null;
 
 async function renderMainTable() {
   const entries = await loadAllChestsForWeek();
-  renderTableFromEntries(entries);
+  const playerMap = aggregateByPlayerAndColumn(entries, COLUMN_CONFIG);
+  
+  // === Определяем, какие колонки имеют данные (хотя бы у одного игрока) ===
+  const allColumnNames = COLUMN_CONFIG.map(c => c.name);
+  const activeColumns = allColumnNames.filter(colName => {
+    for (let playerData of playerMap.values()) {
+      const colMap = playerData.columns.get(colName);
+      if (colMap && colMap.size > 0) return true;
+    }
+    return false;
+  });
+  
+  // Заголовки: Игрок + активные колонки + Total Points
+  const headers = ["Player", ...activeColumns, "Total Points"];
+  
+  // Собираем строки
+  const players = Array.from(playerMap.keys());
+  const rows = [];
+  for (const player of players) {
+    const data = playerMap.get(player);
+    const row = [player];
+    for (const colName of activeColumns) {
+      const colMap = data.columns.get(colName);
+      row.push(renderCellContent(colMap));
+    }
+    row.push(data.total);
+    rows.push(row);
+  }
+  rows.sort((a,b) => b[b.length-1] - a[a.length-1]);
+  
+  // === Уничтожаем старую таблицу, если есть ===
+  if ($.fn.DataTable.isDataTable('#statsTable')) {
+    $('#statsTable').DataTable().destroy();
+  }
+  
+  // Перестраиваем thead
+  const thead = document.querySelector("#statsTable thead");
+  thead.innerHTML = "";
+  const headerRow = document.createElement("tr");
+  headers.forEach(h => {
+    const th = document.createElement("th");
+    th.textContent = h;
+    headerRow.appendChild(th);
+  });
+  thead.appendChild(headerRow);
+  
+  // Очищаем tbody
+  document.querySelector("#statsTable tbody").innerHTML = "";
+  
+  // Инициализируем DataTable
+  $('#statsTable').DataTable({
+    data: rows,
+    columns: headers.map((h, idx) => ({
+      title: h,
+      className: idx === 0 || idx === headers.length-1 ? 'dt-left' : 'dt-center',
+      render: function(data, type, row, meta) {
+        if (type === 'display' && idx !== 0 && idx !== headers.length-1) {
+          return data; // HTML-контент колонок уже сформирован
+        }
+        return data;
+      }
+    })),
+    order: [[headers.length-1, "desc"]],
+    paging: false,
+    info: true,
+    autoWidth: false,
+    createdRow: function(row, data, dataIndex) {
+      const totalPoints = parseInt(data[headers.length-1] || 0);
+      if (totalPoints >= WEEKLY_LIMIT) $(row).addClass("done");
+      else $(row).addClass("not-done");
+      if (dataIndex === 0) $(row).addClass("top-1");
+      else if (dataIndex < 10) $(row).addClass("top-player");
+    }
+  });
+  
+ loadTimestamp();
 }
 
 // Cycle info display
