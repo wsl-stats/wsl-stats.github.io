@@ -419,15 +419,15 @@ table.dataTable tbody tr:hover {
       </div>
     </div>
 
-    <div class="archive-wrapper event-card">
-      <div class="event-header" data-target="archiveBody">
-        <h2>📦 Archive Results</h2>
-        <span class="chevron">▼</span>
-      </div>
-      <div id="archiveBody" class="event-body">
-        <div id="archiveList" class="event-list"></div>
-      </div>
-    </div>
+    <!-- <div class="archive-wrapper event-card"> -->
+      <!-- <div class="event-header" data-target="archiveBody"> -->
+        <!-- <h2>📦 Archive Results</h2> -->
+        <!-- <span class="chevron">▼</span> -->
+      <!-- </div> -->
+      <!-- <div id="archiveBody" class="event-body"> -->
+        
+      <!-- </div> -->
+    <!-- </div> -->
   </div>
 </div>
 
@@ -888,36 +888,12 @@ async function toggleEvent(folder, file, tableWrapId, btn) {
 }
 
 const olimpusFiles = ["04032026-09032026.csv","29032026-02042026.csv"];
-const darkOmensFiles = ["24022026-25022026.csv", "20032026-21032026.csv"];
+const darkOmensFiles = ["24022026-25022026.csv", "20032026-21032026.csv", "13042026-14042026.csv"];
 renderEventButtons("olimpusList", olimpusFiles, "Olimpus", "TableWrap");
 renderEventButtons("darkOmensList", darkOmensFiles, "Dark omens", "TableWrap");
 
 // ======================== ARCHIVE (unchanged) ========================
-const archiveFiles = [
-  "data_total_01032026.csv",
-  "data_total_08032026.csv",
-  "data_total_15032026.csv",
-  "data_total_22032026.csv",
-  "data_total_29032026.csv"
-];
-let currentArchiveFile = null;
-function buildArchiveList() {
-  const list = document.getElementById("archiveList");
-  if (!list) return;
-  list.innerHTML = "";
-  archiveFiles.slice().reverse().forEach(file => {
-    const btn = document.createElement("button");
-    btn.className = "archive-file";
-    btn.textContent = formatArchiveName(file);
-    btn.onclick = () => toggleArchiveFile(file, btn);
-    list.appendChild(btn);
-  });
-}
-function formatArchiveName(file) {
-  const m = file.match(/(\d{2})(\d{2})(\d{4})/);
-  if (!m) return file;
-  return `${m[1]}.${m[2]}.${m[3]}`;
-}
+
 async function loadCsvFromPath(path) {
   try {
     const response = await fetch(path + "?v=" + new Date().getTime());
@@ -961,19 +937,7 @@ async function loadCsvFromPath(path) {
     });
   } catch(err) { console.error("Archive load error:", err); }
 }
-async function toggleArchiveFile(file, btn) {
-  if (currentArchiveFile === file) {
-    currentArchiveFile = null;
-    document.querySelectorAll(".archive-file").forEach(b => b.classList.remove("active"));
-    await renderMainTable();
-    return;
-  }
-  document.querySelectorAll(".archive-file").forEach(b => b.classList.remove("active"));
-  btn.classList.add("active");
-  currentArchiveFile = file;
-  await loadCsvFromPath("archive/" + file);
-}
-buildArchiveList();
+
 
 // ======================== ACCORDION ========================
 document.querySelectorAll(".event-header").forEach(header => {
