@@ -593,9 +593,9 @@ document.getElementById("weeklyLimit").innerHTML = `<span style="color:#fbbf24; 
 function buildPointsMap() {
   const map = new Map();
   for (const [key, value] of Object.entries(POINTS_CONFIG)) {
-  if(value>1){
+
 	map.set(key.toLowerCase(), value);
-  }
+  
     
   }
   return map;
@@ -972,7 +972,10 @@ function renderPointsTable() {
   html += '<thead><tr style="border-bottom:1px solid #374151;"><th style="text-align:left; padding:5px;">Source / Chest</th><th style="text-align:right; padding:5px;">Points</th> </tr></thead><tbody>';
 
   for (const [key, points] of Object.entries(POINTS_CONFIG)) {
-    html += `<tr><td style="padding:5px;">${key}</td><td style="text-align:right; padding:5px;">${points}</td></tr>`;
+	if(points>1){
+		html += `<tr><td style="padding:5px;">${key}</td><td style="text-align:right; padding:5px;">${points}</td></tr>`;
+	}
+    
   }
 
   html += '</tbody></table>';
