@@ -593,7 +593,10 @@ document.getElementById("weeklyLimit").innerHTML = `<span style="color:#fbbf24; 
 function buildPointsMap() {
   const map = new Map();
   for (const [key, value] of Object.entries(POINTS_CONFIG)) {
-    map.set(key.toLowerCase(), value);
+  if(value>1){
+	map.set(key.toLowerCase(), value);
+  }
+    
   }
   return map;
 }
