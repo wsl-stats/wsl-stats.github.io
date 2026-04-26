@@ -815,6 +815,7 @@ function renderCellContent(levelMap) {
         lines.push(`<span class="chest-detail-line">${name} (${data.count}): ${data.pointsSum}</span>`);
     }
     lines.push(`<span class="chest-detail-total">Total: ${totalPoints}</span>`);
+	console.log(levelMap);
     return lines.join('');
 }
 
