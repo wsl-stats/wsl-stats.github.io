@@ -791,7 +791,7 @@ function aggregateByPlayerAndColumn(entries, columnConfig) {
   return playerMap;
 }
 
-function renderCellContent(levelMap) {
+function renderCellContent(levelMap, colName, player) {
     if (!levelMap || levelMap.size === 0) return "";
     const lines = [];
     let totalPoints = 0;
@@ -815,7 +815,11 @@ function renderCellContent(levelMap) {
         lines.push(`<span class="chest-detail-line">${name} (${data.count}): ${data.pointsSum}</span>`);
     }
     lines.push(`<span class="chest-detail-total">Total: ${totalPoints}</span>`);
-	console.log(levelMap);
+	if(colName=="Citadel"){
+	
+	}
+	console.log(colName);
+	console.log(player);
     return lines.join('');
 }
 
@@ -1114,7 +1118,7 @@ function renderTableFromEntries(entries) {
 
     for (const colName of activeColumns) {
       const colMap = data.columns.get(colName);
-      row.push(renderCellContent(colMap));
+      row.push(renderCellContent(colMap, colName, player));
     }
 
     row.push(data.total);
