@@ -762,6 +762,7 @@ function aggregateByPlayerAndColumn(entries, columnConfig) {
     if (!playerMap.has(e.player)) {
       playerMap.set(e.player, {
         total: 0,
+		CitadelTotal:0,
         columns: new Map()
       });
     }
@@ -1121,8 +1122,9 @@ function renderTableFromEntries(entries) {
       row.push(renderCellContent(colMap));
     }
 
-    row.push(data.total);
+
 	row.push(data.CitadelTotal);
+	row.push(data.total);
     rows.push(row);
   }
 
