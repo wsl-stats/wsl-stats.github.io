@@ -767,6 +767,9 @@ function aggregateByPlayerAndColumn(entries, columnConfig) {
     }
     const playerData = playerMap.get(e.player);
     playerData.total += e.points;
+	if(colName=="Citadel"){
+		playerData.CitadelTotal += e.points;
+	}
 
     let colMap = playerData.columns.get(colName);
     if (!colMap) {
@@ -791,7 +794,7 @@ function aggregateByPlayerAndColumn(entries, columnConfig) {
   return playerMap;
 }
 
-function renderCellContent(levelMap, colName, player) {
+function renderCellContent(levelMap) {
     if (!levelMap || levelMap.size === 0) return "";
     const lines = [];
     let totalPoints = 0;
@@ -815,11 +818,8 @@ function renderCellContent(levelMap, colName, player) {
         lines.push(`<span class="chest-detail-line">${name} (${data.count}): ${data.pointsSum}</span>`);
     }
     lines.push(`<span class="chest-detail-total">Total: ${totalPoints}</span>`);
-	if(colName=="Citadel"){
-	
-	}
-	console.log(colName);
-	console.log(player);
+
+
     return lines.join('');
 }
 
@@ -1107,7 +1107,7 @@ function renderTableFromEntries(entries) {
     return false;
   });
 
-  const headers = ["Player", ...activeColumns, "Total Points"];
+  const headers = ["Player", ...activeColumns, "Citadel points", "Total Points"];
 
   const players = Array.from(playerMap.keys());
   const rows = [];
@@ -1118,10 +1118,11 @@ function renderTableFromEntries(entries) {
 
     for (const colName of activeColumns) {
       const colMap = data.columns.get(colName);
-      row.push(renderCellContent(colMap, colName, player));
+      row.push(renderCellContent(colMap));
     }
 
     row.push(data.total);
+	row.push(data.CitadelTotal);
     rows.push(row);
   }
 
