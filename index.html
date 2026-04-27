@@ -865,8 +865,18 @@ function renderCellContent(levelMap) {
 let currentDataTable = null;
 
 async function renderMainTable() {
+
+  
+   try {
+    showLoader();
+
   const entries = await loadAllChestsForWeek();
   renderTableFromEntries(entries);
+
+  } finally {
+    hideLoader();
+  }
+  
 }
 
 // Cycle info display
