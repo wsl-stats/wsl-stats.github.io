@@ -71,7 +71,7 @@
             <h2 style="background: linear-gradient(135deg, #38bdf8, #a78bfa); -webkit-background-clip: text; background-clip: text; color: transparent; font-size: 28px;">📊 WSL Analytics</h2>
             <p style="color:#64748b;">All players · Events in tabs · All cycles for Rare/Epic with dates</p>
         </div>
-        <div class="double-card">
+        <div class="double-card2">
         <div class="card">
             <h3 style="color:#e2e8f0; margin-top:0;">🌑 Dark Omens</h3>
             ${darkTabsHtml}
@@ -100,6 +100,7 @@
         .tab-content.active { display: block; }
         .section { margin-bottom: 40px; background: #0f172a; border-radius: 24px; padding: 20px; border: 1px solid #1f2937; }
         .double-card { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 20px; }
+        .double-card2 { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 20px; }
         .card { background: #111827; border-radius: 24px; border: 1px solid #1f2937; overflow: hidden; transition: 0.2s; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
         .card-header { font-size: 1.2rem; font-weight: bold; padding: 12px 18px; background: #0f172a; border-bottom: 1px solid #1f2937; color: #e2e8f0; display: flex; align-items: center; gap: 10px; }
         .chart-wrap { height: 2400px; overflow-y: auto; padding: 10px 8px; }
@@ -108,7 +109,7 @@
         .chart-wrap::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
         .card-footer { padding: 8px 16px; background: #0f172a; border-top: 1px solid #1f2937; font-size: 0.8rem; color: #94a3b8; text-align: center; }
         .period-info { padding: 5px 16px 10px; background: #0f172a; font-size: 0.7rem; color: #64748b; text-align: center; border-top: 1px solid #1f2937; }
-        @media (max-width: 800px) { .double-card { grid-template-columns: 1fr; } }
+        @media (max-width: 800px) { .double-card { grid-template-columns: 1fr; } .double-card2 { grid-template-columns: 1fr; } }
     </style>
     `;
 
@@ -303,7 +304,7 @@ function renderCycleChart(canvasId, players, threshold, label) {
             ctx.lineWidth = 2;
             ctx.stroke();
             ctx.fillStyle = '#f59e0b';
-            ctx.font = 'bold 10px Arial';
+            ctx.font = 'bold 24px Arial';
             ctx.fillText(`${threshold}`, thresholdX + 5, this.chartArea.top + 12);
             ctx.restore();
         }
