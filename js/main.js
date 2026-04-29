@@ -245,7 +245,7 @@ function aggregateByPlayerAndColumn(entries, columnConfig) {
     if (!playerMap.has(e.player)) {
       playerMap.set(e.player, {
         total: 0,
-		CitadelTotal:0,
+		    CitadelTotal:0,
         columns: new Map()
       });
     }
@@ -492,19 +492,23 @@ async function loadAllChestsByRange(startDate, endDate) {
     return `${day}.${month}.${year}`;
   };
 
-  const files = [];
-  let cur = new Date(startDate);
+const files = [];
+let cur = new Date(startDate);
 
-  while (cur <= endDate) {
-    files.push(formatDateForFile(cur));
-    cur.setDate(cur.getDate() + 1);
-  }
+while (cur <= endDate) {
+  files.push({
+    fileName: formatDateForFile(cur),
+    fileDate: new Date(cur) // 👈 ВОТ ОН
+  });
+
+  cur.setDate(cur.getDate() + 1);
+}
 
   const entries = [];
 
-  for (const file of files) {
+for (const { fileName, fileDate } of files) {
     try {
-      const resp = await fetch(`Data/${file}?v=${Date.now()}`);
+      const resp = await fetch(`Data/${fileName}?v=${Date.now()}`);
       if (!resp.ok) continue;
 
       const text = await resp.text();
@@ -548,7 +552,8 @@ async function loadAllChestsByRange(startDate, endDate) {
                 player: currentPlayer,
                 chestName: normalizedChest,
                 sourceRaw: normalizedSource,
-                points: points
+                points: points,
+                date: new Date(fileDate)
               });
             }
           }
