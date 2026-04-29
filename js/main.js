@@ -1,7 +1,20 @@
-// ======================== CONFIGURATION ========================
-// Define columns: each column has a display name and a list of source patterns (case-insensitive)
-// The patterns are matched against the "Source:" line in chest files.
-// You can add new columns by adding an object to this array.
+const PLAYER_ALIASES = {
+  "xoana": ["xoana", "С…РѕР°РїР°"],
+  "CARNAGE 1": ["CARNAGE1", "CARNAGE 1"],
+  "Goku": ["Goku", "GokГє"],
+};
+
+function normalizePlayerName(rawName) {
+  if (!rawName) return rawName;
+  const trimmed = rawName.trim();
+  for (const [canonical, aliases] of Object.entries(PLAYER_ALIASES)) {
+    if (aliases.some(alias => alias.toLowerCase() === trimmed.toLowerCase())) {
+      return canonical;
+    }
+  }
+  return trimmed; 
+}
+
 const COLUMN_CONFIG = [
   { name: "Crypt", sources: ["level 15 crypt", "level 20 crypt", "level 25 crypt"] },
   { name: "Rare Crypt", sources: ["level 10 rare crypt", "level 15 rare crypt", "level 20 rare crypt", "level 25 rare crypt", "level 30 rare crypt"] },
@@ -549,7 +562,7 @@ for (const { fileName, fileDate } of files) {
 
             if (points > 0) {
               entries.push({
-                player: currentPlayer,
+                player: normalizePlayerName(currentPlayer),
                 chestName: normalizedChest,
                 sourceRaw: normalizedSource,
                 points: points,
@@ -599,7 +612,7 @@ async function loadByCustomRange() {
     showLoader();
 
     const entries = await loadAllChestsByRange(start, end);
-	document.getElementById('periodAt').textContent = `From: ${formatDate(startDate)} — To: ${formatDate(endDate)} Moscow`;
+	  document.getElementById('periodAt').textContent = `From: ${formatDate(start)} — To: ${formatDate(end)} Moscow`;
     renderTableFromEntries(entries);
 
   } finally {
