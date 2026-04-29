@@ -147,6 +147,15 @@ function buildPointsMap() {
 
 const POINTS_MAP = buildPointsMap();
 
+  const formatDate = (date) => {
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+
+    return `${day}.${month}.${year}`;
+  };
+
 // Helper: extract level number from source string (e.g., "level 20 rare crypt" → 20)
 function extractLevel(source) {
   const match = source.match(/level\s+(\d+)/i);
@@ -191,15 +200,6 @@ function formatDateForFile(dateMSK) {
 
 async function loadAllChestsForWeek() {
   const { start, end } = getWeekDatesMSK();
-  const formatDate = (date) => {
-    const d = new Date(date);
-    const day = String(d.getDate()).padStart(2, '0');
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const year = d.getFullYear();
-
-    return `${day}.${month}.${year}`;
-  };
-
   document.getElementById('periodAt').textContent =
     `From: ${formatDate(start)} — To: ${formatDate(end)} Moscow`;
  
