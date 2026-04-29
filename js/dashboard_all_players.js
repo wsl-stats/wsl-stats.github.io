@@ -1,8 +1,10 @@
 /**
- * dashboard_final.js – дашборд для всех игроков
- * - только английский
- * - нумерация игроков
+ * dashboard_final_v2.js – дашборд для всех игроков
+ * - английский язык
+ * - нумерация игроков (1..N)
+ * - пропуск строки "Total" в CSV событий
  * - период дат для Rare/Epic
+ * - вертикальная прокрутка для любого количества игроков
  */
 
 (function() {
@@ -13,7 +15,7 @@
         thresholds: {
             rare: 2000,
             epic: 2000,
-            darkOmens: 1001000,
+            darkOmens: 1000000,
             olimpus: 71000
         },
         olimpusFiles: ["04032026-09032026.csv", "29032026-02042026.csv", "21042026-26042026.csv"],
@@ -61,8 +63,8 @@
         target.insertAdjacentElement('afterend', div);
     }
 
-    // ----- CSV парсинг (находит Clanmate + Points) -----
-    async function fetchAndParseCSV(url) {
+    // ----- Парсинг CSV событий (разделитель ";", пропуск строки с "Total") -----
+    async function fetchAndParseEventCSV(url) {
         try {
             const resp = await fetch(url + '?v=' + Date.now());
             if (!resp.ok) return null;
@@ -70,7 +72,7 @@
             const lines = text.trim().split(/\r?\n/);
             if (lines.length < 2) return null;
 
-            let delim = lines[0].includes(';') ? ';' : (lines[0].includes(',') ? ',' : '\t');
+            const delim = ';'; // как указано в задании
             const headers = lines[0].split(delim).map(s => s.trim());
             let playerIdx = -1, pointsIdx = -1;
             for (let i = 0; i < headers.length; i++) {
@@ -78,60 +80,78 @@
                 if (h === 'clanmate' || h === 'player' || h === 'name') playerIdx = i;
                 if (h === 'points' || h === 'total' || h === 'score') pointsIdx = i;
             }
-            if (playerIdx === -1 && headers.length >= 2) playerIdx = 0;
-            if (pointsIdx === -1 && headers.length >= 2) pointsIdx = 1;
             if (playerIdx === -1 || pointsIdx === -1) return null;
 
             const result = [];
             for (let i = 1; i < lines.length; i++) {
-                const row = lines[i].split(delim);
+                let row = lines[i].split(delim);
                 if (row.length <= Math.max(playerIdx, pointsIdx)) continue;
                 const player = row[playerIdx].trim();
                 const points = parseFloat(row[pointsIdx]);
-                if (player && !isNaN(points) && points > 0) result.push({ player, points });
+                // Пропускаем строку, где clanmate равен "Total" (игнорируем итоговую сумму)
+                if (player && player.toLowerCase() === 'total') continue;
+                if (player && !isNaN(points) && points > 0) {
+                    result.push({ player, points });
+                }
             }
             return result;
         } catch (e) { return null; }
     }
 
+    // Загрузка событий (сумма по всем файлам)
     async function loadEventTotal(folder, files) {
         const map = new Map();
         for (const file of files) {
-            const data = await fetchAndParseCSV(`${folder}/${file}`);
+            const data = await fetchAndParseEventCSV(`${folder}/${file}`);
             if (data) {
                 for (const row of data) {
                     map.set(row.player, (map.get(row.player) || 0) + row.points);
                 }
+            } else {
+                console.warn(`Failed to load ${folder}/${file}`);
             }
         }
         const arr = Array.from(map.entries()).map(([p, pts]) => ({ player: p, points: pts }));
         arr.sort((a,b) => b.points - a.points);
+        console.log(`${folder} loaded: ${arr.length} players`);
         return arr;
     }
 
+    // Загрузка Rare/Epic из сундуков
     async function loadRareEpic() {
-        if (typeof window.loadAllChestsByRange !== 'function') return { rare: [], epic: [] };
+        if (typeof window.loadAllChestsByRange !== 'function') {
+            console.warn('loadAllChestsByRange not found');
+            return { rare: [], epic: [] };
+        }
         const start = new Date(CONFIG.startDate);
         const end = new Date(start);
         end.setDate(end.getDate() + CONFIG.cycleDays - 1);
+        console.log(`Loading Rare/Epic from ${start.toISOString().slice(0,10)} to ${end.toISOString().slice(0,10)}`);
         const entries = await window.loadAllChestsByRange(start, end);
         const rareMap = new Map(), epicMap = new Map();
         for (const e of entries) {
             const src = e.sourceRaw.toLowerCase();
-            if (src.includes('rare crypt')) rareMap.set(e.player, (rareMap.get(e.player) || 0) + e.points);
-            else if (src.includes('epic crypt')) epicMap.set(e.player, (epicMap.get(e.player) || 0) + e.points);
+            if (src.includes('rare crypt')) {
+                rareMap.set(e.player, (rareMap.get(e.player) || 0) + e.points);
+            } else if (src.includes('epic crypt')) {
+                epicMap.set(e.player, (epicMap.get(e.player) || 0) + e.points);
+            }
         }
         const rare = Array.from(rareMap.entries()).map(([p, pts]) => ({ player: p, points: pts })).sort((a,b)=>b.points - a.points);
         const epic = Array.from(epicMap.entries()).map(([p, pts]) => ({ player: p, points: pts })).sort((a,b)=>b.points - a.points);
+        console.log(`Rare: ${rare.length} players, Epic: ${epic.length} players`);
         return { rare, epic };
     }
 
-    // ----- отрисовка горизонтального барчарта с нумерацией -----
+    // ----- Отрисовка горизонтального барчарта со всеми игроками и нумерацией -----
     function drawBarChart(canvasId, data, threshold, label) {
         const canvas = document.getElementById(canvasId);
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
-        if (charts[canvasId]) charts[canvasId].destroy();
+        if (charts[canvasId]) {
+            charts[canvasId].destroy();
+            delete charts[canvasId];
+        }
 
         if (!data || data.length === 0) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -141,7 +161,7 @@
             return;
         }
 
-        // Добавляем нумерацию к именам
+        // Добавляем нумерацию ко всем игрокам
         const labels = data.map((d, idx) => `${idx+1}. ${d.player}`);
         const points = data.map(d => d.points);
         const colors = points.map(p => p >= threshold ? '#10b981' : '#ef4444');
@@ -154,7 +174,17 @@
 
         const chart = new Chart(ctx, {
             type: 'bar',
-            data: { labels, datasets: [{ label, data: points, backgroundColor: colors, borderRadius: 6, barPercentage: 0.85, categoryPercentage: 0.9 }] },
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: label,
+                    data: points,
+                    backgroundColor: colors,
+                    borderRadius: 6,
+                    barPercentage: 0.85,
+                    categoryPercentage: 0.9
+                }]
+            },
             options: {
                 indexAxis: 'y',
                 responsive: true,
@@ -164,14 +194,21 @@
                     tooltip: { callbacks: { label: (ctx) => `${ctx.raw} points` } }
                 },
                 scales: {
-                    x: { title: { display: true, text: 'Points', color: '#94a3b8' }, grid: { color: '#334155' }, ticks: { color: '#cbd5e1' } },
-                    y: { ticks: { color: '#cbd5e1', font: { size: 10 } }, grid: { display: false } }
+                    x: {
+                        title: { display: true, text: 'Points', color: '#94a3b8' },
+                        grid: { color: '#334155' },
+                        ticks: { color: '#cbd5e1' }
+                    },
+                    y: {
+                        ticks: { color: '#cbd5e1', font: { size: 10 } },
+                        grid: { display: false }
+                    }
                 }
             }
         });
         charts[canvasId] = chart;
 
-        // Рисуем линию порога (на английском)
+        // Рисуем линию порога
         const originalDraw = chart.draw;
         chart.draw = function() {
             originalDraw.apply(this, arguments);
@@ -203,7 +240,7 @@
         if (!data || !data.length) { el.innerHTML = '📭 No data'; return; }
         const done = data.filter(d => d.points >= min).length;
         const percent = Math.round(done / data.length * 100);
-        el.innerHTML = `👥 Total: ${data.length} &nbsp;|&nbsp; ✅ Achieved (≥${min}): ${done} (${percent}%)`;
+        el.innerHTML = `👥 Total players: ${data.length} &nbsp;|&nbsp; ✅ Achieved (≥${min}): ${done} (${percent}%)`;
     }
 
     function setPeriodInfo() {
