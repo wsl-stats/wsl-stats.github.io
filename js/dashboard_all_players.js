@@ -11,10 +11,27 @@ const DASHBOARD_CONFIG = {
   }
 };
 
-async function initDashboard(entries) {
-  setTimeout(() => {
-    renderDashboard(entries);
-  }, 0); // 👈 асинхронно, не блокирует UI
+
+async function initDashboard() {
+  setTimeout(async () => {
+    try {
+      const entries = await loadDashboardData();
+      renderDashboard(entries);
+    } catch (e) {
+      console.error("Dashboard error:", e);
+    }
+  }, 0);
+}
+
+async function loadDashboardData() {
+  const start = new Date(DASHBOARD_CONFIG.startDate);
+
+  const end = new Date();
+  
+
+  end.setDate(end.getDate() + 1);
+
+  return await loadAllChestsByRange(start, end);
 }
 
 function getCycleIndex(date) {
