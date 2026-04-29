@@ -30,77 +30,109 @@
 
     let charts = {};
 
-    // ----- СОЗДАНИЕ DOM (гибкая структура с отдельными карточками для каждого события) -----
-    function createDashboard() {
-        if (document.getElementById('cyclesDashboard')) return;
+   function createDashboard() {
+    if (document.getElementById('cyclesDashboard')) return;
 
-        // Генерация HTML для Dark Omens событий
-        let darkHtml = '';
-        CONFIG.darkOmensFiles.forEach((file, idx) => {
-            const fileName = file.replace('.csv', '');
-            darkHtml += `
-                <div class="event-card">
-                    <div class="card-header"><span>🌑</span> Dark Omens – ${fileName}</div>
-                    <div class="chart-wrap"><canvas id="dark_${idx}"></canvas></div>
-                    <div class="card-footer" id="darkStats_${idx}"></div>
-                </div>
-            `;
-        });
-
-        // Генерация HTML для Olimpus событий
-        let olimpusHtml = '';
-        CONFIG.olimpusFiles.forEach((file, idx) => {
-            const fileName = file.replace('.csv', '');
-            olimpusHtml += `
-                <div class="event-card">
-                    <div class="card-header"><span>🏛️</span> Olimpus – ${fileName}</div>
-                    <div class="chart-wrap"><canvas id="olimpus_${idx}"></canvas></div>
-                    <div class="card-footer" id="olimpusStats_${idx}"></div>
-                </div>
-            `;
-        });
-
-        const html = `
-        <div id="cyclesDashboard" style="margin: 50px auto 20px; max-width: 1400px; padding: 0 20px;">
-            <div style="text-align: center; margin-bottom: 30px;">
-                <h2 style="background: linear-gradient(135deg, #38bdf8, #a78bfa); -webkit-background-clip: text; background-clip: text; color: transparent; font-size: 28px;">📊 WSL Analytics</h2>
-                <p style="color:#64748b;">All players · Each event separately · All cycles for Rare/Epic</p>
+    // Генерация вкладок Dark Omens
+    let darkTabsHtml = '<div class="tabs">';
+    let darkContentsHtml = '';
+    CONFIG.darkOmensFiles.forEach((file, idx) => {
+        const fileName = file.replace('.csv', '');
+        const activeClass = idx === 0 ? 'active' : '';
+        darkTabsHtml += `<button class="tab-btn ${activeClass}" data-section="dark" data-tab="${idx}">${fileName}</button>`;
+        darkContentsHtml += `
+            <div class="tab-content ${activeClass}" id="darkContent_${idx}">
+                <div class="chart-wrap"><canvas id="dark_${idx}"></canvas></div>
+                <div class="card-footer" id="darkStats_${idx}"></div>
             </div>
-
-            <div style="margin-bottom: 40px;">
-                <h3 style="color:#e2e8f0;">🌑 Dark Omens</h3>
-                <div class="events-grid">${darkHtml}</div>
-            </div>
-
-            <div style="margin-bottom: 40px;">
-                <h3 style="color:#e2e8f0;">🏛️ Olimpus</h3>
-                <div class="events-grid">${olimpusHtml}</div>
-            </div>
-
-            <div class="double-card">
-                <div class="card"><div class="card-header"><span>💎</span> Rare Crypts – all cycles</div><div class="chart-wrap"><canvas id="rareCanvas"></canvas></div><div class="card-footer" id="rareStats"></div><div class="period-info" id="rarePeriod"></div></div>
-                <div class="card"><div class="card-header"><span>🔥</span> Epic Crypts – all cycles</div><div class="chart-wrap"><canvas id="epicCanvas"></canvas></div><div class="card-footer" id="epicStats"></div><div class="period-info" id="epicPeriod"></div></div>
-            </div>
-        </div>
-        <style>
-            .events-grid { display: flex; flex-direction: column; gap: 25px; }
-            .event-card, .card { background: #111827; border-radius: 24px; border: 1px solid #1f2937; overflow: hidden; transition: 0.2s; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
-            .double-card { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 20px; }
-            .card-header { font-size: 1.2rem; font-weight: bold; padding: 12px 18px; background: #0f172a; border-bottom: 1px solid #1f2937; color: #e2e8f0; display: flex; align-items: center; gap: 10px; }
-            .chart-wrap { height: 2400px; overflow-y: auto; padding: 10px 8px; }
-            .chart-wrap canvas { width: 100%; height: auto; }
-            .chart-wrap::-webkit-scrollbar { width: 6px; background: #1e293b; }
-            .chart-wrap::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
-            .card-footer { padding: 8px 16px; background: #0f172a; border-top: 1px solid #1f2937; font-size: 0.8rem; color: #94a3b8; text-align: center; }
-            .period-info { padding: 5px 16px 10px; background: #0f172a; font-size: 0.7rem; color: #64748b; text-align: center; border-top: 1px solid #1f2937; }
-            @media (max-width: 800px) { .double-card { grid-template-columns: 1fr; } }
-        </style>
         `;
-        const div = document.createElement('div');
-        div.innerHTML = html;
-        const target = document.getElementById('dashboard') || document.body;
-        target.insertAdjacentElement('afterend', div);
-    }
+    });
+    darkTabsHtml += '</div>';
+
+    // Генерация вкладок Olimpus
+    let olimpusTabsHtml = '<div class="tabs">';
+    let olimpusContentsHtml = '';
+    CONFIG.olimpusFiles.forEach((file, idx) => {
+        const fileName = file.replace('.csv', '');
+        const activeClass = idx === 0 ? 'active' : '';
+        olimpusTabsHtml += `<button class="tab-btn ${activeClass}" data-section="olimpus" data-tab="${idx}">${fileName}</button>`;
+        olimpusContentsHtml += `
+            <div class="tab-content ${activeClass}" id="olimpusContent_${idx}">
+                <div class="chart-wrap"><canvas id="olimpus_${idx}"></canvas></div>
+                <div class="card-footer" id="olimpusStats_${idx}"></div>
+            </div>
+        `;
+    });
+    olimpusTabsHtml += '</div>';
+
+    const html = `
+    <div id="cyclesDashboard" style="margin: 50px auto 20px; max-width: 1400px; padding: 0 20px;">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h2 style="background: linear-gradient(135deg, #38bdf8, #a78bfa); -webkit-background-clip: text; background-clip: text; color: transparent; font-size: 28px;">📊 WSL Analytics</h2>
+            <p style="color:#64748b;">All players · Events in tabs · All cycles for Rare/Epic with dates</p>
+        </div>
+
+        <div class="section">
+            <h3 style="color:#e2e8f0; margin-top:0;">🌑 Dark Omens</h3>
+            ${darkTabsHtml}
+            <div class="tab-contents">${darkContentsHtml}</div>
+        </div>
+
+        <div class="section">
+            <h3 style="color:#e2e8f0; margin-top:0;">🏛️ Olimpus</h3>
+            ${olimpusTabsHtml}
+            <div class="tab-contents">${olimpusContentsHtml}</div>
+        </div>
+
+        <div class="double-card">
+            <div class="card"><div class="card-header"><span>💎</span> Rare Crypts – all cycles</div><div class="chart-wrap"><canvas id="rareCanvas"></canvas></div><div class="card-footer" id="rareStats"></div><div class="period-info" id="rarePeriod"></div></div>
+            <div class="card"><div class="card-header"><span>🔥</span> Epic Crypts – all cycles</div><div class="chart-wrap"><canvas id="epicCanvas"></canvas></div><div class="card-footer" id="epicStats"></div><div class="period-info" id="epicPeriod"></div></div>
+        </div>
+    </div>
+    <style>
+        /* Вкладки */
+        .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; border-bottom: 1px solid #1f2937; padding-bottom: 10px; }
+        .tab-btn { background: #1e293b; border: none; padding: 6px 14px; border-radius: 20px; color: #94a3b8; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
+        .tab-btn.active { background: #0ea5e9; color: white; }
+        .tab-btn:hover:not(.active) { background: #334155; color: #e2e8f0; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .section { margin-bottom: 40px; background: #0f172a; border-radius: 24px; padding: 20px; border: 1px solid #1f2937; }
+        .double-card { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 20px; }
+        .card { background: #111827; border-radius: 24px; border: 1px solid #1f2937; overflow: hidden; transition: 0.2s; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+        .card-header { font-size: 1.2rem; font-weight: bold; padding: 12px 18px; background: #0f172a; border-bottom: 1px solid #1f2937; color: #e2e8f0; display: flex; align-items: center; gap: 10px; }
+        .chart-wrap { height: 2400px; overflow-y: auto; padding: 10px 8px; }
+        .chart-wrap canvas { width: 100%; height: auto; }
+        .chart-wrap::-webkit-scrollbar { width: 6px; background: #1e293b; }
+        .chart-wrap::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        .card-footer { padding: 8px 16px; background: #0f172a; border-top: 1px solid #1f2937; font-size: 0.8rem; color: #94a3b8; text-align: center; }
+        .period-info { padding: 5px 16px 10px; background: #0f172a; font-size: 0.7rem; color: #64748b; text-align: center; border-top: 1px solid #1f2937; }
+        @media (max-width: 800px) { .double-card { grid-template-columns: 1fr; } }
+    </style>
+    `;
+
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    const target = document.getElementById('dashboard') || document.body;
+    target.insertAdjacentElement('afterend', div);
+
+    // Логика переключения вкладок
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const section = btn.closest('.section');
+            if (!section) return;
+            const tabIdx = btn.dataset.tab;
+            const sectionType = btn.dataset.section; // 'dark' или 'olimpus'
+            // Снимаем активность со всех кнопок и контентов в этой секции
+            section.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            section.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            const contentId = sectionType === 'dark' ? `darkContent_${tabIdx}` : `olimpusContent_${tabIdx}`;
+            const activeContent = section.querySelector(`#${contentId}`);
+            if (activeContent) activeContent.classList.add('active');
+        });
+    });
+}
 
     // ----- ПАРСИНГ CSV ДЛЯ СОБЫТИЙ -----
     async function fetchEventData(url) {
@@ -143,23 +175,22 @@
         return arr;
     }
 
-    // ----- ГЕНЕРАЦИЯ ЦИКЛОВ ДЛЯ RARE/EPIC -----
-    function generateCycles(startDate, cycleDays, maxDate) {
-        const cycles = [];
-        let currentStart = new Date(startDate);
-        const endLimit = maxDate ? new Date(maxDate) : new Date();
-        while (currentStart <= endLimit) {
-            const cycleEnd = new Date(currentStart);
-            cycleEnd.setDate(cycleEnd.getDate() + cycleDays - 1);
-            cycles.push({
-                start: new Date(currentStart),
-                end: cycleEnd,
-                label: `Cycle ${cycles.length+1}`
-            });
-            currentStart.setDate(currentStart.getDate() + cycleDays);
-        }
-        return cycles;
+function generateCycles(startDate, cycleDays, maxDate) {
+    const cycles = [];
+    let currentStart = new Date(startDate);
+    const endLimit = maxDate ? new Date(maxDate) : new Date();
+    while (currentStart <= endLimit) {
+        const cycleEnd = new Date(currentStart);
+        cycleEnd.setDate(cycleEnd.getDate() + cycleDays - 1);
+        cycles.push({
+            start: new Date(currentStart),
+            end: cycleEnd,
+            label: `${currentStart.toISOString().slice(0,10)} – ${cycleEnd.toISOString().slice(0,10)}`
+        });
+        currentStart.setDate(currentStart.getDate() + cycleDays);
     }
+    return cycles;
+}
 
     async function loadRareEpicByCycles() {
         if (typeof window.loadAllChestsByRange !== 'function') return { rare: [], epic: [] };
