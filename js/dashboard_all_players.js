@@ -1,19 +1,27 @@
 /**
- * dashboard_stacked.js
- * - Dark Omens / Olimpus: stacked horizontal bar (каждый файл отдельный цвет)
- * - Rare / Epic Crypts: обычные горизонтальные bar
- * - Все игроки, нумерация, английский, период дат
+ * dashboard_cycles.js
+ * - Dark Omens / Olimpus: отдельный график на каждое событие (файл)
+ * - Rare / Epic: отдельный график со всеми циклами (строка: "PlayerName – Cycle N")
+ * - Английский язык, нумерация, прокрутка, линии порога
  */
 
 (function() {
     const CONFIG = {
-        startDate: "2026-04-03",
-        cycleDays: 24,
+        // Общие настройки циклов для Rare/Epic
+        startDate: "2026-04-03",     // начало первого цикла
+        cycleDays: 24,               // длительность цикла в днях
+
+        // Пороги для Rare и Epic (один на все циклы)
         thresholds: {
             rare: 2000,
-            epic: 2000
-            // пороги для событий не используются в stacked, но можно оставить для статистики
+            epic: 2000,
+            // Пороги для каждого события Dark Omens (по порядку файлов)
+            darkOmensEvents: [1000000, 1000000, 1000000],
+            // Пороги для каждого события Olimpus
+            olimpusEvents: [71000, 71000, 71000]
         },
+
+        // Файлы событий (порядок важен для соответствия thresholds)
         olimpusFiles: ["04032026-09032026.csv", "29032026-02042026.csv", "21042026-26042026.csv"],
         darkOmensFiles: ["24022026-25022026.csv", "20032026-21032026.csv", "13042026-14042026.csv"],
         olimpusFolder: "Olimpus",
@@ -22,34 +30,70 @@
 
     let charts = {};
 
+    // ----- СОЗДАНИЕ DOM (гибкая структура с отдельными карточками для каждого события) -----
     function createDashboard() {
-        if (document.getElementById('finalDashboard')) return;
+        if (document.getElementById('cyclesDashboard')) return;
+
+        // Генерация HTML для Dark Omens событий
+        let darkHtml = '';
+        CONFIG.darkOmensFiles.forEach((file, idx) => {
+            const fileName = file.replace('.csv', '');
+            darkHtml += `
+                <div class="event-card">
+                    <div class="card-header"><span>🌑</span> Dark Omens – ${fileName}</div>
+                    <div class="chart-wrap"><canvas id="dark_${idx}"></canvas></div>
+                    <div class="card-footer" id="darkStats_${idx}"></div>
+                </div>
+            `;
+        });
+
+        // Генерация HTML для Olimpus событий
+        let olimpusHtml = '';
+        CONFIG.olimpusFiles.forEach((file, idx) => {
+            const fileName = file.replace('.csv', '');
+            olimpusHtml += `
+                <div class="event-card">
+                    <div class="card-header"><span>🏛️</span> Olimpus – ${fileName}</div>
+                    <div class="chart-wrap"><canvas id="olimpus_${idx}"></canvas></div>
+                    <div class="card-footer" id="olimpusStats_${idx}"></div>
+                </div>
+            `;
+        });
+
         const html = `
-        <div id="finalDashboard" style="margin: 50px auto 20px; max-width: 1400px; padding: 0 20px;">
+        <div id="cyclesDashboard" style="margin: 50px auto 20px; max-width: 1400px; padding: 0 20px;">
             <div style="text-align: center; margin-bottom: 30px;">
                 <h2 style="background: linear-gradient(135deg, #38bdf8, #a78bfa); -webkit-background-clip: text; background-clip: text; color: transparent; font-size: 28px;">📊 WSL Analytics</h2>
-                <p style="color:#64748b;">All players · Rare/Epic chests · Tournament results (stacked by event)</p>
+                <p style="color:#64748b;">All players · Each event separately · All cycles for Rare/Epic</p>
             </div>
-            <div class="grid">
-                <div class="card"><div class="card-header"><span>🌑</span> Dark Omens (by event)</div><div class="chart-wrap"><canvas id="darkCanvas"></canvas></div><div class="card-footer" id="darkStats"></div></div>
-                <div class="card"><div class="card-header"><span>🏛️</span> Olimpus (by event)</div><div class="chart-wrap"><canvas id="olimpusCanvas"></canvas></div><div class="card-footer" id="olimpusStats"></div></div>
-                <div class="card"><div class="card-header"><span>💎</span> Rare Crypts (total per period)</div><div class="chart-wrap"><canvas id="rareCanvas"></canvas></div><div class="card-footer" id="rareStats"></div><div class="period-info" id="rarePeriod"></div></div>
-                <div class="card"><div class="card-header"><span>🔥</span> Epic Crypts (total per period)</div><div class="chart-wrap"><canvas id="epicCanvas"></canvas></div><div class="card-footer" id="epicStats"></div><div class="period-info" id="epicPeriod"></div></div>
+
+            <div style="margin-bottom: 40px;">
+                <h3 style="color:#e2e8f0;">🌑 Dark Omens</h3>
+                <div class="events-grid">${darkHtml}</div>
+            </div>
+
+            <div style="margin-bottom: 40px;">
+                <h3 style="color:#e2e8f0;">🏛️ Olimpus</h3>
+                <div class="events-grid">${olimpusHtml}</div>
+            </div>
+
+            <div class="double-card">
+                <div class="card"><div class="card-header"><span>💎</span> Rare Crypts – all cycles</div><div class="chart-wrap"><canvas id="rareCanvas"></canvas></div><div class="card-footer" id="rareStats"></div><div class="period-info" id="rarePeriod"></div></div>
+                <div class="card"><div class="card-header"><span>🔥</span> Epic Crypts – all cycles</div><div class="chart-wrap"><canvas id="epicCanvas"></canvas></div><div class="card-footer" id="epicStats"></div><div class="period-info" id="epicPeriod"></div></div>
             </div>
         </div>
         <style>
-            .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; }
-            .card { background: #111827; border-radius: 24px; border: 1px solid #1f2937; overflow: hidden; transition: 0.2s; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
-            .card:hover { transform: translateY(-3px); border-color: #374151; }
-            .card-header { font-size: 1.3rem; font-weight: bold; padding: 14px 18px; background: #0f172a; border-bottom: 1px solid #1f2937; color: #e2e8f0; display: flex; align-items: center; gap: 10px; }
-            .card-header span:first-child { font-size: 1.5rem; }
-            .chart-wrap { height: 1600px; overflow-y: auto; padding: 10px 8px; }
+            .events-grid { display: flex; flex-direction: column; gap: 25px; }
+            .event-card, .card { background: #111827; border-radius: 24px; border: 1px solid #1f2937; overflow: hidden; transition: 0.2s; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+            .double-card { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 20px; }
+            .card-header { font-size: 1.2rem; font-weight: bold; padding: 12px 18px; background: #0f172a; border-bottom: 1px solid #1f2937; color: #e2e8f0; display: flex; align-items: center; gap: 10px; }
+            .chart-wrap { height: 2400px; overflow-y: auto; padding: 10px 8px; }
             .chart-wrap canvas { width: 100%; height: auto; }
             .chart-wrap::-webkit-scrollbar { width: 6px; background: #1e293b; }
             .chart-wrap::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
-            .card-footer { padding: 10px 16px; background: #0f172a; border-top: 1px solid #1f2937; font-size: 0.8rem; color: #94a3b8; text-align: center; }
-            .period-info { padding: 5px 16px 12px; background: #0f172a; font-size: 0.7rem; color: #64748b; text-align: center; border-top: 1px solid #1f2937; }
-            @media (max-width: 800px) { .grid { grid-template-columns: 1fr; } }
+            .card-footer { padding: 8px 16px; background: #0f172a; border-top: 1px solid #1f2937; font-size: 0.8rem; color: #94a3b8; text-align: center; }
+            .period-info { padding: 5px 16px 10px; background: #0f172a; font-size: 0.7rem; color: #64748b; text-align: center; border-top: 1px solid #1f2937; }
+            @media (max-width: 800px) { .double-card { grid-template-columns: 1fr; } }
         </style>
         `;
         const div = document.createElement('div');
@@ -58,8 +102,8 @@
         target.insertAdjacentElement('afterend', div);
     }
 
-    // ---------- CSV парсинг для событий (возвращает массив объектов по каждому файлу) ----------
-    async function fetchAndParseEventCSV(url, fileName) {
+    // ----- ПАРСИНГ CSV ДЛЯ СОБЫТИЙ -----
+    async function fetchEventData(url) {
         try {
             const resp = await fetch(url + '?v=' + Date.now());
             if (!resp.ok) return null;
@@ -84,129 +128,114 @@
                 const points = parseFloat(row[pointsIdx]);
                 if (player && !isNaN(points) && points > 0) result.push({ player, points });
             }
-            // Запоминаем имя файла (будет использовано как ключ)
-            return { fileName: fileName.replace('.csv', ''), data: result };
+            return result;
         } catch (e) { return null; }
     }
 
-    // Загрузка всех событий папки: возвращает массив объектов { fileName, players: Map(player->points) }
-    async function loadEventsSeparate(folder, files) {
-        const eventsData = [];
-        for (const file of files) {
-            const parsed = await fetchAndParseEventCSV(`${folder}/${file}`, file);
-            if (parsed) {
-                const map = new Map();
-                for (const row of parsed.data) {
-                    map.set(row.player, (map.get(row.player) || 0) + row.points);
-                }
-                eventsData.push({ fileName: parsed.fileName, pointsMap: map });
-            } else {
-                console.warn(`Failed to load ${folder}/${file}`);
-            }
-        }
-        // Собираем всех игроков (уникальные имена)
-        const allPlayersSet = new Set();
-        eventsData.forEach(ev => ev.pointsMap.forEach((_, p) => allPlayersSet.add(p)));
-        const allPlayers = Array.from(allPlayersSet);
-        // Сортируем по сумме очков за все события (чтобы график был упорядочен)
-        const totalMap = new Map();
-        allPlayers.forEach(p => {
-            let total = 0;
-            eventsData.forEach(ev => total += ev.pointsMap.get(p) || 0);
-            totalMap.set(p, total);
-        });
-        allPlayers.sort((a,b) => totalMap.get(b) - totalMap.get(a));
-        // Для каждого игрока создаём массив очков по событиям
-        const playerData = allPlayers.map(player => ({
-            player,
-            events: eventsData.map(ev => ev.pointsMap.get(player) || 0)
-        }));
-        return { playerData, eventNames: eventsData.map(ev => ev.fileName) };
+    // Загрузка одного события
+    async function loadSingleEvent(folder, file) {
+        const data = await fetchEventData(`${folder}/${file}`);
+        if (!data) return [];
+        const map = new Map();
+        for (const row of data) map.set(row.player, (map.get(row.player) || 0) + row.points);
+        const arr = Array.from(map.entries()).map(([p, pts]) => ({ player: p, points: pts }));
+        arr.sort((a,b) => b.points - a.points);
+        return arr;
     }
 
-    // ---------- Rare/Epic (без изменений) ----------
-    async function loadRareEpic() {
+    // ----- ГЕНЕРАЦИЯ ЦИКЛОВ ДЛЯ RARE/EPIC -----
+    function generateCycles(startDate, cycleDays, maxDate) {
+        const cycles = [];
+        let currentStart = new Date(startDate);
+        const endLimit = maxDate ? new Date(maxDate) : new Date();
+        while (currentStart <= endLimit) {
+            const cycleEnd = new Date(currentStart);
+            cycleEnd.setDate(cycleEnd.getDate() + cycleDays - 1);
+            cycles.push({
+                start: new Date(currentStart),
+                end: cycleEnd,
+                label: `Cycle ${cycles.length+1}`
+            });
+            currentStart.setDate(currentStart.getDate() + cycleDays);
+        }
+        return cycles;
+    }
+
+    async function loadRareEpicByCycles() {
         if (typeof window.loadAllChestsByRange !== 'function') return { rare: [], epic: [] };
+        // Определяем максимальную дату в данных (загрузим все сундуки от startDate до сегодня)
         const start = new Date(CONFIG.startDate);
-        const end = new Date(start);
-        end.setDate(end.getDate() + CONFIG.cycleDays - 1);
-        const entries = await window.loadAllChestsByRange(start, end);
-        const rareMap = new Map(), epicMap = new Map();
-        for (const e of entries) {
-            const src = e.sourceRaw.toLowerCase();
-            if (src.includes('rare crypt')) rareMap.set(e.player, (rareMap.get(e.player) || 0) + e.points);
-            else if (src.includes('epic crypt')) epicMap.set(e.player, (epicMap.get(e.player) || 0) + e.points);
-        }
-        const rare = Array.from(rareMap.entries()).map(([p, pts]) => ({ player: p, points: pts })).sort((a,b)=>b.points - a.points);
-        const epic = Array.from(epicMap.entries()).map(([p, pts]) => ({ player: p, points: pts })).sort((a,b)=>b.points - a.points);
-        return { rare, epic };
-    }
+        const end = new Date();
+        const allEntries = await window.loadAllChestsByRange(start, end);
+        if (!allEntries.length) return { rare: [], epic: [] };
 
-    // ---------- Отрисовка stacked horizontal bar ----------
-    function drawStackedBarChart(canvasId, playerData, eventNames, labelPrefix) {
-        const canvas = document.getElementById(canvasId);
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        if (charts[canvasId]) {
-            charts[canvasId].destroy();
-            delete charts[canvasId];
+        // Находим максимальную дату среди записей (нужна для ограничения циклов)
+        let maxDate = start;
+        for (const e of allEntries) {
+            if (e.date && new Date(e.date) > maxDate) maxDate = new Date(e.date);
         }
-        if (!playerData || playerData.length === 0) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = '12px Arial';
-            ctx.fillText('No data', 10, 30);
-            return;
-        }
-        const labels = playerData.map((d, idx) => `${idx+1}. ${d.player}`);
-        const datasets = eventNames.map((name, idx) => {
-            const colors = ['#38bdf8', '#a78bfa', '#f59e0b', '#ec489a', '#10b981', '#f97316'];
-            return {
-                label: name,
-                data: playerData.map(p => p.events[idx]),
-                backgroundColor: colors[idx % colors.length],
-                borderRadius: 0,
-                barPercentage: 0.85,
-                categoryPercentage: 0.9
-            };
-        });
-        const barHeight = 36;
-        const totalHeight = playerData.length * barHeight + 60;
-        canvas.height = totalHeight;
-        canvas.style.height = `${totalHeight}px`;
-        canvas.width = canvas.parentElement.clientWidth - 24;
+        const cycles = generateCycles(start, CONFIG.cycleDays, maxDate);
 
-        const chart = new Chart(ctx, {
-            type: 'bar',
-            data: { labels, datasets },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'top', labels: { color: '#cbd5e1', font: { size: 10 } } },
-                    tooltip: { mode: 'index', callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.raw} points` } }
-                },
-                scales: {
-                    x: {
-                        stacked: true,
-                        title: { display: true, text: 'Points', color: '#94a3b8' },
-                        grid: { color: '#334155' },
-                        ticks: { color: '#cbd5e1' }
-                    },
-                    y: {
-                        stacked: true,
-                        ticks: { color: '#cbd5e1', font: { size: 10 }, stepSize: 1, autoSkip: false },
-                        grid: { display: false }
-                    }
+        // Для каждого цикла собираем очки rare/epic по игрокам
+        const rareCyclesData = [];  // массив объектов: { cycleIndex, player, points }
+        const epicCyclesData = [];
+
+        for (let ci = 0; ci < cycles.length; ci++) {
+            const cycle = cycles[ci];
+            const rareMap = new Map(), epicMap = new Map();
+            // Фильтруем записи, попадающие в цикл
+            for (const e of allEntries) {
+                const eDate = new Date(e.date);
+                if (eDate >= cycle.start && eDate <= cycle.end) {
+                    const src = e.sourceRaw.toLowerCase();
+                    if (src.includes('rare crypt')) rareMap.set(e.player, (rareMap.get(e.player) || 0) + e.points);
+                    else if (src.includes('epic crypt')) epicMap.set(e.player, (epicMap.get(e.player) || 0) + e.points);
                 }
             }
+            // Преобразуем в массив и добавляем метку цикла
+            for (const [player, points] of rareMap) rareCyclesData.push({ player, cycle: ci, cycleLabel: cycle.label, points });
+            for (const [player, points] of epicMap) epicCyclesData.push({ player, cycle: ci, cycleLabel: cycle.label, points });
+        }
+
+        // Сортируем: сначала все записи для игрока по убыванию суммы по циклам? лучше сгруппировать для отображения.
+        // Для графика нам нужен массив объектов с полями player, cycleLabel, points
+        // Сначала соберём всех игроков и все циклы, чтобы создать строки "Player – Cycle X"
+        const rareResult = [];
+        const epicResult = [];
+        // Группируем по игроку и циклу, чтобы не дублировать
+        const rareMapAll = new Map(); // key: "player|cycleLabel"
+        for (const item of rareCyclesData) {
+            const key = `${item.player}|${item.cycleLabel}`;
+            rareMapAll.set(key, { player: item.player, cycleLabel: item.cycleLabel, points: item.points });
+        }
+        for (const item of rareMapAll.values()) rareResult.push(item);
+        const epicMapAll = new Map();
+        for (const item of epicCyclesData) {
+            const key = `${item.player}|${item.cycleLabel}`;
+            epicMapAll.set(key, { player: item.player, cycleLabel: item.cycleLabel, points: item.points });
+        }
+        for (const item of epicMapAll.values()) epicResult.push(item);
+
+        // Сортировка: сначала по игроку (по сумме очков за все циклы, чтобы сильные игроки были сверху), затем по циклу
+        // Сначала вычислим общую сумму очков по игроку для Rare
+        const rarePlayerTotal = new Map();
+        rareResult.forEach(r => rarePlayerTotal.set(r.player, (rarePlayerTotal.get(r.player) || 0) + r.points));
+        rareResult.sort((a,b) => {
+            if (rarePlayerTotal.get(b.player) !== rarePlayerTotal.get(a.player)) return rarePlayerTotal.get(b.player) - rarePlayerTotal.get(a.player);
+            return a.cycleLabel.localeCompare(b.cycleLabel);
         });
-        charts[canvasId] = chart;
-        chart.draw();
+        const epicPlayerTotal = new Map();
+        epicResult.forEach(r => epicPlayerTotal.set(r.player, (epicPlayerTotal.get(r.player) || 0) + r.points));
+        epicResult.sort((a,b) => {
+            if (epicPlayerTotal.get(b.player) !== epicPlayerTotal.get(a.player)) return epicPlayerTotal.get(b.player) - epicPlayerTotal.get(a.player);
+            return a.cycleLabel.localeCompare(b.cycleLabel);
+        });
+
+        return { rare: rareResult, epic: epicResult, cycles };
     }
 
-    function drawSimpleBarChart(canvasId, data, threshold, label) {
+    // ----- ОБЩАЯ ФУНКЦИЯ ДЛЯ ГОРИЗОНТАЛЬНОГО БАРЧАРТА -----
+    function drawHorizontalBar(canvasId, items, threshold, label) {
         const canvas = document.getElementById(canvasId);
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
@@ -214,18 +243,23 @@
             charts[canvasId].destroy();
             delete charts[canvasId];
         }
-        if (!data || data.length === 0) {
+        if (!items || items.length === 0) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = '#94a3b8';
             ctx.font = '12px Arial';
             ctx.fillText('No data', 10, 30);
             return;
         }
-        const labels = data.map((d, idx) => `${idx+1}. ${d.player}`);
-        const points = data.map(d => d.points);
+        // Формируем метки: если есть поле cycleLabel, то "Player – CycleLabel", иначе "Player"
+        const labels = items.map((item, idx) => {
+            if (item.cycleLabel) return `${idx+1}. ${item.player} – ${item.cycleLabel}`;
+            return `${idx+1}. ${item.player}`;
+        });
+        const points = items.map(item => item.points);
         const colors = points.map(p => p >= threshold ? '#10b981' : '#ef4444');
+
         const barHeight = 36;
-        const totalHeight = data.length * barHeight + 60;
+        const totalHeight = items.length * barHeight + 60;
         canvas.height = totalHeight;
         canvas.style.height = `${totalHeight}px`;
         canvas.width = canvas.parentElement.clientWidth - 24;
@@ -246,6 +280,7 @@
         });
         charts[canvasId] = chart;
 
+        // Линия порога
         const originalDraw = chart.draw;
         chart.draw = function() {
             originalDraw.apply(this, arguments);
@@ -264,63 +299,53 @@
                 ctx.stroke();
                 ctx.fillStyle = '#f59e0b';
                 ctx.font = 'bold 10px Arial';
-                ctx.fillText(`Threshold: ${threshold}`, thresholdX + 5, this.chartArea.top + 12);
+                ctx.fillText(`${threshold}`, thresholdX + 5, this.chartArea.top + 12);
                 ctx.restore();
             }
         };
         chart.draw();
     }
 
-    function updateStats(elementId, data, min, label = '') {
+    function updateStats(elementId, items, threshold) {
         const el = document.getElementById(elementId);
         if (!el) return;
-        if (!data || !data.length) { el.innerHTML = '📭 No data'; return; }
-        const done = data.filter(d => d.points >= min).length;
-        const percent = Math.round(done / data.length * 100);
-        el.innerHTML = `👥 Total players: ${data.length} &nbsp;|&nbsp; ✅ Achieved (≥${min}): ${done} (${percent}%)`;
-    }
-
-    function updateStackedStats(elementId, playerData, min, eventNames) {
-        const el = document.getElementById(elementId);
-        if (!el) return;
-        if (!playerData || !playerData.length) { el.innerHTML = '📭 No data'; return; }
-        const totalPlayers = playerData.length;
-        // Минимум для stacked? Игрок считается выполнившим, если набрал min хотя бы в одном событии? По желанию. Сделаем суммарно >= min
-        const totalPoints = playerData.map(p => p.events.reduce((a,b)=>a+b,0));
-        const done = totalPoints.filter(sum => sum >= min).length;
-        const percent = Math.round(done / totalPlayers * 100);
-        el.innerHTML = `👥 Total players: ${totalPlayers} &nbsp;|&nbsp; ✅ Total points ≥${min}: ${done} (${percent}%) | Events: ${eventNames.join(', ')}`;
-    }
-
-    function setPeriodInfo() {
-        const start = new Date(CONFIG.startDate);
-        const end = new Date(start);
-        end.setDate(end.getDate() + CONFIG.cycleDays - 1);
-        const format = d => d.toISOString().slice(0,10);
-        const periodStr = `Period: ${format(start)} — ${format(end)} (${CONFIG.cycleDays} days)`;
-        const rarePeriod = document.getElementById('rarePeriod');
-        const epicPeriod = document.getElementById('epicPeriod');
-        if (rarePeriod) rarePeriod.innerText = periodStr;
-        if (epicPeriod) epicPeriod.innerText = periodStr;
+        if (!items || !items.length) { el.innerHTML = '📭 No data'; return; }
+        const done = items.filter(item => item.points >= threshold).length;
+        const percent = Math.round(done / items.length * 100);
+        el.innerHTML = `👥 Total rows: ${items.length} &nbsp;|&nbsp; ✅ Achieved (≥${threshold}): ${done} (${percent}%)`;
     }
 
     async function refreshAll() {
         console.log('🔄 Updating dashboard...');
         try {
-            const darkData = await loadEventsSeparate(CONFIG.darkOmensFolder, CONFIG.darkOmensFiles);
-            const olimpusData = await loadEventsSeparate(CONFIG.olimpusFolder, CONFIG.olimpusFiles);
-            const { rare, epic } = await loadRareEpic();
-
-            drawStackedBarChart('darkCanvas', darkData.playerData, darkData.eventNames, 'Dark Omens');
-            drawStackedBarChart('olimpusCanvas', olimpusData.playerData, olimpusData.eventNames, 'Olimpus');
-            drawSimpleBarChart('rareCanvas', rare, CONFIG.thresholds.rare, 'Rare Crypt Points');
-            drawSimpleBarChart('epicCanvas', epic, CONFIG.thresholds.epic, 'Epic Crypt Points');
-
-            updateStackedStats('darkStats', darkData.playerData, 0, darkData.eventNames);
-            updateStackedStats('olimpusStats', olimpusData.playerData, 0, olimpusData.eventNames);
+            // Dark Omens – отдельные графики
+            for (let i = 0; i < CONFIG.darkOmensFiles.length; i++) {
+                const file = CONFIG.darkOmensFiles[i];
+                const data = await loadSingleEvent(CONFIG.darkOmensFolder, file);
+                const threshold = CONFIG.thresholds.darkOmensEvents[i];
+                drawHorizontalBar(`dark_${i}`, data, threshold, `Dark Omens points`);
+                updateStats(`darkStats_${i}`, data, threshold);
+            }
+            // Olimpus
+            for (let i = 0; i < CONFIG.olimpusFiles.length; i++) {
+                const file = CONFIG.olimpusFiles[i];
+                const data = await loadSingleEvent(CONFIG.olimpusFolder, file);
+                const threshold = CONFIG.thresholds.olimpusEvents[i];
+                drawHorizontalBar(`olimpus_${i}`, data, threshold, `Olimpus points`);
+                updateStats(`olimpusStats_${i}`, data, threshold);
+            }
+            // Rare / Epic с циклами
+            const { rare, epic, cycles } = await loadRareEpicByCycles();
+            drawHorizontalBar('rareCanvas', rare, CONFIG.thresholds.rare, 'Rare Crypt points');
+            drawHorizontalBar('epicCanvas', epic, CONFIG.thresholds.epic, 'Epic Crypt points');
             updateStats('rareStats', rare, CONFIG.thresholds.rare);
             updateStats('epicStats', epic, CONFIG.thresholds.epic);
-            setPeriodInfo();
+            // Отобразить информацию о периодах циклов
+            const periodInfo = cycles.map(c => `${c.label}: ${c.start.toISOString().slice(0,10)} – ${c.end.toISOString().slice(0,10)}`).join('; ');
+            const rarePeriodDiv = document.getElementById('rarePeriod');
+            const epicPeriodDiv = document.getElementById('epicPeriod');
+            if (rarePeriodDiv) rarePeriodDiv.innerText = `Cycles: ${periodInfo}`;
+            if (epicPeriodDiv) epicPeriodDiv.innerText = `Cycles: ${periodInfo}`;
         } catch (err) { console.error(err); }
     }
 
