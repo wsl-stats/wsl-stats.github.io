@@ -376,7 +376,7 @@ function renderCycleChart(canvasId, players, threshold, label) {
                 ctx.lineWidth = 2;
                 ctx.stroke();
                 ctx.fillStyle = '#f59e0b';
-                ctx.font = 'bold 10px Arial';
+                ctx.font = 'bold 24px Arial';
                 ctx.fillText(`${threshold}`, thresholdX + 5, this.chartArea.top + 12);
                 ctx.restore();
             }
