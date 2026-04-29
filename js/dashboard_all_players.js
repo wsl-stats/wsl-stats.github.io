@@ -84,10 +84,10 @@
             <div class="tab-contents">${olimpusContentsHtml}</div>
         </div>
 
-        <div class="double-card">
-            <div class="card"><div class="card-header"><span>💎</span> Rare Crypts – all cycles</div><div class="chart-wrap"><canvas id="rareCanvas"></canvas></div><div class="card-footer" id="rareStats"></div><div class="period-info" id="rarePeriod"></div></div>
-            <div class="card"><div class="card-header"><span>🔥</span> Epic Crypts – all cycles</div><div class="chart-wrap"><canvas id="epicCanvas"></canvas></div><div class="card-footer" id="epicStats"></div><div class="period-info" id="epicPeriod"></div></div>
-        </div>
+<div class="double-card">
+    <div class="card" id="rareCardPlaceholder"><div class="card-header"><span>💎</span> Rare Crypts – cycles</div><div style="padding:20px; text-align:center;">Loading...</div></div>
+    <div class="card" id="epicCardPlaceholder"><div class="card-header"><span>🔥</span> Epic Crypts – cycles</div><div style="padding:20px; text-align:center;">Loading...</div></div>
+</div>
     </div>
     <style>
         /* Вкладки */
@@ -192,78 +192,122 @@ function generateCycles(startDate, cycleDays, maxDate) {
     return cycles;
 }
 
-    async function loadRareEpicByCycles() {
-        if (typeof window.loadAllChestsByRange !== 'function') return { rare: [], epic: [] };
-        // Определяем максимальную дату в данных (загрузим все сундуки от startDate до сегодня)
-        const start = new Date(CONFIG.startDate);
-        const end = new Date();
-        const allEntries = await window.loadAllChestsByRange(start, end);
-        if (!allEntries.length) return { rare: [], epic: [] };
+   async function loadRareEpicByCycles() {
+    if (typeof window.loadAllChestsByRange !== 'function') return { rareCycles: [], epicCycles: [] };
+    
+    const start = new Date(CONFIG.startDate);
+    const end = new Date();
+    const allEntries = await window.loadAllChestsByRange(start, end);
+    if (!allEntries.length) return { rareCycles: [], epicCycles: [] };
 
-        // Находим максимальную дату среди записей (нужна для ограничения циклов)
-        let maxDate = start;
-        for (const e of allEntries) {
-            if (e.date && new Date(e.date) > maxDate) maxDate = new Date(e.date);
-        }
-        const cycles = generateCycles(start, CONFIG.cycleDays, maxDate);
-
-        // Для каждого цикла собираем очки rare/epic по игрокам
-        const rareCyclesData = [];  // массив объектов: { cycleIndex, player, points }
-        const epicCyclesData = [];
-
-        for (let ci = 0; ci < cycles.length; ci++) {
-            const cycle = cycles[ci];
-            const rareMap = new Map(), epicMap = new Map();
-            // Фильтруем записи, попадающие в цикл
-            for (const e of allEntries) {
-                const eDate = new Date(e.date);
-                if (eDate >= cycle.start && eDate <= cycle.end) {
-                    const src = e.sourceRaw.toLowerCase();
-                    if (src.includes('rare crypt')) rareMap.set(e.player, (rareMap.get(e.player) || 0) + e.points);
-                    else if (src.includes('epic crypt')) epicMap.set(e.player, (epicMap.get(e.player) || 0) + e.points);
-                }
-            }
-            // Преобразуем в массив и добавляем метку цикла
-            for (const [player, points] of rareMap) rareCyclesData.push({ player, cycle: ci, cycleLabel: cycle.label, points });
-            for (const [player, points] of epicMap) epicCyclesData.push({ player, cycle: ci, cycleLabel: cycle.label, points });
-        }
-
-        // Сортируем: сначала все записи для игрока по убыванию суммы по циклам? лучше сгруппировать для отображения.
-        // Для графика нам нужен массив объектов с полями player, cycleLabel, points
-        // Сначала соберём всех игроков и все циклы, чтобы создать строки "Player – Cycle X"
-        const rareResult = [];
-        const epicResult = [];
-        // Группируем по игроку и циклу, чтобы не дублировать
-        const rareMapAll = new Map(); // key: "player|cycleLabel"
-        for (const item of rareCyclesData) {
-            const key = `${item.player}|${item.cycleLabel}`;
-            rareMapAll.set(key, { player: item.player, cycleLabel: item.cycleLabel, points: item.points });
-        }
-        for (const item of rareMapAll.values()) rareResult.push(item);
-        const epicMapAll = new Map();
-        for (const item of epicCyclesData) {
-            const key = `${item.player}|${item.cycleLabel}`;
-            epicMapAll.set(key, { player: item.player, cycleLabel: item.cycleLabel, points: item.points });
-        }
-        for (const item of epicMapAll.values()) epicResult.push(item);
-
-        // Сортировка: сначала по игроку (по сумме очков за все циклы, чтобы сильные игроки были сверху), затем по циклу
-        // Сначала вычислим общую сумму очков по игроку для Rare
-        const rarePlayerTotal = new Map();
-        rareResult.forEach(r => rarePlayerTotal.set(r.player, (rarePlayerTotal.get(r.player) || 0) + r.points));
-        rareResult.sort((a,b) => {
-            if (rarePlayerTotal.get(b.player) !== rarePlayerTotal.get(a.player)) return rarePlayerTotal.get(b.player) - rarePlayerTotal.get(a.player);
-            return a.cycleLabel.localeCompare(b.cycleLabel);
-        });
-        const epicPlayerTotal = new Map();
-        epicResult.forEach(r => epicPlayerTotal.set(r.player, (epicPlayerTotal.get(r.player) || 0) + r.points));
-        epicResult.sort((a,b) => {
-            if (epicPlayerTotal.get(b.player) !== epicPlayerTotal.get(a.player)) return epicPlayerTotal.get(b.player) - epicPlayerTotal.get(a.player);
-            return a.cycleLabel.localeCompare(b.cycleLabel);
-        });
-
-        return { rare: rareResult, epic: epicResult, cycles };
+    // Определяем максимальную дату в данных
+    let maxDate = start;
+    for (const e of allEntries) {
+        if (e.date && new Date(e.date) > maxDate) maxDate = new Date(e.date);
     }
+    const cycles = generateCycles(start, CONFIG.cycleDays, maxDate);
+
+    const rareCycles = [];
+    const epicCycles = [];
+
+    for (let ci = 0; ci < cycles.length; ci++) {
+        const cycle = cycles[ci];
+        const rareMap = new Map();
+        const epicMap = new Map();
+        for (const e of allEntries) {
+            const eDate = new Date(e.date);
+            if (eDate >= cycle.start && eDate <= cycle.end) {
+                const src = e.sourceRaw.toLowerCase();
+                if (src.includes('rare crypt')) rareMap.set(e.player, (rareMap.get(e.player) || 0) + e.points);
+                else if (src.includes('epic crypt')) epicMap.set(e.player, (epicMap.get(e.player) || 0) + e.points);
+            }
+        }
+        // Преобразуем карты в сортированные массивы
+        const rarePlayers = Array.from(rareMap.entries())
+            .map(([player, points]) => ({ player, points }))
+            .sort((a,b) => b.points - a.points);
+        const epicPlayers = Array.from(epicMap.entries())
+            .map(([player, points]) => ({ player, points }))
+            .sort((a,b) => b.points - a.points);
+        
+        rareCycles.push({
+            cycleLabel: cycle.label,
+            players: rarePlayers
+        });
+        epicCycles.push({
+            cycleLabel: cycle.label,
+            players: epicPlayers
+        });
+    }
+    return { rareCycles, epicCycles };
+}
+
+function renderCycleChart(canvasId, players, threshold, label) {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    // Если для этого canvas уже есть график – удаляем
+    if (charts[canvasId]) {
+        charts[canvasId].destroy();
+        delete charts[canvasId];
+    }
+    if (!players || players.length === 0) {
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '12px Arial';
+        ctx.fillText('No data', 10, 30);
+        return;
+    }
+    // Используем ту же логику, что и в drawHorizontalBar, но с нумерацией
+    const labels = players.map((p, idx) => `${idx+1}. ${p.player}`);
+    const points = players.map(p => p.points);
+    const colors = points.map(p => p >= threshold ? '#10b981' : '#ef4444');
+    const barHeight = 36;
+    const totalHeight = players.length * barHeight + 60;
+    canvas.height = totalHeight;
+    canvas.style.height = `${totalHeight}px`;
+    canvas.width = canvas.parentElement.clientWidth - 24;
+
+    const chart = new Chart(ctx, {
+        type: 'bar',
+        data: { labels, datasets: [{ label, data: points, backgroundColor: colors, borderRadius: 6, barPercentage: 0.85, categoryPercentage: 0.9 }] },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => `${ctx.raw} points` } } },
+            scales: {
+                x: { title: { display: true, text: 'Points', color: '#94a3b8' }, grid: { color: '#334155' }, ticks: { color: '#cbd5e1' } },
+                y: { ticks: { color: '#cbd5e1', font: { size: 10 }, stepSize: 1, autoSkip: false }, grid: { display: false } }
+            }
+        }
+    });
+    charts[canvasId] = chart;
+    // Линия порога
+    const originalDraw = chart.draw;
+    chart.draw = function() {
+        originalDraw.apply(this, arguments);
+        const xAxis = this.scales.x;
+        if (!xAxis || !this.chartArea) return;
+        const thresholdX = xAxis.getPixelForValue(threshold);
+        if (isFinite(thresholdX)) {
+            const ctx = this.ctx;
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(thresholdX, this.chartArea.top);
+            ctx.lineTo(thresholdX, this.chartArea.bottom);
+            ctx.strokeStyle = '#f59e0b';
+            ctx.setLineDash([6, 8]);
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.fillStyle = '#f59e0b';
+            ctx.font = 'bold 10px Arial';
+            ctx.fillText(`${threshold}`, thresholdX + 5, this.chartArea.top + 12);
+            ctx.restore();
+        }
+    };
+    chart.draw();
+}
 
     // ----- ОБЩАЯ ФУНКЦИЯ ДЛЯ ГОРИЗОНТАЛЬНОГО БАРЧАРТА -----
     function drawHorizontalBar(canvasId, items, threshold, label) {
@@ -366,17 +410,102 @@ function generateCycles(startDate, cycleDays, maxDate) {
                 updateStats(`olimpusStats_${i}`, data, threshold);
             }
             // Rare / Epic с циклами
-            const { rare, epic, cycles } = await loadRareEpicByCycles();
-            drawHorizontalBar('rareCanvas', rare, CONFIG.thresholds.rare, 'Rare Crypt points');
-            drawHorizontalBar('epicCanvas', epic, CONFIG.thresholds.epic, 'Epic Crypt points');
-            updateStats('rareStats', rare, CONFIG.thresholds.rare);
-            updateStats('epicStats', epic, CONFIG.thresholds.epic);
-            // Отобразить информацию о периодах циклов
-            const periodInfo = cycles.map(c => `${c.label}: ${c.start.toISOString().slice(0,10)} – ${c.end.toISOString().slice(0,10)}`).join('; ');
-            const rarePeriodDiv = document.getElementById('rarePeriod');
-            const epicPeriodDiv = document.getElementById('epicPeriod');
-            if (rarePeriodDiv) rarePeriodDiv.innerText = `Cycles: ${periodInfo}`;
-            if (epicPeriodDiv) epicPeriodDiv.innerText = `Cycles: ${periodInfo}`;
+           // Вместо старых вызовов drawHorizontalBar для rareCanvas / epicCanvas
+const { rareCycles, epicCycles } = await loadRareEpicByCycles();
+
+// Генерация HTML для вкладок Rare
+let rareTabsHtml = '<div class="tabs">';
+let rareContentsHtml = '';
+rareCycles.forEach((cycle, idx) => {
+    const activeClass = idx === 0 ? 'active' : '';
+    rareTabsHtml += `<button class="tab-btn rare-tab ${activeClass}" data-rare-tab="${idx}">${cycle.cycleLabel}</button>`;
+    rareContentsHtml += `
+        <div class="tab-content ${activeClass}" id="rareContent_${idx}">
+            <div class="chart-wrap"><canvas id="rareCanvas_${idx}"></canvas></div>
+            <div class="card-footer" id="rareStats_${idx}"></div>
+        </div>
+    `;
+});
+rareTabsHtml += '</div>';
+
+// Аналогично для Epic
+let epicTabsHtml = '<div class="tabs">';
+let epicContentsHtml = '';
+epicCycles.forEach((cycle, idx) => {
+    const activeClass = idx === 0 ? 'active' : '';
+    epicTabsHtml += `<button class="tab-btn epic-tab ${activeClass}" data-epic-tab="${idx}">${cycle.cycleLabel}</button>`;
+    epicContentsHtml += `
+        <div class="tab-content ${activeClass}" id="epicContent_${idx}">
+            <div class="chart-wrap"><canvas id="epicCanvas_${idx}"></canvas></div>
+            <div class="card-footer" id="epicStats_${idx}"></div>
+        </div>
+    `;
+});
+epicTabsHtml += '</div>';
+
+// Обновляем DOM: находим контейнеры Rare/Epic и заменяем их содержимое
+const rareContainer = document.querySelector('#cyclesDashboard .double-card .card:first-child');
+const epicContainer = document.querySelector('#cyclesDashboard .double-card .card:last-child');
+if (rareContainer) {
+    rareContainer.innerHTML = `
+        <div class="card-header"><span>💎</span> Rare Crypts – cycles</div>
+        ${rareTabsHtml}
+        <div class="tab-contents">${rareContentsHtml}</div>
+    `;
+}
+if (epicContainer) {
+    epicContainer.innerHTML = `
+        <div class="card-header"><span>🔥</span> Epic Crypts – cycles</div>
+        ${epicTabsHtml}
+        <div class="tab-contents">${epicContentsHtml}</div>
+    `;
+}
+
+// Отрисовываем первый (активный) график для каждого типа
+if (rareCycles.length) {
+    renderCycleChart(`rareCanvas_0`, rareCycles[0].players, CONFIG.thresholds.rare, 'Rare Crypt points');
+    updateStats(`rareStats_0`, rareCycles[0].players, CONFIG.thresholds.rare);
+}
+if (epicCycles.length) {
+    renderCycleChart(`epicCanvas_0`, epicCycles[0].players, CONFIG.thresholds.epic, 'Epic Crypt points');
+    updateStats(`epicStats_0`, epicCycles[0].players, CONFIG.thresholds.epic);
+}
+
+// Переключатели для Rare вкладок
+document.querySelectorAll('.rare-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const idx = btn.dataset.rareTab;
+        const container = btn.closest('.card');
+        container.querySelectorAll('.rare-tab').forEach(b => b.classList.remove('active'));
+        container.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        const activeContent = container.querySelector(`#rareContent_${idx}`);
+        if (activeContent) activeContent.classList.add('active');
+        const cycleData = rareCycles[idx];
+        if (cycleData) {
+            renderCycleChart(`rareCanvas_${idx}`, cycleData.players, CONFIG.thresholds.rare, 'Rare Crypt points');
+            updateStats(`rareStats_${idx}`, cycleData.players, CONFIG.thresholds.rare);
+        }
+    });
+});
+
+// Переключатели для Epic вкладок
+document.querySelectorAll('.epic-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const idx = btn.dataset.epicTab;
+        const container = btn.closest('.card');
+        container.querySelectorAll('.epic-tab').forEach(b => b.classList.remove('active'));
+        container.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        const activeContent = container.querySelector(`#epicContent_${idx}`);
+        if (activeContent) activeContent.classList.add('active');
+        const cycleData = epicCycles[idx];
+        if (cycleData) {
+            renderCycleChart(`epicCanvas_${idx}`, cycleData.players, CONFIG.thresholds.epic, 'Epic Crypt points');
+            updateStats(`epicStats_${idx}`, cycleData.players, CONFIG.thresholds.epic);
+        }
+    });
+});
         } catch (err) { console.error(err); }
     }
 
