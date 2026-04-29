@@ -43,7 +43,7 @@
             .card:hover { transform: translateY(-3px); border-color: #374151; }
             .card-header { font-size: 1.3rem; font-weight: bold; padding: 14px 18px; background: #0f172a; border-bottom: 1px solid #1f2937; color: #e2e8f0; display: flex; align-items: center; gap: 10px; }
             .card-header span:first-child { font-size: 1.5rem; }
-            .chart-wrap { height: 400px; overflow-y: auto; padding: 10px 8px; }
+            .chart-wrap { height: 1600px; overflow-y: auto; padding: 10px 8px; }
             .chart-wrap canvas { width: 100%; height: auto; }
             .chart-wrap::-webkit-scrollbar { width: 6px; background: #1e293b; }
             .chart-wrap::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
@@ -54,7 +54,7 @@
         `;
         const div = document.createElement('div');
         div.innerHTML = html;
-        const target = document.getElementById('TableWrap') || document.body;
+        const target = document.getElementById('dashboard') || document.body;
         target.insertAdjacentElement('afterend', div);
     }
 
