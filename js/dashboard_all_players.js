@@ -398,7 +398,7 @@ const { rareCycles, epicCycles } = await loadRareEpicByCycles();
 let rareTabsHtml = '<div class="tabs">';
 let rareContentsHtml = '';
 rareCycles.forEach((cycle, idx) => {
-    const activeClass = idx === 0 ? 'active' : '';
+    const activeClass = idx === rareCycles.length-1 ? 'active' : '';
     rareTabsHtml += `<button class="tab-btn rare-tab ${activeClass}" data-rare-tab="${idx}">${cycle.cycleLabel}</button>`;
     rareContentsHtml += `
         <div class="tab-content ${activeClass}" id="rareContent_${idx}">
@@ -413,7 +413,7 @@ rareTabsHtml += '</div>';
 let epicTabsHtml = '<div class="tabs">';
 let epicContentsHtml = '';
 epicCycles.forEach((cycle, idx) => {
-    const activeClass = idx === 0 ? 'active' : '';
+    const activeClass = idx === epicCycles.length-1 ? 'active' : '';
     epicTabsHtml += `<button class="tab-btn epic-tab ${activeClass}" data-epic-tab="${idx}">${cycle.cycleLabel}</button>`;
     epicContentsHtml += `
         <div class="tab-content ${activeClass}" id="epicContent_${idx}">
