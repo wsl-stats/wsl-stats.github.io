@@ -12,7 +12,7 @@ const CONFIG = {
             rare: 2000,
             epic: 2000,
             // Пороги для каждого события Dark Omens (по порядку файлов)
-            darkOmensEvents: [1000000, 1000000, 1000000],
+            darkOmensEvents: [550000, 550000, 550000],
             // Пороги для каждого события Olimpus
             olimpusEvents: [71000, 71000, 71000]
         },
