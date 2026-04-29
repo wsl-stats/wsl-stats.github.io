@@ -28,6 +28,7 @@ const PLAYER_ALIASES = {
   "xoana": ["xoana", "С…РѕР°РїР°"],
   "CARNAGE 1": ["CARNAGE1", "CARNAGE 1"],
   "Goku": ["Goku", "GokГє"],
+  "Presidio de Bangu":["Presidio de Bangu","PresГ­dio de Bangu"]
 };
 
 const COLUMN_CONFIG = [
