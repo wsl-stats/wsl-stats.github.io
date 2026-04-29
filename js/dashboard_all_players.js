@@ -6,28 +6,6 @@
  */
 
 (function() {
-    const CONFIG = {
-        // Общие настройки циклов для Rare/Epic
-        startDate: "2026-04-03",     // начало первого цикла
-        cycleDays: 24,               // длительность цикла в днях
-
-        // Пороги для Rare и Epic (один на все циклы)
-        thresholds: {
-            rare: 2000,
-            epic: 2000,
-            // Пороги для каждого события Dark Omens (по порядку файлов)
-            darkOmensEvents: [1000000, 1000000, 1000000],
-            // Пороги для каждого события Olimpus
-            olimpusEvents: [71000, 71000, 71000]
-        },
-
-        // Файлы событий (порядок важен для соответствия thresholds)
-        olimpusFiles: ["04032026-09032026.csv", "29032026-02042026.csv", "21042026-26042026.csv"],
-        darkOmensFiles: ["24022026-25022026.csv", "20032026-21032026.csv", "13042026-14042026.csv"],
-        olimpusFolder: "Olimpus",
-        darkOmensFolder: "Dark omens"
-    };
-
     let charts = {};
 
    function createDashboard() {
