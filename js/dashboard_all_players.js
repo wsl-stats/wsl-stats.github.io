@@ -268,6 +268,7 @@ function renderCycleChart(canvasId, players, threshold, label) {
     canvas.style.height = `${totalHeight}px`;
     canvas.width = canvas.parentElement.clientWidth - 24;
 
+    const ctx = canvas.getContext('2d');
     const chart = new Chart(ctx, {
         type: 'bar',
         data: { labels, datasets: [{ label, data: points, backgroundColor: colors, borderRadius: 6, barPercentage: 0.85, categoryPercentage: 0.9 }] },
