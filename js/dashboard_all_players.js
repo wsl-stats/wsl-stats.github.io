@@ -71,17 +71,18 @@
             <h2 style="background: linear-gradient(135deg, #38bdf8, #a78bfa); -webkit-background-clip: text; background-clip: text; color: transparent; font-size: 28px;">📊 WSL Analytics</h2>
             <p style="color:#64748b;">All players · Events in tabs · All cycles for Rare/Epic with dates</p>
         </div>
-
-        <div class="section">
+        <div class="double-card">
+        <div class="card">
             <h3 style="color:#e2e8f0; margin-top:0;">🌑 Dark Omens</h3>
             ${darkTabsHtml}
             <div class="tab-contents">${darkContentsHtml}</div>
         </div>
 
-        <div class="section">
+        <div class="card">
             <h3 style="color:#e2e8f0; margin-top:0;">🏛️ Olimpus</h3>
             ${olimpusTabsHtml}
             <div class="tab-contents">${olimpusContentsHtml}</div>
+        </div>
         </div>
 
 <div class="double-card">
