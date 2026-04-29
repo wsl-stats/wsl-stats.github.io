@@ -121,7 +121,7 @@
     // Логика переключения вкладок
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
-            const section = btn.closest('.double-card2');
+            const section = btn.closest('.card');
             if (!section) return;
             const tabIdx = btn.dataset.tab;
             const sectionType = btn.dataset.section; // 'dark' или 'olimpus'
