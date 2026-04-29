@@ -699,69 +699,8 @@ async function loadAllChestsForWeek() {
   document.getElementById('periodAt').textContent =
     `From: ${formatDate(start)} — To: ${formatDate(end)} Moscow`;
  
-   
-  const files = [];
-  let cur = new Date(start);
-  while (cur <= end) {
-    files.push(formatDateForFile(cur));
-    cur.setUTCDate(cur.getUTCDate() + 1);
-  }
+  return await loadAllChestsByRange(start, end);
 
-  const entries = []; // { player, sourceRaw, points }
-  for (const file of files) {
-    try {
-      const resp = await fetch(`Data/${file}?v=${Date.now()}`);
-      if (!resp.ok) continue;
-      const text = await resp.text();
-      const lines = text.split(/\r?\n/);
-      let currentChest = null, currentPlayer = null, currentSource = null;
-      for (let i = 0; i < lines.length; i++) {
-        let line = lines[i].trim();
-        if (line === "") continue;
-        const lower = line.toLowerCase();
-        if (!lower.startsWith("from:") && !lower.startsWith("source:")) {
-          currentChest = line;
-          continue;
-        }
-        if (lower.startsWith("from:")) {
-          currentPlayer = line.substring(5).trim();
-          continue;
-        }
-        if (lower.startsWith("source:")) {
-			currentSource = line.substring(7).trim();
-		  if (currentPlayer && currentSource) {
-			  // Нормализуем источник (JГіrmungandr Shop → jormungandr shop)
-			  const normalizedSource = normalizeMungandrSource(currentSource);
-			  // Нормализуем также название сундука (для красивого отображения)
-			  const normalizedChest = normalizeMungandrSource(currentChest || '');
-			  
-			  const normSource = normalizedSource.toLowerCase();
-			  const normChest = normalizedChest.toLowerCase();
-			  
-			  let points = POINTS_MAP.get(`${normSource}|${normChest}`);
-			  if (points === undefined) {
-				points = POINTS_MAP.get(normSource) || 0;
-			  }
-			  
-			  if (points > 0) {
-				entries.push({
-				  player: currentPlayer,
-				  chestName: normalizedChest,   // нормализованное имя сундука
-				  sourceRaw: normalizedSource,  // нормализованный источник
-				  points: points
-				});
-			  }
-		  }
-		  currentChest = null;
-		  currentPlayer = null;
-		  currentSource = null;
-		}
-      }
-    } catch(e) {
-      // file missing – skip
-    }
-  }
-  return entries;
 }
 
 
@@ -1049,9 +988,6 @@ async function loadAllChestsByRange(startDate, endDate) {
     return `${day}.${month}.${year}`;
   };
 
-  document.getElementById('periodAt').textContent =
-    `From: ${formatDate(startDate)} — To: ${formatDate(endDate)} Moscow`;
-
   const files = [];
   let cur = new Date(startDate);
 
@@ -1154,6 +1090,7 @@ async function loadByCustomRange() {
     showLoader();
 
     const entries = await loadAllChestsByRange(start, end);
+	document.getElementById('periodAt').textContent = `From: ${formatDate(startDate)} — To: ${formatDate(endDate)} Moscow`;
     renderTableFromEntries(entries);
 
   } finally {
