@@ -18,8 +18,8 @@ const CONFIG = {
         },
 
         // Файлы событий (порядок важен для соответствия thresholds)
-        olimpusFiles: ["04032026-09032026.csv", "29032026-02042026.csv", "21042026-26042026.csv"],
-        darkOmensFiles: ["24022026-25022026.csv", "20032026-21032026.csv", "13042026-14042026.csv"],
+        olimpusFiles: ["21042026-26042026.csv", "29032026-02042026.csv", "04032026-09032026.csv"  ],
+        darkOmensFiles: ["13042026-14042026.csv", "20032026-21032026.csv", "24022026-25022026.csv"],
         olimpusFolder: "Olimpus",
         darkOmensFolder: "Dark omens"
     };
