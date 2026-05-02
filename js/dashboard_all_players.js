@@ -642,34 +642,38 @@
 
 
 
-    // Расчет комбинированного рейтинга по всем Tinman-событиям
     async function computeCombinedTinmanRating() {
-        const eventsData = [];
-        const thresholds = CONFIG.thresholds.tinmanEvents; // массив из трёх порогов
+        const thresholds = CONFIG.thresholds.tinmanEvents;
         if (!thresholds || thresholds.length !== CONFIG.tinmanFiles.length) return [];
 
-        // Загружаем все три события параллельно
+        // Загружаем все три события
         const promises = CONFIG.tinmanFiles.map((file, idx) =>
             loadSingleEvent(CONFIG.tinmansFolder, file)
         );
         const allResults = await Promise.all(promises);
 
-        // Собираем общую карту игроков: сумма очков, сумма порогов (можно просто сумму Threshold)
-        const playerTotalPoints = new Map();   // игрок -> сумма очков за 3 события
-        const playerEventCount = new Map();    // сколько событий, где игрок появился
-
-        for (let i = 0; i < allResults.length; i++) {
-            const players = allResults[i] || [];
-            const thresh = thresholds[i] || 0;
-            for (const p of players) {
-                const name = p.player;
-                const pts = p.points;
-                playerTotalPoints.set(name, (playerTotalPoints.get(name) || 0) + pts);
-                playerEventCount.set(name, (playerEventCount.get(name) || 0) + 1);
+        // 1. Собираем уникальных игроков из всех событий
+        const allPlayersSet = new Set();
+        for (const eventData of allResults) {
+            for (const p of eventData) {
+                allPlayersSet.add(p.player);
             }
         }
+        // (Опционально) можно добавить игроков из rare/epic/других событий, если нужно
+        // Например, из глобального рейтинга или алиасов
 
-        // Суммарный порог (сумма трёх thresholds) – можно использовать для нормировки
+        // 2. Для каждого игрока считаем сумму очков по трём событиям (0, если нет в событии)
+        const playerTotalPoints = new Map();
+        for (const player of allPlayersSet) {
+            let total = 0;
+            for (let i = 0; i < allResults.length; i++) {
+                const eventData = allResults[i];
+                const found = eventData.find(p => p.player === player);
+                total += found ? found.points : 0;
+            }
+            playerTotalPoints.set(player, total);
+        }
+
         const totalThreshold = thresholds.reduce((sum, t) => sum + t, 0);
         if (totalThreshold === 0) return [];
 
@@ -679,18 +683,23 @@
         for (const [player, totalPoints] of playerTotalPoints.entries()) {
             const ratio = totalPoints / totalThreshold;
             const rating = ratio * weight;
-            const rank = getRank(rating);   // используем существующую getRank
+            const rank = getRank(rating);
+            // Также посчитаем, в скольких событиях игрок участвовал (имеет любые очки)
+            let eventsCount = 0;
+            for (let i = 0; i < allResults.length; i++) {
+                if (allResults[i].some(p => p.player === player && p.points > 0)) eventsCount++;
+            }
             result.push({
                 player,
                 totalPoints,
-                eventsParticipated: playerEventCount.get(player),
+                eventsParticipated: eventsCount,
                 rating,
                 rankLabel: rank.label,
                 rankColor: rank.color
             });
         }
 
-        // Сортируем по рейтингу (убывание)
+        // Сортируем по убыванию рейтинга (у кого 0 очков — будут внизу)
         result.sort((a, b) => b.rating - a.rating);
         return result;
     }
