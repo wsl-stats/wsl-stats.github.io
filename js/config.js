@@ -3,32 +3,35 @@
 const WEEKLY_LIMIT = 900;
 
 const CONFIG = {
-        // Общие настройки циклов для Rare/Epic
-        startDate: "2026-02-14",     // начало первого цикла
-        cycleDays: 24,               // длительность цикла в днях
+  // Общие настройки циклов для Rare/Epic
+  startDate: "2026-02-14",     // начало первого цикла
+  cycleDays: 24,               // длительность цикла в днях
 
-        // Пороги для Rare и Epic (один на все циклы)
-        thresholds: {
-            rare: 2000,
-            epic: 2000,
-            // Пороги для каждого события Dark Omens (по порядку файлов)
-            darkOmensEvents: [550000, 550000, 550000],
-            // Пороги для каждого события Olimpus
-            olimpusEvents: [71000, 71000, 71000]
-        },
+  // Пороги для Rare и Epic (один на все циклы)
+  thresholds: {
+    rare: 2000,
+    epic: 2000,
+    // Пороги для каждого события Dark Omens (по порядку файлов)
+    darkOmensEvents: [550000, 550000, 550000],
+    // Пороги для каждого события Olimpus
+    olimpusEvents: [71000, 71000, 71000],
+    tinmanEvents: [1000000, 1000000, 1000000],
+  },
 
-        // Файлы событий (порядок важен для соответствия thresholds)
-        olimpusFiles: ["21042026-26042026.csv", "29032026-02042026.csv", "04032026-09032026.csv"  ],
-        darkOmensFiles: ["13042026-14042026.csv", "20032026-21032026.csv", "24022026-25022026.csv"],
-        olimpusFolder: "Olimpus",
-        darkOmensFolder: "Dark omens"
-    };
+  // Файлы событий (порядок важен для соответствия thresholds)
+  olimpusFiles: ["21042026-26042026.csv", "29032026-02042026.csv", "04032026-09032026.csv"],
+  darkOmensFiles: ["13042026-14042026.csv", "20032026-21032026.csv", "24022026-25022026.csv"],
+  tinmanFiles: ["27042026.csv", "21042026.csv", "15042026.csv"],
+  olimpusFolder: "Olimpus",
+  darkOmensFolder: "Dark omens",
+  tinmansFolder: "Tinman"
+};
 
 const PLAYER_ALIASES = {
   "xoana": ["xoana", "С…РѕР°РїР°"],
   "CARNAGE 1": ["CARNAGE1", "CARNAGE 1"],
   "Goku": ["Goku", "GokГє"],
-  "Presidio de Bangu":["Presidio de Bangu","PresГ­dio de Bangu"]
+  "Presidio de Bangu": ["Presidio de Bangu", "PresГ­dio de Bangu"]
 };
 
 const COLUMN_CONFIG = [
@@ -36,59 +39,62 @@ const COLUMN_CONFIG = [
   { name: "Rare Crypt", sources: ["level 10 rare crypt", "level 15 rare crypt", "level 20 rare crypt", "level 25 rare crypt", "level 30 rare crypt"] },
   { name: "Epic Crypt", sources: ["level 15 epic crypt", "level 20 epic crypt", "level 25 epic crypt", "level 30 epic crypt", "level 35 epic crypt"] },
   { name: "Citadel", sources: ["level 20 citadel", "level 25 citadel", "level 30 citadel"] },
- 
-  { name: "Epic monster big Chests", sources: 
-	  [
-	  "beastman",
-	  "epic briareus squad",
-	  "arachne's swarm epic squad",
-	  "epic undead squad",
-	  "Shadow City",
-	  "epic basilisk squad",
-	  "epic inferno squad",
-	  "dark omens event"
-	  ] 
-  },  
-  { name: "Epic monster small Chests", sources: 
-	  [
-	  "epic chimera squad",
-	  "epic jormungandr squad",
-	  "epic fenrir squad"
-	  ] 
+
+  {
+    name: "Epic monster big Chests", sources:
+      [
+        "beastman",
+        "epic briareus squad",
+        "arachne's swarm epic squad",
+        "epic undead squad",
+        "Shadow City",
+        "epic basilisk squad",
+        "epic inferno squad",
+        "dark omens event"
+      ]
   },
-  
+  {
+    name: "Epic monster small Chests", sources:
+      [
+        "epic chimera squad",
+        "epic jormungandr squad",
+        "epic fenrir squad"
+      ]
+  },
+
   { name: "Heroic Monster", sources: ["heroic monster"] },   // matches all heroic monster levels
   { name: "Hermes' Store", sources: ["hermes' store"] },
   { name: "Tinman", sources: ["Rise of the Ancients event"] },
   { name: "Jormungandr Shop", sources: ["jormungandr shop"] },
 
-  { name: "Tartaros Crypt", sources: 
-	  [
-	  "tartaros crypt level 10",
-	  "tartaros crypt level 15",
-	  "tartaros crypt level 20",
-	  "tartaros crypt level 25",
-	  "tartaros crypt level 30",
-	  "tartaros crypt level 35"
-	  ] 
+  {
+    name: "Tartaros Crypt", sources:
+      [
+        "tartaros crypt level 10",
+        "tartaros crypt level 15",
+        "tartaros crypt level 20",
+        "tartaros crypt level 25",
+        "tartaros crypt level 30",
+        "tartaros crypt level 35"
+      ]
   },
-  
-  
+
+
 ];
 
 
 
 const POINTS_CONFIG = {
-	
-  "jormungandr shop":1,
-  "rise of the ancients event":1,
-  "hermes' store":1,
-  "tartaros crypt level 10":1,
-  "tartaros crypt level 15":1,
-  "tartaros crypt level 20":1,
-  "tartaros crypt level 25":1,
-  "tartaros crypt level 30":1,
-  "tartaros crypt level 35":1,
+
+  "jormungandr shop": 1,
+  "rise of the ancients event": 1,
+  "hermes' store": 1,
+  "tartaros crypt level 10": 1,
+  "tartaros crypt level 15": 1,
+  "tartaros crypt level 20": 1,
+  "tartaros crypt level 25": 1,
+  "tartaros crypt level 30": 1,
+  "tartaros crypt level 35": 1,
   // ----- Крипты (Crypt) -----
   "level 10 rare crypt": 2,
   "level 15 rare crypt": 8,
@@ -114,13 +120,13 @@ const POINTS_CONFIG = {
   "epic inferno squad": 500,
   "epic basilisk squad": 500,      // базовое значение, но будет переопределено для конкретных сундуков
   "epic chimera squad": 120,
-  "epic fenrir squad":120,
-  "epic jormungandr squad":120,
+  "epic fenrir squad": 120,
+  "epic jormungandr squad": 120,
   "arachne's swarm epic squad": 500,
-  "epic undead squad":500,
-  "shadow city":500,
-  "epic briareus squad":500,
-  "beastman":500,
+  "epic undead squad": 500,
+  "shadow city": 500,
+  "epic briareus squad": 500,
+  "beastman": 500,
 
   // ----- Героические монстры (Heroic Monsters) -----
   "level 16 heroic monster": 5,
