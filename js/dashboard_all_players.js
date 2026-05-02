@@ -67,7 +67,7 @@
             <p style="color:#64748b;">All players · Events in tabs · All cycles for Rare/Epic with dates</p>
         </div>
 
-        <div class="double-card">
+        <div class="double-card2">
         <div class="card">
             <h3 style="color:#e2e8f0; margin-top:0;">Tinman</h3>
             ${tinmanTabsHtml}
@@ -167,6 +167,7 @@
                 const points = parseFloat(row[pointsIdx]);
                 if (player && !isNaN(points) && points > 0) result.push({ player, points });
             }
+            result.sort((a, b) => b.points - a.points);
             return result;
         } catch (e) { return null; }
     }
