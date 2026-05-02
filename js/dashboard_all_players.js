@@ -351,9 +351,8 @@
         }
         // Формируем метки: если есть поле cycleLabel, то "Player – CycleLabel", иначе "Player"
         const labels = items.map((item, idx) => {
-            const badge = item.rankLabel ? `[${item.rankLabel}]` : '';
-            if (item.cycleLabel) return `${idx + 1}. ${item.player} ${badge} – ${item.cycleLabel}`;
-            return `${idx + 1}. ${item.player} ${badge}`;
+            if (item.cycleLabel) return `${idx + 1}. ${item.player} – ${item.cycleLabel}`;
+            return `${idx + 1}. ${item.player}`;
         });
         const points = items.map(item => item.points);
         const colors = points.map(p => p >= threshold ? '#10b981' : '#ef4444');
