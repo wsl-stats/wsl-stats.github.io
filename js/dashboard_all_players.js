@@ -269,7 +269,7 @@
         // Используем ту же логику, что и в drawHorizontalBar, но с нумерацией
         const labels = players.map((p, idx) => `${idx + 1}. ${p.player}`);
         const points = players.map(p => p.points);
-        const colors = items.map(item => {
+        const colors = players.map(item => {
             if (item.rankColor) return item.rankColor;
             return item.points >= threshold ? '#10b981' : '#ef4444';
         });
