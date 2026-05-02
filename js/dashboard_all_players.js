@@ -269,7 +269,10 @@
         // Используем ту же логику, что и в drawHorizontalBar, но с нумерацией
         const labels = players.map((p, idx) => `${idx + 1}. ${p.player}`);
         const points = players.map(p => p.points);
-        const colors = points.map(p => p >= threshold ? '#10b981' : '#ef4444');
+        const colors = items.map(item => {
+            if (item.rankColor) return item.rankColor;
+            return item.points >= threshold ? '#10b981' : '#ef4444';
+        });
         const barHeight = 36;
         const totalHeight = players.length * barHeight + 60;
         canvas.height = totalHeight;
@@ -336,8 +339,9 @@
         }
         // Формируем метки: если есть поле cycleLabel, то "Player – CycleLabel", иначе "Player"
         const labels = items.map((item, idx) => {
-            if (item.cycleLabel) return `${idx + 1}. ${item.player} – ${item.cycleLabel}`;
-            return `${idx + 1}. ${item.player}`;
+            const badge = item.rankLabel ? `[${item.rankLabel}]` : '';
+            if (item.cycleLabel) return `${idx + 1}. ${item.player} ${badge} – ${item.cycleLabel}`;
+            return `${idx + 1}. ${item.player} ${badge}`;
         });
         const points = items.map(item => item.points);
         const colors = points.map(p => p >= threshold ? '#10b981' : '#ef4444');
@@ -355,7 +359,17 @@
                 indexAxis: 'y',
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { display: false }, tooltip: { callbacks: { label: (ctx) => `${ctx.raw} points` } } },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => {
+                                const item = items[ctx.dataIndex];
+                                return `${ctx.raw} pts | ${item.rankLabel}`;
+                            }
+                        }
+                    }
+                },
                 scales: {
                     x: { title: { display: true, text: 'Points', color: '#94a3b8' }, grid: { color: '#334155' }, ticks: { color: '#cbd5e1' } },
                     y: { ticks: { color: '#cbd5e1', font: { size: 10 }, stepSize: 1, autoSkip: false }, grid: { display: false } }
@@ -400,14 +414,16 @@
     }
 
     async function refreshAll() {
-        console.log('🔄 Updating dashboard...');
+
         try {
             //tinman
             for (let i = 0; i < CONFIG.tinmanFiles.length; i++) {
                 const file = CONFIG.tinmanFiles[i];
                 const data = await loadSingleEvent(CONFIG.tinmansFolder, file);
                 const threshold = CONFIG.thresholds.tinmanEvents[i];
-                drawHorizontalBar(`tinman_${i}`, data, threshold, `Tinman points`);
+                const enriched = enrichWithRating(data, threshold, 'tinman');
+                drawHorizontalBar(`tinman_${i}`, enriched, threshold, `Tinman points`);
+                // drawHorizontalBar(`tinman_${i}`, data, threshold, `Tinman points`);
                 updateStats(`tinmanStats_${i}`, data, threshold);
             }
 
@@ -416,7 +432,8 @@
                 const file = CONFIG.darkOmensFiles[i];
                 const data = await loadSingleEvent(CONFIG.darkOmensFolder, file);
                 const threshold = CONFIG.thresholds.darkOmensEvents[i];
-                drawHorizontalBar(`dark_${i}`, data, threshold, `Dark Omens points`);
+                const enriched = enrichWithRating(data, threshold, 'dark');
+                drawHorizontalBar(`dark_${i}`, enriched, threshold, `Dark Omens points`);
                 updateStats(`darkStats_${i}`, data, threshold);
             }
             // Olimpus
@@ -424,7 +441,8 @@
                 const file = CONFIG.olimpusFiles[i];
                 const data = await loadSingleEvent(CONFIG.olimpusFolder, file);
                 const threshold = CONFIG.thresholds.olimpusEvents[i];
-                drawHorizontalBar(`olimpus_${i}`, data, threshold, `Olimpus points`);
+                const enriched = enrichWithRating(data, threshold, 'dark');
+                drawHorizontalBar(`olimpus_${i}`, enriched, threshold, `Olimpus points`);
                 updateStats(`olimpusStats_${i}`, data, threshold);
             }
             // Rare / Epic с циклами
@@ -541,6 +559,41 @@
     function init() {
         createDashboard();
         setTimeout(() => { refreshAll(); hookUpdates(); }, 500);
+    }
+
+    function calculateRatio(points, threshold) {
+        if (!threshold || threshold === 0) return 0;
+        return points / threshold;
+    }
+
+    function calculateRating(points, threshold, weight) {
+        const ratio = calculateRatio(points, threshold);
+        return ratio * weight;
+    }
+
+    function getRank(score) {
+        if (score < 0.7) return { label: "Dead", color: "#ef4444" };
+        if (score < 1.0) return { label: "Weak", color: "#f97316" };
+        if (score < 1.3) return { label: "Stable", color: "#eab308" };
+        if (score < 1.8) return { label: "Strong", color: "#22c55e" };
+        return { label: "Elite", color: "#a855f7" };
+    }
+
+
+    function enrichWithRating(players, threshold, eventType) {
+        const weight = EVENT_WEIGHTS[eventType] || 1;
+
+        return players.map(p => {
+            const rating = calculateRating(p.points, threshold, weight);
+            const rank = getRank(rating);
+
+            return {
+                ...p,
+                rating,
+                rankLabel: rank.label,
+                rankColor: rank.color
+            };
+        });
     }
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

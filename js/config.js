@@ -27,6 +27,15 @@ const CONFIG = {
   tinmansFolder: "Tinman"
 };
 
+const EVENT_WEIGHTS = {
+  tinman: 1.0,
+  dark: 0.7,
+  olimpus: 0.7,
+  rare: 0.7,
+  epic: 0.8
+};
+
+
 const PLAYER_ALIASES = {
   "xoana": ["xoana", "С…РѕР°РїР°"],
   "CARNAGE 1": ["CARNAGE1", "CARNAGE 1"],
