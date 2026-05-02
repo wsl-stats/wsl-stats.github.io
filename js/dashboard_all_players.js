@@ -616,7 +616,9 @@
     }
 
     function getRank(score) {
-        if (score < 0.7) return { label: "Dead", color: "#ef4444" };
+        if (score === 0) return { label: "Useless", color: "#4a0000" };      // 0% – исключены
+        if (score < 0.2) return { label: "Very Weak", color: "#991b1b" };    // < 20%
+        if (score < 0.7) return { label: "Poor", color: "#ef4444" };
         if (score < 1.0) return { label: "Weak", color: "#f97316" };
         if (score < 1.3) return { label: "Stable", color: "#eab308" };
         if (score < 1.8) return { label: "Strong", color: "#22c55e" };
