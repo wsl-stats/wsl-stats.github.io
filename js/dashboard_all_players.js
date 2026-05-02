@@ -498,13 +498,34 @@
             }
 
             // Отрисовываем первый (активный) график для каждого типа
+            // if (rareCycles.length) {
+            //     renderCycleChart(`rareCanvas_0`, rareCycles[0].players, CONFIG.thresholds.rare, 'Rare Crypt points');
+            //     updateStats(`rareStats_0`, rareCycles[0].players, CONFIG.thresholds.rare);
+            // }
             if (rareCycles.length) {
-                renderCycleChart(`rareCanvas_0`, rareCycles[0].players, CONFIG.thresholds.rare, 'Rare Crypt points');
-                updateStats(`rareStats_0`, rareCycles[0].players, CONFIG.thresholds.rare);
+                const enriched = enrichWithRating(
+                    rareCycles[0].players,
+                    CONFIG.thresholds.rare,
+                    'rare'
+                );
+
+                renderCycleChart(`rareCanvas_0`, enriched, CONFIG.thresholds.rare, 'Rare Crypt points');
+                updateStats(`rareStats_0`, enriched, CONFIG.thresholds.rare);
             }
+            // if (epicCycles.length) {
+            //     renderCycleChart(`epicCanvas_0`, epicCycles[0].players, CONFIG.thresholds.epic, 'Epic Crypt points');
+            //     updateStats(`epicStats_0`, epicCycles[0].players, CONFIG.thresholds.epic);
+            // }
+
             if (epicCycles.length) {
-                renderCycleChart(`epicCanvas_0`, epicCycles[0].players, CONFIG.thresholds.epic, 'Epic Crypt points');
-                updateStats(`epicStats_0`, epicCycles[0].players, CONFIG.thresholds.epic);
+                const enriched = enrichWithRating(
+                    epicCycles[0].players,
+                    CONFIG.thresholds.epic,
+                    'epic'
+                );
+
+                renderCycleChart(`epicCanvas_0`, enriched, CONFIG.thresholds.epic, 'Epic Crypt points');
+                updateStats(`epicStats_0`, enriched, CONFIG.thresholds.epic);
             }
 
             // Переключатели для Rare вкладок
@@ -519,8 +540,14 @@
                     if (activeContent) activeContent.classList.add('active');
                     const cycleData = rareCycles[idx];
                     if (cycleData) {
-                        renderCycleChart(`rareCanvas_${idx}`, cycleData.players, CONFIG.thresholds.rare, 'Rare Crypt points');
-                        updateStats(`rareStats_${idx}`, cycleData.players, CONFIG.thresholds.rare);
+                        const enriched = enrichWithRating(
+                            cycleData.players,
+                            CONFIG.thresholds.rare,
+                            'rare'
+                        );
+
+                        renderCycleChart(`rareCanvas_${idx}`, enriched, CONFIG.thresholds.rare, 'Rare Crypt points');
+                        updateStats(`rareStats_${idx}`, enriched, CONFIG.thresholds.rare);
                     }
                 });
             });
@@ -537,8 +564,14 @@
                     if (activeContent) activeContent.classList.add('active');
                     const cycleData = epicCycles[idx];
                     if (cycleData) {
-                        renderCycleChart(`epicCanvas_${idx}`, cycleData.players, CONFIG.thresholds.epic, 'Epic Crypt points');
-                        updateStats(`epicStats_${idx}`, cycleData.players, CONFIG.thresholds.epic);
+                        const enriched = enrichWithRating(
+                            cycleData.players,
+                            CONFIG.thresholds.epic,
+                            'epic'
+                        );
+
+                        renderCycleChart(`epicCanvas_${idx}`, enriched, CONFIG.thresholds.epic, 'Epic Crypt points');
+                        updateStats(`epicStats_${idx}`, enriched, CONFIG.thresholds.epic);
                     }
                 });
             });
