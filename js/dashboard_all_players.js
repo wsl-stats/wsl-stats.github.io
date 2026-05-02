@@ -719,7 +719,8 @@
             </tr>`;
         });
         html += `</tbody></table></div>
-           <div class="card-footer" style="text-align:center;">🎯 Рейтинг = (сумма очков / сумма порогов) × вес (${EVENT_WEIGHTS.tinman})<br>По 3 последним Tinman-событиям</div>`;
+           <div class="card-footer" style="text-align:center;">🎯 Rating = (total points / total thresholds) × weight (${EVENT_WEIGHTS.tinman})
+                                                                <br>Based on the last 3 Tinman events</div>`;
         container.innerHTML = html;
     }
 
