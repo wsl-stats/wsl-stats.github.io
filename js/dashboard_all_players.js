@@ -66,7 +66,7 @@
         const ratingBlockHtml = `
             <div class="card">
                 <h3 style="color:#e2e8f0; margin-top:0;">🏆 Tinman Rating (3 events: ${tinmanFileNames})</h3>
-                <div id="ratingBlockContent" style="padding: 8px 12px;">Загрузка рейтинга...</div>
+                <div id="ratingBlockContent" style="padding: 8px 12px;">loading...</div>
             </div>
             `;
 
