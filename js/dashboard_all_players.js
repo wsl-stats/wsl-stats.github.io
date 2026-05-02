@@ -134,7 +134,7 @@
                 section.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                 section.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
                 btn.classList.add('active');
-                const contentId = sectionType === 'dark' ? `darkContent_${tabIdx}` : `olimpusContent_${tabIdx}`;
+                const contentId = `${sectionType}Content_${tabIdx}`;
                 const activeContent = section.querySelector(`#${contentId}`);
                 if (activeContent) activeContent.classList.add('active');
             });
