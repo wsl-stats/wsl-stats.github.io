@@ -646,33 +646,14 @@
         const thresholds = CONFIG.thresholds.tinmanEvents;
         if (!thresholds || thresholds.length !== CONFIG.tinmanFiles.length) return [];
 
-        // Загружаем все три события
+        // Загружаем три события
         const promises = CONFIG.tinmanFiles.map((file, idx) =>
             loadSingleEvent(CONFIG.tinmansFolder, file)
         );
         const allResults = await Promise.all(promises);
 
-        // 1. Собираем уникальных игроков из всех событий
-        const allPlayersSet = new Set();
-        for (const eventData of allResults) {
-            for (const p of eventData) {
-                allPlayersSet.add(p.player);
-            }
-        }
-        // (Опционально) можно добавить игроков из rare/epic/других событий, если нужно
-        // Например, из глобального рейтинга или алиасов
-
-        // 2. Для каждого игрока считаем сумму очков по трём событиям (0, если нет в событии)
-        const playerTotalPoints = new Map();
-        for (const player of allPlayersSet) {
-            let total = 0;
-            for (let i = 0; i < allResults.length; i++) {
-                const eventData = allResults[i];
-                const found = eventData.find(p => p.player === player);
-                total += found ? found.points : 0;
-            }
-            playerTotalPoints.set(player, total);
-        }
+        // Получаем всех известных игроков из всех активностей
+        const allPlayers = await getAllKnownPlayers();  // <-- основное изменение
 
         const totalThreshold = thresholds.reduce((sum, t) => sum + t, 0);
         if (totalThreshold === 0) return [];
@@ -680,26 +661,29 @@
         const weight = EVENT_WEIGHTS.tinman || 1.0;
         const result = [];
 
-        for (const [player, totalPoints] of playerTotalPoints.entries()) {
+        for (const player of allPlayers) {
+            let totalPoints = 0;
+            let eventsParticipated = 0;
+            for (let i = 0; i < allResults.length; i++) {
+                const found = allResults[i].find(p => p.player === player);
+                if (found) {
+                    totalPoints += found.points;
+                    if (found.points > 0) eventsParticipated++;
+                }
+            }
             const ratio = totalPoints / totalThreshold;
             const rating = ratio * weight;
             const rank = getRank(rating);
-            // Также посчитаем, в скольких событиях игрок участвовал (имеет любые очки)
-            let eventsCount = 0;
-            for (let i = 0; i < allResults.length; i++) {
-                if (allResults[i].some(p => p.player === player && p.points > 0)) eventsCount++;
-            }
             result.push({
                 player,
                 totalPoints,
-                eventsParticipated: eventsCount,
+                eventsParticipated,
                 rating,
                 rankLabel: rank.label,
                 rankColor: rank.color
             });
         }
 
-        // Сортируем по убыванию рейтинга (у кого 0 очков — будут внизу)
         result.sort((a, b) => b.rating - a.rating);
         return result;
     }
@@ -747,6 +731,22 @@
             if (m === '>') return '&gt;';
             return m;
         });
+    }
+
+
+
+    async function getAllKnownPlayers() {
+        const playersSet = new Set();
+
+        // 1. Добавить игроков из всех Tinman событий
+        const tinmanPromises = CONFIG.tinmanFiles.map(file => loadSingleEvent(CONFIG.tinmansFolder, file));
+        const tinmanResults = await Promise.all(tinmanPromises);
+        for (const event of tinmanResults) {
+            for (const p of event) playersSet.add(p.player);
+        }
+
+
+        return Array.from(playersSet);
     }
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
