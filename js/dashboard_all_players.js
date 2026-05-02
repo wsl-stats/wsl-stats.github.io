@@ -716,7 +716,7 @@
               <td style="padding:8px 4px; font-weight:500;">${escapeHtml(item.player)}</td>
               <td style="padding:8px 4px; text-align:right; font-family:monospace;">${ratingPercent}%</td>
               <td style="padding:8px 4px; text-align:center;">
-                <span style="background:${item.rankColor}; color:black; padding:2px 8px; border-radius:20px; font-size:11px; font-weight:bold;">${item.rankLabel}</span>
+                <span style="background:${item.rankColor}; color:white; padding:2px 8px; border-radius:20px; font-size:11px; font-weight:bold;">${item.rankLabel}</span>
               </td>
             </tr>`;
         });
