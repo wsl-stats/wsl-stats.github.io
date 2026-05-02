@@ -626,8 +626,9 @@
         if (score < 0.5) return { label: "Very Weak", color: "#991b1b" };
         if (score < 0.7) return { label: "Poor", color: "#ef4444" };
         if (score < 1.0) return { label: "Weak", color: "#f97316" };
-        if (score < 1.3) return { label: "Stable", color: "#eab308" };
-        if (score < 1.8) return { label: "Strong", color: "#22c55e" };
+        if (score < 1.4) return { label: "Stable", color: "#eab308" };
+        if (score < 4) return { label: "Strong", color: "#22c55e" };
+        if (score < 10) return { label: "Pro", color: "#0381a7" };
         return { label: "Elite", color: "#a855f7" };
     }
 
@@ -716,7 +717,8 @@
             'Weak': 0,
             'Stable': 0,
             'Strong': 0,
-            'Elite': 0
+            'Elite': 0,
+            'Pro': 0
         };
         for (const item of ratingData) {
             const label = item.rankLabel;
