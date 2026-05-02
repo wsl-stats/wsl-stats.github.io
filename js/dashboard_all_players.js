@@ -60,6 +60,16 @@
         });
         olimpusTabsHtml += '</div>';
 
+
+        const tinmanFileNames = CONFIG.tinmanFiles.map(f => f.replace('.csv', '')).join(', ');
+
+        const ratingBlockHtml = `
+            <div class="card">
+                <h3 style="color:#e2e8f0; margin-top:0;">🏆 Tinman Rating (3 events: ${tinmanFileNames})</h3>
+                <div id="ratingBlockContent" style="padding: 8px 12px;">Загрузка рейтинга...</div>
+            </div>
+            `;
+
         const html = `
     <div id="cyclesDashboard" style="margin: 50px auto 20px; max-width: 1400px; padding: 0 20px;">
         <div style="text-align: center; margin-bottom: 30px;">
@@ -74,10 +84,7 @@
                 <div class="tab-contents">${tinmanContentsHtml}</div>
             </div>
 
-            <div class="card">
-                <h3 style="color:#e2e8f0; margin-top:0;">🏆 Tinman Rating (last 3 events)</h3>
-                <div id="ratingBlockContent" style="padding: 8px 12px;">Loading ratings...</div>
-            </div>
+            ${ratingBlockHtml}
 
         </div>
 
@@ -695,7 +702,7 @@
         if (!container) return;
 
         if (!ratingData || ratingData.length === 0) {
-            container.innerHTML = '<div style="color:#94a3b8; padding:20px;">Нет данных для рейтинга</div>';
+            container.innerHTML = '<div style="color:#94a3b8; padding:20px;">No data</div>';
             return;
         }
 
