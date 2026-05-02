@@ -170,7 +170,7 @@
                 const player = row[playerIdx].trim();
                 if (player.toLowerCase() === 'total') continue;
                 const points = parseFloat(row[pointsIdx]);
-                if (player && !isNaN(points) && points > 0) result.push({ player, points });
+                if (player && !isNaN(points) && points >= 0) result.push({ player, points });
             }
             result.sort((a, b) => b.points - a.points);
             return result;
