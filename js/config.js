@@ -35,6 +35,13 @@ const EVENT_WEIGHTS = {
   epic: 0.8
 };
 
+const RATING_CONFIG = {
+  tinmanCombined: {
+    weight: 1.0,
+    // можно добавить другие параметры, если нужно
+  }
+};
+
 
 const PLAYER_ALIASES = {
   "xoana": ["xoana", "С…РѕР°РїР°"],

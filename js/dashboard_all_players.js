@@ -68,11 +68,16 @@
         </div>
 
         <div class="double-card2">
-        <div class="card">
-            <h3 style="color:#e2e8f0; margin-top:0;">Tinman</h3>
-            ${tinmanTabsHtml}
-            <div class="tab-contents">${tinmanContentsHtml}</div>
-        </div>
+            <div class="card">
+                <h3 style="color:#e2e8f0; margin-top:0;">Tinman</h3>
+                ${tinmanTabsHtml}
+                <div class="tab-contents">${tinmanContentsHtml}</div>
+            </div>
+
+            <div class="card">
+                <h3 style="color:#e2e8f0; margin-top:0;">🏆 Tinman Rating (last 3 events)</h3>
+                <div id="ratingBlockContent" style="padding: 8px 12px;">Loading ratings...</div>
+            </div>
 
         </div>
 
@@ -575,6 +580,12 @@
                     }
                 });
             });
+
+
+            const ratingData = await computeCombinedTinmanRating();
+            renderRatingBlock(ratingData);
+
+
         } catch (err) { console.error(err); }
     }
 
@@ -626,6 +637,106 @@
                 rankLabel: rank.label,
                 rankColor: rank.color
             };
+        });
+    }
+
+
+
+    // Расчет комбинированного рейтинга по всем Tinman-событиям
+    async function computeCombinedTinmanRating() {
+        const eventsData = [];
+        const thresholds = CONFIG.thresholds.tinmanEvents; // массив из трёх порогов
+        if (!thresholds || thresholds.length !== CONFIG.tinmanFiles.length) return [];
+
+        // Загружаем все три события параллельно
+        const promises = CONFIG.tinmanFiles.map((file, idx) =>
+            loadSingleEvent(CONFIG.tinmansFolder, file)
+        );
+        const allResults = await Promise.all(promises);
+
+        // Собираем общую карту игроков: сумма очков, сумма порогов (можно просто сумму Threshold)
+        const playerTotalPoints = new Map();   // игрок -> сумма очков за 3 события
+        const playerEventCount = new Map();    // сколько событий, где игрок появился
+
+        for (let i = 0; i < allResults.length; i++) {
+            const players = allResults[i] || [];
+            const thresh = thresholds[i] || 0;
+            for (const p of players) {
+                const name = p.player;
+                const pts = p.points;
+                playerTotalPoints.set(name, (playerTotalPoints.get(name) || 0) + pts);
+                playerEventCount.set(name, (playerEventCount.get(name) || 0) + 1);
+            }
+        }
+
+        // Суммарный порог (сумма трёх thresholds) – можно использовать для нормировки
+        const totalThreshold = thresholds.reduce((sum, t) => sum + t, 0);
+        if (totalThreshold === 0) return [];
+
+        const weight = EVENT_WEIGHTS.tinman || 1.0;
+        const result = [];
+
+        for (const [player, totalPoints] of playerTotalPoints.entries()) {
+            const ratio = totalPoints / totalThreshold;
+            const rating = ratio * weight;
+            const rank = getRank(rating);   // используем существующую getRank
+            result.push({
+                player,
+                totalPoints,
+                eventsParticipated: playerEventCount.get(player),
+                rating,
+                rankLabel: rank.label,
+                rankColor: rank.color
+            });
+        }
+
+        // Сортируем по рейтингу (убывание)
+        result.sort((a, b) => b.rating - a.rating);
+        return result;
+    }
+
+    function renderRatingBlock(ratingData) {
+        const container = document.getElementById('ratingBlockContent');
+        if (!container) return;
+
+        if (!ratingData || ratingData.length === 0) {
+            container.innerHTML = '<div style="color:#94a3b8; padding:20px;">Нет данных для рейтинга</div>';
+            return;
+        }
+
+        // Генерируем HTML-список с цветными индикаторами
+        let html = `<div style="max-height: 2400px; overflow-y: auto; padding: 8px;">
+                <table style="width:100%; border-collapse: collapse; font-size:13px;">
+                  <thead><tr style="color:#94a3b8; border-bottom:1px solid #334155;">
+                    <th style="text-align:left; padding:8px 4px;">#</th>
+                    <th style="text-align:left; padding:8px 4px;">Player</th>
+                    <th style="text-align:right; padding:8px 4px;">Rating</th>
+                    <th style="text-align:center; padding:8px 4px;">Rank</th>
+                  </tr></thead><tbody>`;
+
+        ratingData.forEach((item, idx) => {
+            const ratingPercent = (item.rating * 100).toFixed(1);
+            html += `<tr style="border-bottom:1px solid #1f2937;">
+              <td style="padding:8px 4px; color:#cbd5e1;">${idx + 1}</td>
+              <td style="padding:8px 4px; font-weight:500;">${escapeHtml(item.player)}</td>
+              <td style="padding:8px 4px; text-align:right; font-family:monospace;">${ratingPercent}%</td>
+              <td style="padding:8px 4px; text-align:center;">
+                <span style="background:${item.rankColor}; color:black; padding:2px 8px; border-radius:20px; font-size:11px; font-weight:bold;">${item.rankLabel}</span>
+              </td>
+            </tr>`;
+        });
+        html += `</tbody></table></div>
+           <div class="card-footer" style="text-align:center;">🎯 Рейтинг = (сумма очков / сумма порогов) × вес (${EVENT_WEIGHTS.tinman})<br>По 3 последним Tinman-событиям</div>`;
+        container.innerHTML = html;
+    }
+
+    // Простой экранировщик для защиты от XSS
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function (m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
         });
     }
 
