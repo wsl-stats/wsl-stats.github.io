@@ -623,8 +623,8 @@
     }
 
     function getRank(score) {
-        if (score === 0) return { label: "Useless", color: "#4a0000" };      // 0% – исключены
-        if (score < 0.2) return { label: "Very Weak", color: "#991b1b" };    // < 20%
+        if (score < 0.3) return { label: "Useless", color: "#4a0000" };
+        if (score < 0.5) return { label: "Very Weak", color: "#991b1b" };
         if (score < 0.7) return { label: "Poor", color: "#ef4444" };
         if (score < 1.0) return { label: "Weak", color: "#f97316" };
         if (score < 1.3) return { label: "Stable", color: "#eab308" };
@@ -755,7 +755,7 @@
              👥 Total rows: ${total} &nbsp;|&nbsp; ✅ Achieved (≥100%): ${achieved} (${percent}%)<br>
              📊 Categories: ${catStr}<br>
              🎯 Rating = (total points / total threshold) × weight (${EVENT_WEIGHTS.tinman})<br>
-             ⚠️ Useless (0%) and Very Weak (&lt;20%) will be excluded from future activities
+             ⚠️ Useless (<0.3) and Very Weak (&lt;50%) will be excluded from future activities
            </div>`;
         container.innerHTML = html;
     }
