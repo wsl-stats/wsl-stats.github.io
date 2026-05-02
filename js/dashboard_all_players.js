@@ -702,11 +702,33 @@
         if (!container) return;
 
         if (!ratingData || ratingData.length === 0) {
-            container.innerHTML = '<div style="color:#94a3b8; padding:20px;">No data</div>';
+            container.innerHTML = '<div style="color:#94a3b8; padding:20px;">No rating data</div>';
             return;
         }
 
-        // Генерируем HTML-список с цветными индикаторами
+        const total = ratingData.length;
+        const achieved = ratingData.filter(item => item.rating >= 1.0).length;
+        const percent = Math.round((achieved / total) * 100);
+
+        const categories = {
+            'Useless': 0,
+            'Very Weak': 0,
+            'Poor': 0,
+            'Weak': 0,
+            'Stable': 0,
+            'Strong': 0,
+            'Elite': 0
+        };
+        for (const item of ratingData) {
+            const label = item.rankLabel;
+            if (categories.hasOwnProperty(label)) categories[label]++;
+            else categories[label] = 1;
+        }
+
+        const catStr = Object.entries(categories)
+            .map(([name, count]) => `<span style="margin-right:12px;"><span style="color:#cbd5e1;">${name}:</span> ${count}</span>`)
+            .join('');
+
         let html = `<div style="max-height: 2400px; overflow-y: auto; padding: 8px;">
                 <table style="width:100%; border-collapse: collapse; font-size:13px;">
                   <thead><tr style="color:#94a3b8; border-bottom:1px solid #334155;">
@@ -714,7 +736,7 @@
                     <th style="text-align:left; padding:8px 4px;">Player</th>
                     <th style="text-align:right; padding:8px 4px;">Rating</th>
                     <th style="text-align:center; padding:8px 4px;">Rank</th>
-                  </tr></thead><tbody>`;
+                   </tr></thead><tbody>`;
 
         ratingData.forEach((item, idx) => {
             const ratingPercent = (item.rating * 100).toFixed(1);
@@ -725,14 +747,18 @@
               <td style="padding:8px 4px; text-align:center;">
                 <span style="background:${item.rankColor}; color:white; padding:2px 8px; border-radius:20px; font-size:11px; font-weight:bold;">${item.rankLabel}</span>
               </td>
-            </tr>`;
+             </tr>`;
         });
-        html += `</tbody></table></div>
-           <div class="card-footer" style="text-align:center;">🎯 Rating = (total points / total thresholds) × weight (${EVENT_WEIGHTS.tinman})
-                                                                <br>Based on the last 3 Tinman events</div>`;
+        html += `</tbody></table></div>`;
+
+        html += `<div class="card-footer" style="text-align:center;">
+             👥 Total rows: ${total} &nbsp;|&nbsp; ✅ Achieved (≥100%): ${achieved} (${percent}%)<br>
+             📊 Categories: ${catStr}<br>
+             🎯 Rating = (total points / total threshold) × weight (${EVENT_WEIGHTS.tinman})<br>
+             ⚠️ Useless (0%) and Very Weak (&lt;20%) will be excluded from future activities
+           </div>`;
         container.innerHTML = html;
     }
-
     // Простой экранировщик для защиты от XSS
     function escapeHtml(str) {
         return str.replace(/[&<>]/g, function (m) {
