@@ -24,66 +24,63 @@
       <button class="tablink" data-tab="cycles">💎 Rare/Epic Cycles</button>
     </div>
     <div id="tabChest" class="tabpanel">
-
-
- <div class="events-section">
-      <div class="events-grid">
-        <div class="event-card">
-          <div class="event-header" data-target="pointsBody">
-            <h2>Weekly Chest Point Quota: <span id="weeklyLimit"></span></h2>
-            <span class="chevron">▼</span>
-            <br /><br />
-            <span id="cycleInfo"></span>
-          </div>
-          <div id="pointsBody" class="event-body">
-            <div
-              style="
-                background: #1f2937;
-                color: #d1d5db;
-                border-radius: 12px;
-                padding: 15px;
-              "
-            >
+      <div class="events-section">
+        <div class="events-grid">
+          <div class="event-card">
+            <div class="event-header" data-target="pointsBody">
+              <h2>Weekly Chest Point Quota: <span id="weeklyLimit"></span></h2>
+              <span class="chevron">▼</span>
+              <br /><br />
+              <span id="cycleInfo"></span>
+            </div>
+            <div id="pointsBody" class="event-body">
               <div
-                id="chestPoints"
-                style="margin-top: 10px; overflow-y: auto; max-height: 350px"
-              ></div>
+                style="
+                  background: #1f2937;
+                  color: #d1d5db;
+                  border-radius: 12px;
+                  padding: 15px;
+                "
+              >
+                <div
+                  id="chestPoints"
+                  style="margin-top: 10px; overflow-y: auto; max-height: 350px"
+                ></div>
+              </div>
             </div>
           </div>
+
+          <div class="event-card olimpus">
+            <div class="event-header" data-target="olimpusBody">
+              <h2>🏛 Olimpus</h2>
+              <span class="chevron">▼</span>
+            </div>
+            <div id="olimpusBody" class="event-body">
+              <div id="olimpusList" class="event-list"></div>
+            </div>
+          </div>
+
+          <div class="event-card dark">
+            <div class="event-header" data-target="darkBody">
+              <h2>🌑 Dark Omens</h2>
+              <span class="chevron">▼</span>
+            </div>
+            <div id="darkBody" class="event-body">
+              <div id="darkOmensList" class="event-list"></div>
+            </div>
+          </div>
+
+          <!-- <div class="archive-wrapper event-card"> -->
+          <!-- <div class="event-header" data-target="archiveBody"> -->
+          <!-- <h2>📦 Archive Results</h2> -->
+          <!-- <span class="chevron">▼</span> -->
+          <!-- </div> -->
+          <!-- <div id="archiveBody" class="event-body"> -->
+
+          <!-- </div> -->
+          <!-- </div> -->
         </div>
-
-        <div class="event-card olimpus">
-          <div class="event-header" data-target="olimpusBody">
-            <h2>🏛 Olimpus</h2>
-            <span class="chevron">▼</span>
-          </div>
-          <div id="olimpusBody" class="event-body">
-            <div id="olimpusList" class="event-list"></div>
-          </div>
-        </div>
-
-        <div class="event-card dark">
-          <div class="event-header" data-target="darkBody">
-            <h2>🌑 Dark Omens</h2>
-            <span class="chevron">▼</span>
-          </div>
-          <div id="darkBody" class="event-body">
-            <div id="darkOmensList" class="event-list"></div>
-          </div>
-        </div>
-
-        <!-- <div class="archive-wrapper event-card"> -->
-        <!-- <div class="event-header" data-target="archiveBody"> -->
-        <!-- <h2>📦 Archive Results</h2> -->
-        <!-- <span class="chevron">▼</span> -->
-        <!-- </div> -->
-        <!-- <div id="archiveBody" class="event-body"> -->
-
-        <!-- </div> -->
-        <!-- </div> -->
       </div>
-    </di
-
 
       <div id="overlay" class="overlay hidden">
         <div class="spinner"></div>
@@ -115,14 +112,8 @@
       </div>
     </div>
     <div id="tabTinman" class="tabpanel"></div>
-    <div id="tabEvents" class="tabpanel">
-      <h2>tab events</h2>
-    </div>
-    <div id="tabCycles" class="tabpanel">
-      <h2>tab cycles</h2>
-    </div>
-
-   v>
+    <div id="tabEvents" class="tabpanel"></div>
+    <div id="tabCycles" class="tabpanel"></div>
 
     <div id="TableWrap"></div>
 
