@@ -724,3 +724,8 @@ table.dataTable tbody tr:hover {
         .search-btn:active {
             transform: translateY(1px);
         }
+
+                .chart-container {
+                    overflow-x: auto;
+                    width: 100%;
+                }

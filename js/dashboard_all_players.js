@@ -89,7 +89,7 @@
                     <label for="playerSelect" style="color:#cbd5e1; margin-right: 12px;">Select player:</label>
                     <select id="playerSelect" style="background:#1e293b; color:#e2e8f0; border:1px solid #334155; border-radius:20px; padding:6px 12px;"></select>
                 </div>
-                <div style="height: 400px; position: relative;">
+                <div style="height: 2200px; overflow-y: auto; border-radius: 16px; background: #0f172a; padding: 8px;">
                     <canvas id="playerTrendCanvas"></canvas>
                 </div>
                 <div class="card-footer" id="trendStats" style="margin-top: 10px;"></div>
@@ -852,43 +852,57 @@
             charts['trendChart'].destroy();
             delete charts['trendChart'];
         }
-        const ctx = canvas.getContext('2d');
-        // Исходные метки из конфига (порядок = порядок файлов)
+
+        // Получаем контейнер (родитель с прокруткой)
+        const scrollContainer = canvas.parentElement;
+
         const rawLabels = CONFIG.tinmanFiles.map(f => f.replace('.csv', ''));
-        // Переворачиваем для хронологического порядка (старые -> новые)
-        const labels = [...rawLabels].reverse();
+        const labels = [...rawLabels].reverse(); // хронологический порядок
 
         let datasets = [];
         let footerText = '';
 
         if (selection === 'ALL') {
+            // Собираем всех игроков
             const allPlayersSet = new Set();
             for (const evt of eventsSeries) {
                 for (const [player] of evt) allPlayersSet.add(player);
             }
             const allPlayers = Array.from(allPlayersSet).sort();
-            if (allPlayers.length > 25) {
-                footerText = `⚠️ Showing all ${allPlayers.length} players. Graph may be crowded.`;
+            const playerCount = allPlayers.length;
+
+            // Динамическая высота canvas: например, 40px на игрока, но не менее 600px и не более 2000px
+            let dynamicHeight = Math.min(2000, Math.max(600, playerCount * 35));
+            canvas.style.height = `${dynamicHeight}px`;
+            canvas.height = dynamicHeight;
+            if (scrollContainer) {
+                scrollContainer.style.height = `${Math.min(800, dynamicHeight)}px`;
             }
+
+            footerText = `📊 Showing all ${playerCount} players. Hover over lines to identify. Use scroll if needed.`;
+
             datasets = allPlayers.map((player, idx) => {
-                // Данные в исходном порядке (новые -> старые)
                 const points = eventsSeries.map(evt => evt.get(player) || 0);
-                // Переворачиваем, чтобы соответствовать перевёрнутым меткам
                 const reversedPoints = [...points].reverse();
                 return {
                     label: player,
                     data: reversedPoints,
                     borderColor: getPlayerColor(player, idx),
                     backgroundColor: 'transparent',
-                    borderWidth: 1.5,
+                    borderWidth: 1.2,
                     fill: false,
                     tension: 0.1,
-                    pointRadius: 2,
+                    pointRadius: 1.5,
                     pointHoverRadius: 4,
                     pointBackgroundColor: getPlayerColor(player, idx)
                 };
             });
         } else {
+            // Один игрок – стандартная высота
+            canvas.style.height = '400px';
+            canvas.height = 400;
+            if (scrollContainer) scrollContainer.style.height = 'auto';
+
             const points = eventsSeries.map(evt => evt.get(selection) || 0);
             const reversedPoints = [...points].reverse();
             const totalPoints = points.reduce((s, p) => s + p, 0);
@@ -908,6 +922,10 @@
             }];
         }
 
+        // Обновляем ширину canvas на 100% от родителя
+        const containerWidth = canvas.parentElement.clientWidth;
+        canvas.width = containerWidth - 20;
+
         const statsEl = document.getElementById('trendStats');
         if (statsEl) statsEl.innerHTML = footerText;
 
@@ -916,18 +934,43 @@
             data: { labels, datasets },
             options: {
                 responsive: true,
-                maintainAspectRatio: true,
+                maintainAspectRatio: false,  // важно для ручной высоты
                 plugins: {
-                    tooltip: { mode: 'nearest', intersect: false, callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.raw} pts` } },
+                    tooltip: {
+                        mode: 'nearest',
+                        intersect: false,
+                        callbacks: {
+                            label: (ctx) => {
+                                const label = ctx.dataset.label || '';
+                                const value = ctx.raw;
+                                return `${label}: ${value} pts`;
+                            }
+                        }
+                    },
                     legend: {
                         position: 'right',
-                        labels: { color: '#cbd5e1', boxWidth: 12, font: { size: 10 } }
+                        labels: {
+                            color: '#cbd5e1',
+                            boxWidth: 12,
+                            font: { size: 9 },
+                            // при большом количестве игроков легенда может быть огромной, но она ограничена правой стороной и скроллится
+                        }
                     }
                 },
                 scales: {
-                    y: { title: { display: true, text: 'Points', color: '#94a3b8' }, grid: { color: '#334155' }, ticks: { color: '#cbd5e1' } },
-                    x: { title: { display: true, text: 'Event date', color: '#94a3b8' }, grid: { color: '#334155' }, ticks: { color: '#cbd5e1', rotation: 30 } }
-                }
+                    y: {
+                        title: { display: true, text: 'Points', color: '#94a3b8' },
+                        grid: { color: '#334155' },
+                        ticks: { color: '#cbd5e1' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Event date', color: '#94a3b8' },
+                        grid: { color: '#334155' },
+                        ticks: { color: '#cbd5e1', rotation: 30, autoSkip: true, maxRotation: 45 }
+                    }
+                },
+                // Для режима "все игроки" уменьшаем толщину линий
+                elements: { line: { borderWidth: selection === 'ALL' ? 1.2 : 2 } }
             }
         });
         charts['trendChart'] = chart;
