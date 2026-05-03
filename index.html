@@ -22,8 +22,45 @@
         🌑 Dark Omens / 🏛 Olimpus
       </button>
       <button class="tablink" data-tab="cycles">💎 Rare/Epic Cycles</button>
+      <button class="tablink" data-tab="points">Points</button>
     </div>
     <div id="tabChest" class="tabpanel">
+      <div id="overlay" class="overlay hidden">
+        <div class="spinner"></div>
+        <div class="text">Loading data...</div>
+      </div>
+      <div class="container">
+        <div class="date-search-bar">
+          <input type="date" id="dateFrom" class="date-input" />
+          <input type="date" id="dateTo" class="date-input" />
+          <button onclick="loadByCustomRange()" class="search-btn">
+            🔍 Search
+          </button>
+        </div>
+
+        <div
+          id="periodAt"
+          style="text-align: right; margin-bottom: 10px; color: #fbbf24"
+        ></div>
+        <div
+          id="generatedAt"
+          style="text-align: right; margin-bottom: 10px; color: #fbbf24"
+        ></div>
+        <table
+          id="statsTable"
+          class="display compact stripe hover"
+          style="width: 100%"
+        >
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div id="tabTinman" class="tabpanel"></div>
+    <div id="tabEvents" class="tabpanel"></div>
+    <div id="tabCycles" class="tabpanel"></div>
+
+    <div id="tabPoints" class="tabpanel">
       <div class="events-section">
         <div class="events-grid">
           <div class="event-card">
@@ -82,40 +119,8 @@
         </div>
       </div>
 
-      <div id="overlay" class="overlay hidden">
-        <div class="spinner"></div>
-        <div class="text">Loading data...</div>
-      </div>
-      <div class="container">
-        <div style="text-align: center; margin-bottom: 15px">
-          <input type="date" id="dateFrom" />
-          <input type="date" id="dateTo" />
-          <button onclick="loadByCustomRange()">Search</button>
-        </div>
-
-        <div
-          id="periodAt"
-          style="text-align: right; margin-bottom: 10px; color: #fbbf24"
-        ></div>
-        <div
-          id="generatedAt"
-          style="text-align: right; margin-bottom: 10px; color: #fbbf24"
-        ></div>
-        <table
-          id="statsTable"
-          class="display compact stripe hover"
-          style="width: 100%"
-        >
-          <thead></thead>
-          <tbody></tbody>
-        </table>
-      </div>
+      <div id="TableWrap"></div>
     </div>
-    <div id="tabTinman" class="tabpanel"></div>
-    <div id="tabEvents" class="tabpanel"></div>
-    <div id="tabCycles" class="tabpanel"></div>
-
-    <div id="TableWrap"></div>
 
     <!-- jQuery & DataTables -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
