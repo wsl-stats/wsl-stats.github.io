@@ -10,7 +10,6 @@
 
 
     function createDashboard() {
-        if (document.getElementById('cyclesDashboard')) return;
 
         let tinmanTabsHtml = '<div class="tabs">';
         let tinmanContentsHtml = '';
@@ -71,13 +70,8 @@
             </div>
             `;
 
-        const html = `
-    <div id="cyclesDashboard" style="margin: 50px auto 20px; max-width: 1400px; padding: 0 20px;">
-        <div style="text-align: center; margin-bottom: 30px;">
-            <h2 style="background: linear-gradient(135deg, #38bdf8, #a78bfa); -webkit-background-clip: text; background-clip: text; color: transparent; font-size: 28px;">📊 WSL Analytics</h2>
-            <p style="color:#64748b;">All players · Events in tabs · All cycles for Rare/Epic with dates</p>
-        </div>
-
+        const tinmanHtml = `
+    <div id="tinmanDashboard" style="margin: 50px auto 20px; max-width: 1400px; padding: 0 20px;">
         <div class="double-card2">
             <div class="card">
                 <h3 style="color:#e2e8f0; margin-top:0;">Tinman</h3>
@@ -89,52 +83,54 @@
 
         </div>
 
+    </div>
+    `;
+        const dark_olimp_Html = `
+    <div id="darkolimpDashboard" style="margin: 50px auto 20px; max-width: 1400px; padding: 0 20px;">
+
         <div class="double-card2">
-        <div class="card">
+        <div class="card" id="dark-card">
             <h3 style="color:#e2e8f0; margin-top:0;">🌑 Dark Omens</h3>
             ${darkTabsHtml}
             <div class="tab-contents">${darkContentsHtml}</div>
         </div>
 
-        <div class="card">
+        <div class="card" id="olimp-card">
             <h3 style="color:#e2e8f0; margin-top:0;">🏛️ Olimpus</h3>
             ${olimpusTabsHtml}
             <div class="tab-contents">${olimpusContentsHtml}</div>
         </div>
         </div>
 
+    </div>
+    `
+        const epic_rare_Html = `
+    <div id="epicrareDashboard" style="margin: 50px auto 20px; max-width: 1400px; padding: 0 20px;">
+        
         <div class="double-card">
             <div class="card" id="rareCardPlaceholder"><div class="card-header"><span>💎</span> Rare Crypts – cycles</div><div style="padding:20px; text-align:center;">Loading...</div></div>
             <div class="card" id="epicCardPlaceholder"><div class="card-header"><span>🔥</span> Epic Crypts – cycles</div><div style="padding:20px; text-align:center;">Loading...</div></div>
         </div>
     </div>
-    <style>
-        /* Вкладки */
-        .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; border-bottom: 1px solid #1f2937; padding-bottom: 10px; }
-        .tab-btn { background: #1e293b; border: none; padding: 6px 14px; border-radius: 20px; color: #94a3b8; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
-        .tab-btn.active { background: #0ea5e9; color: white; }
-        .tab-btn:hover:not(.active) { background: #334155; color: #e2e8f0; }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .section { margin-bottom: 40px; background: #0f172a; border-radius: 24px; padding: 20px; border: 1px solid #1f2937; }
-        .double-card { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 20px; }
-        .double-card2 { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 20px; }
-        .card { background: #111827; border-radius: 24px; border: 1px solid #1f2937; overflow: hidden; transition: 0.2s; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
-        .card-header { font-size: 1.2rem; font-weight: bold; padding: 12px 18px; background: #0f172a; border-bottom: 1px solid #1f2937; color: #e2e8f0; display: flex; align-items: center; gap: 10px; }
-        .chart-wrap { height: 2400px; overflow-y: auto; padding: 10px 8px; }
-        .chart-wrap canvas { width: 100%; height: auto; }
-        .chart-wrap::-webkit-scrollbar { width: 6px; background: #1e293b; }
-        .chart-wrap::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
-        .card-footer { padding: 8px 16px; background: #0f172a; border-top: 1px solid #1f2937; font-size: 0.8rem; color: #94a3b8; text-align: center; }
-        .period-info { padding: 5px 16px 10px; background: #0f172a; font-size: 0.7rem; color: #64748b; text-align: center; border-top: 1px solid #1f2937; }
-        @media (max-width: 800px) { .double-card { grid-template-columns: 1fr; } .double-card2 { grid-template-columns: 1fr; } }
-    </style>
-    `;
+    `
 
-        const div = document.createElement('div');
-        div.innerHTML = html;
-        const target = document.getElementById('dashboard') || document.body;
-        target.insertAdjacentElement('afterend', div);
+
+
+        const divTinman = document.createElement('div');
+        divTinman.innerHTML = html;
+        const target = document.getElementById('tabTinman') || document.body;
+        target.insertAdjacentElement('beforeend', divTinman);
+
+
+        const divdarkolimp = document.createElement('div');
+        divdarkolimp.innerHTML = html;
+        const targetDarkOlimp = document.getElementById('tabEvents') || document.body;
+        targetDarkOlimp.insertAdjacentElement('beforeend', divdarkolimp);
+
+        const divepicrare = document.createElement('div');
+        divepicrare.innerHTML = html;
+        const targetEpicRare = document.getElementById('tabCycles') || document.body;
+        targetEpicRare.insertAdjacentElement('beforeend', divepicrare);
 
         // Логика переключения вкладок
         document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -492,8 +488,8 @@
             epicTabsHtml += '</div>';
 
             // Обновляем DOM: находим контейнеры Rare/Epic и заменяем их содержимое
-            const rareContainer = document.querySelector('#cyclesDashboard .double-card .card:first-child');
-            const epicContainer = document.querySelector('#cyclesDashboard .double-card .card:last-child');
+            const rareContainer = document.querySelector('#epicrareDashboard .double-card .card:first-child');
+            const epicContainer = document.querySelector('#epicrareDashboard .double-card .card:last-child');
             if (rareContainer) {
                 rareContainer.innerHTML = `
         <div class="card-header"><span>💎</span> Rare Crypts – cycles</div>

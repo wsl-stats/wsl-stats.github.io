@@ -24,11 +24,36 @@
       <button class="tablink" data-tab="cycles">💎 Rare/Epic Cycles</button>
     </div>
     <div id="tabChest" class="tabpanel">
-      <h2>tab chest</h2>
+      <div id="overlay" class="overlay hidden">
+        <div class="spinner"></div>
+        <div class="text">Loading data...</div>
+      </div>
+      <div class="container">
+        <div style="text-align: center; margin-bottom: 15px">
+          <input type="date" id="dateFrom" />
+          <input type="date" id="dateTo" />
+          <button onclick="loadByCustomRange()">Search</button>
+        </div>
+
+        <div
+          id="periodAt"
+          style="text-align: right; margin-bottom: 10px; color: #fbbf24"
+        ></div>
+        <div
+          id="generatedAt"
+          style="text-align: right; margin-bottom: 10px; color: #fbbf24"
+        ></div>
+        <table
+          id="statsTable"
+          class="display compact stripe hover"
+          style="width: 100%"
+        >
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
-    <div id="tabTinman" class="tabpanel">
-      <h2>tab tinman</h2>
-    </div>
+    <div id="tabTinman" class="tabpanel"></div>
     <div id="tabEvents" class="tabpanel">
       <h2>tab events</h2>
     </div>
@@ -95,37 +120,6 @@
     </div>
 
     <div id="TableWrap"></div>
-
-    <div id="overlay" class="overlay hidden">
-      <div class="spinner"></div>
-      <div class="text">Loading data...</div>
-    </div>
-    <div class="container">
-      <div style="text-align: center; margin-bottom: 15px">
-        <input type="date" id="dateFrom" />
-        <input type="date" id="dateTo" />
-        <button onclick="loadByCustomRange()">Search</button>
-      </div>
-
-      <div
-        id="periodAt"
-        style="text-align: right; margin-bottom: 10px; color: #fbbf24"
-      ></div>
-      <div
-        id="generatedAt"
-        style="text-align: right; margin-bottom: 10px; color: #fbbf24"
-      ></div>
-      <table
-        id="statsTable"
-        class="display compact stripe hover"
-        style="width: 100%"
-      >
-        <thead></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-
-    <div id="dashboard" style="margin-top: 40px"></div>
 
     <!-- jQuery & DataTables -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
