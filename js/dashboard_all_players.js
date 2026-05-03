@@ -81,7 +81,7 @@
 
             ${ratingBlockHtml}
         </div>
-        <div class="double-card2">
+        <div class="section">
       <div class="card" style="margin-top: 25px;">
             <div class="card-header">📈 Player Progress Over Tinman Events</div>
             <div style="padding: 16px;">
@@ -816,7 +816,6 @@
         return events;
     }
 
-    // Заполняет select игроками (все, кто появлялся хотя бы в одном событии)
     async function populatePlayerSelect(events) {
         const select = document.getElementById('playerSelect');
         if (!select) return;
@@ -825,7 +824,7 @@
             for (const [player] of evt) allPlayers.add(player);
         }
         const sortedPlayers = Array.from(allPlayers).sort();
-        select.innerHTML = '';
+        select.innerHTML = '<option value="ALL">📊 All players (overview)</option>';
         for (const player of sortedPlayers) {
             const option = document.createElement('option');
             option.value = player;
@@ -837,51 +836,93 @@
             const selected = select.value;
             renderPlayerTrendChart(selected, events);
         };
-        if (sortedPlayers.length) renderPlayerTrendChart(sortedPlayers[0], events);
+        if (sortedPlayers.length) renderPlayerTrendChart('ALL', events);
     }
 
-    // Отрисовывает линейный график для конкретного игрока
-    function renderPlayerTrendChart(playerName, eventsSeries) {
+    // Генератор цвета для каждого игрока (на основе хеша строки)
+    function getPlayerColor(playerName, index) {
+        const hue = (playerName.length * 7 + index * 23) % 360;
+        return `hsl(${hue}, 70%, 55%)`;
+    }
+
+    function renderPlayerTrendChart(selection, eventsSeries) {
         const canvas = document.getElementById('playerTrendCanvas');
         if (!canvas) return;
-        // Уничтожаем предыдущий график, если есть
         if (charts['trendChart']) {
             charts['trendChart'].destroy();
             delete charts['trendChart'];
         }
         const ctx = canvas.getContext('2d');
-        const labels = CONFIG.tinmanFiles.map(f => f.replace('.csv', ''));
-        const points = eventsSeries.map(evt => evt.get(playerName) || 0);
-        const totalPoints = points.reduce((s, p) => s + p, 0);
-        const avg = totalPoints / points.length;
-        const statsEl = document.getElementById('trendStats');
-        if (statsEl) {
-            statsEl.innerHTML = `📊 Total points: ${totalPoints} | Avg per event: ${avg.toFixed(1)} | Last event: ${points[points.length - 1]}`;
+        // Исходные метки из конфига (порядок = порядок файлов)
+        const rawLabels = CONFIG.tinmanFiles.map(f => f.replace('.csv', ''));
+        // Переворачиваем для хронологического порядка (старые -> новые)
+        const labels = [...rawLabels].reverse();
+
+        let datasets = [];
+        let footerText = '';
+
+        if (selection === 'ALL') {
+            const allPlayersSet = new Set();
+            for (const evt of eventsSeries) {
+                for (const [player] of evt) allPlayersSet.add(player);
+            }
+            const allPlayers = Array.from(allPlayersSet).sort();
+            if (allPlayers.length > 25) {
+                footerText = `⚠️ Showing all ${allPlayers.length} players. Graph may be crowded.`;
+            }
+            datasets = allPlayers.map((player, idx) => {
+                // Данные в исходном порядке (новые -> старые)
+                const points = eventsSeries.map(evt => evt.get(player) || 0);
+                // Переворачиваем, чтобы соответствовать перевёрнутым меткам
+                const reversedPoints = [...points].reverse();
+                return {
+                    label: player,
+                    data: reversedPoints,
+                    borderColor: getPlayerColor(player, idx),
+                    backgroundColor: 'transparent',
+                    borderWidth: 1.5,
+                    fill: false,
+                    tension: 0.1,
+                    pointRadius: 2,
+                    pointHoverRadius: 4,
+                    pointBackgroundColor: getPlayerColor(player, idx)
+                };
+            });
+        } else {
+            const points = eventsSeries.map(evt => evt.get(selection) || 0);
+            const reversedPoints = [...points].reverse();
+            const totalPoints = points.reduce((s, p) => s + p, 0);
+            const avg = totalPoints / points.length;
+            footerText = `📊 Total: ${totalPoints} pts | Avg: ${avg.toFixed(1)} | Last: ${points[points.length - 1]}`;
+            datasets = [{
+                label: selection,
+                data: reversedPoints,
+                borderColor: '#0ea5e9',
+                backgroundColor: 'rgba(14, 165, 233, 0.1)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.2,
+                pointRadius: 5,
+                pointBackgroundColor: '#f59e0b',
+                pointBorderColor: '#fff'
+            }];
         }
+
+        const statsEl = document.getElementById('trendStats');
+        if (statsEl) statsEl.innerHTML = footerText;
 
         const chart = new Chart(ctx, {
             type: 'line',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: playerName,
-                    data: points,
-                    borderColor: '#0ea5e9',
-                    backgroundColor: 'rgba(14, 165, 233, 0.1)',
-                    borderWidth: 2,
-                    fill: true,
-                    tension: 0.2,
-                    pointRadius: 5,
-                    pointBackgroundColor: '#f59e0b',
-                    pointBorderColor: '#fff'
-                }]
-            },
+            data: { labels, datasets },
             options: {
                 responsive: true,
                 maintainAspectRatio: true,
                 plugins: {
-                    tooltip: { callbacks: { label: (ctx) => `${ctx.raw} pts` } },
-                    legend: { labels: { color: '#cbd5e1' } }
+                    tooltip: { mode: 'nearest', intersect: false, callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.raw} pts` } },
+                    legend: {
+                        position: 'right',
+                        labels: { color: '#cbd5e1', boxWidth: 12, font: { size: 10 } }
+                    }
                 },
                 scales: {
                     y: { title: { display: true, text: 'Points', color: '#94a3b8' }, grid: { color: '#334155' }, ticks: { color: '#cbd5e1' } },
@@ -891,7 +932,6 @@
         });
         charts['trendChart'] = chart;
     }
-
 
     function initializeAll() {
         init();
