@@ -848,39 +848,34 @@
     function renderPlayerTrendChart(selection, eventsSeries) {
         const canvas = document.getElementById('playerTrendCanvas');
         if (!canvas) return;
+        // ПОЛУЧАЕМ КОНТЕКСТ
+        const ctx = canvas.getContext('2d');
         if (charts['trendChart']) {
             charts['trendChart'].destroy();
             delete charts['trendChart'];
         }
 
-        // Получаем контейнер (родитель с прокруткой)
         const scrollContainer = canvas.parentElement;
-
         const rawLabels = CONFIG.tinmanFiles.map(f => f.replace('.csv', ''));
-        const labels = [...rawLabels].reverse(); // хронологический порядок
+        const labels = [...rawLabels].reverse();
 
         let datasets = [];
         let footerText = '';
 
         if (selection === 'ALL') {
-            // Собираем всех игроков
             const allPlayersSet = new Set();
             for (const evt of eventsSeries) {
                 for (const [player] of evt) allPlayersSet.add(player);
             }
             const allPlayers = Array.from(allPlayersSet).sort();
             const playerCount = allPlayers.length;
-
-            // Динамическая высота canvas: например, 40px на игрока, но не менее 600px и не более 2000px
             let dynamicHeight = Math.min(2000, Math.max(600, playerCount * 35));
             canvas.style.height = `${dynamicHeight}px`;
             canvas.height = dynamicHeight;
             if (scrollContainer) {
                 scrollContainer.style.height = `${Math.min(800, dynamicHeight)}px`;
             }
-
             footerText = `📊 Showing all ${playerCount} players. Hover over lines to identify. Use scroll if needed.`;
-
             datasets = allPlayers.map((player, idx) => {
                 const points = eventsSeries.map(evt => evt.get(player) || 0);
                 const reversedPoints = [...points].reverse();
@@ -898,11 +893,9 @@
                 };
             });
         } else {
-            // Один игрок – стандартная высота
             canvas.style.height = '400px';
             canvas.height = 400;
             if (scrollContainer) scrollContainer.style.height = 'auto';
-
             const points = eventsSeries.map(evt => evt.get(selection) || 0);
             const reversedPoints = [...points].reverse();
             const totalPoints = points.reduce((s, p) => s + p, 0);
@@ -922,7 +915,7 @@
             }];
         }
 
-        // Обновляем ширину canvas на 100% от родителя
+        // Устанавливаем ширину canvas
         const containerWidth = canvas.parentElement.clientWidth;
         canvas.width = containerWidth - 20;
 
@@ -934,17 +927,13 @@
             data: { labels, datasets },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,  // важно для ручной высоты
+                maintainAspectRatio: false,
                 plugins: {
                     tooltip: {
                         mode: 'nearest',
                         intersect: false,
                         callbacks: {
-                            label: (ctx) => {
-                                const label = ctx.dataset.label || '';
-                                const value = ctx.raw;
-                                return `${label}: ${value} pts`;
-                            }
+                            label: (ctx) => `${ctx.dataset.label}: ${ctx.raw} pts`
                         }
                     },
                     legend: {
@@ -952,8 +941,7 @@
                         labels: {
                             color: '#cbd5e1',
                             boxWidth: 12,
-                            font: { size: 9 },
-                            // при большом количестве игроков легенда может быть огромной, но она ограничена правой стороной и скроллится
+                            font: { size: 9 }
                         }
                     }
                 },
@@ -968,9 +956,7 @@
                         grid: { color: '#334155' },
                         ticks: { color: '#cbd5e1', rotation: 30, autoSkip: true, maxRotation: 45 }
                     }
-                },
-                // Для режима "все игроки" уменьшаем толщину линий
-                elements: { line: { borderWidth: selection === 'ALL' ? 1.2 : 2 } }
+                }
             }
         });
         charts['trendChart'] = chart;
