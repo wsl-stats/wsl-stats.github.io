@@ -15,13 +15,13 @@ const CONFIG = {
     darkOmensEvents: [550000, 550000, 550000],
     // Пороги для каждого события Olimpus
     olimpusEvents: [71000, 71000, 71000],
-    tinmanEvents: [1000000, 1000000, 1000000],
+    tinmanEvents: [1000000, 1000000, 1000000, 1000000],
   },
 
   // Файлы событий (порядок важен для соответствия thresholds)
   olimpusFiles: ["21042026-26042026.csv", "29032026-02042026.csv", "04032026-09032026.csv"],
   darkOmensFiles: ["13042026-14042026.csv", "20032026-21032026.csv", "24022026-25022026.csv"],
-  tinmanFiles: ["27042026.csv", "21042026.csv", "15042026.csv"],
+  tinmanFiles: ["03052026.csv", "27042026.csv", "21042026.csv", "15042026.csv"],
   olimpusFolder: "Olimpus",
   darkOmensFolder: "Dark omens",
   tinmansFolder: "Tinman"
