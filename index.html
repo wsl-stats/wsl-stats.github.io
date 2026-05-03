@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
   <head>
     <meta charset="UTF-8" />
@@ -14,6 +14,19 @@
   </head>
   <body>
     <h1>🏆 WSL Chest Results</h1>
+
+    <div class="tab-menu">
+      <button class="tablink active" data-tab="chest">📦 Chest Results</button>
+      <button class="tablink" data-tab="tinman">🤖 Tinman Events</button>
+      <button class="tablink" data-tab="events">
+        🌑 Dark Omens / 🏛 Olimpus
+      </button>
+      <button class="tablink" data-tab="cycles">💎 Rare/Epic Cycles</button>
+    </div>
+    <div id="tabChest" class="tabpanel"></div>
+    <div id="tabTinman" class="tabpanel"></div>
+    <div id="tabEvents" class="tabpanel"></div>
+    <div id="tabCycles" class="tabpanel"></div>
 
     <div class="events-section">
       <div class="events-grid">
@@ -114,5 +127,6 @@
     <script src="js/main.js"></script>
 
     <script src="js/dashboard_all_players.js"></script>
+    <script src="js/tabs.js"></script>
   </body>
 </html>

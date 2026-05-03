@@ -9,116 +9,6 @@
     let charts = {};
 
 
-    // Ждём полной загрузки DOM и завершения инициализации дашборда
-    function waitForDashboard() {
-        return new Promise(resolve => {
-            const check = setInterval(() => {
-                const dashboard = document.getElementById('cyclesDashboard');
-                if (dashboard && dashboard.innerHTML.trim() !== '') {
-                    clearInterval(check);
-                    resolve();
-                }
-            }, 100);
-        });
-    }
-
-    async function initTabs() {
-        await waitForDashboard();
-
-        // ========== 1. Создаём структуру табов ==========
-        const tabsContainer = document.createElement('div');
-        tabsContainer.className = 'tabs-main';
-        tabsContainer.innerHTML = `
-    <div class="tabs-buttons">
-        <button class="tab-btn-main active" data-tab="chest">📦 Chest Results</button>
-        <button class="tab-btn-main" data-tab="tinman">🤖 Tinman Events</button>
-        <button class="tab-btn-main" data-tab="events">🌑 Dark Omens / 🏛 Olimpus</button>
-        <button class="tab-btn-main" data-tab="cycles">💎 Rare/Epic Cycles</button>
-    </div>
-    <div class="tabs-content">
-        <div id="tab-chest" class="tab-pane active"></div>
-        <div id="tab-tinman" class="tab-pane"></div>
-        <div id="tab-events" class="tab-pane"></div>
-        <div id="tab-cycles" class="tab-pane"></div>
-    </div>
-    `;
-
-        // Вставляем табы перед основным контентом (после h1)
-        const h1 = document.querySelector('h1');
-        h1.insertAdjacentElement('afterend', tabsContainer);
-
-        // ========== 2. Перемещаем существующие блоки ==========
-
-        // --- Блок Chest Results (существующая таблица и карточки) ---
-        const chestContainer = document.getElementById('tab-chest');
-        // Обёртка для таблицы и карточек событий
-        const chestWrapper = document.createElement('div');
-        chestWrapper.className = 'chest-results-wrapper';
-        // Перемещаем элементы
-        const eventsSection = document.querySelector('.events-section');
-        const tableWrap = document.querySelector('#TableWrap');
-        const containerDiv = document.querySelector('.container'); // содержит date inputs и таблицу
-        if (eventsSection) chestWrapper.appendChild(eventsSection.cloneNode(true));
-        if (tableWrap) chestWrapper.appendChild(tableWrap.cloneNode(true));
-        if (containerDiv) chestWrapper.appendChild(containerDiv.cloneNode(true));
-        chestContainer.appendChild(chestWrapper);
-
-        // Удаляем оригиналы, чтобы не дублировались
-        if (eventsSection) eventsSection.remove();
-        if (tableWrap) tableWrap.remove();
-        if (containerDiv) containerDiv.remove();
-
-        // --- Tinman Events (карточка из cyclesDashboard) ---
-        const tinmanContainer = document.getElementById('tab-tinman');
-        const tinmanCard = document.querySelector('#cyclesDashboard .double-card2 .card:first-child');
-        if (tinmanCard) {
-            tinmanContainer.appendChild(tinmanCard.cloneNode(true));
-        }
-
-        // --- Dark Omens / Olimpus ---
-        const eventsContainer = document.getElementById('tab-events');
-        const darkOlimpusCards = document.querySelectorAll('#cyclesDashboard .double-card2 .card');
-        // Вторая карточка из double-card2? Нужно точно: сейчас double-card2 содержит Tinman и пустой блок под рейтинг.
-        // Но по первоначальной структуре после перемещения Tinman, остаётся пусто. Лучше забрать карточки Dark и Olimpus из другого блока.
-        // Найдём блок с Dark Omens и Olimpus (сейчас они внутри двойной карточки после tinman)
-        const darkCard = document.querySelector('#cyclesDashboard .card:has(h3:contains("Dark Omens"))');
-        const olimpusCard = document.querySelector('#cyclesDashboard .card:has(h3:contains("Olimpus"))');
-        if (darkCard) eventsContainer.appendChild(darkCard.cloneNode(true));
-        if (olimpusCard) eventsContainer.appendChild(olimpusCard.cloneNode(true));
-
-        // --- Rare/Epic Cycles ---
-        const cyclesContainer = document.getElementById('tab-cycles');
-        const rareEpicBlock = document.querySelector('#cyclesDashboard .double-card');
-        if (rareEpicBlock) {
-            cyclesContainer.appendChild(rareEpicBlock.cloneNode(true));
-        }
-
-        // Удаляем оригинальный cyclesDashboard, чтобы не оставалось лишнего
-        const cyclesDashboard = document.getElementById('cyclesDashboard');
-        if (cyclesDashboard) cyclesDashboard.style.display = 'none'
-
-        // ========== 3. Обработка переключения табов ==========
-        const buttons = document.querySelectorAll('.tab-btn-main');
-        const panes = document.querySelectorAll('.tab-pane');
-
-        buttons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const tabId = btn.getAttribute('data-tab');
-                // Сброс активных классов
-                buttons.forEach(b => b.classList.remove('active'));
-                panes.forEach(pane => pane.classList.remove('active'));
-                btn.classList.add('active');
-                const activePane = document.getElementById(`tab-${tabId}`);
-                if (activePane) activePane.classList.add('active');
-
-                // Форсируем перерисовку графиков (если есть canvas в новом активном блоке)
-                setTimeout(() => {
-                    window.dispatchEvent(new Event('resize'));
-                }, 100);
-            });
-        });
-    }
-
     function createDashboard() {
         if (document.getElementById('cyclesDashboard')) return;
 
@@ -897,10 +787,9 @@
         return Array.from(playersSet);
     }
 
-    // Объединённая инициализация
+
     function initializeAll() {
-        init();         // создаёт cyclesDashboard и графики
-        initTabs();     // добавляет табы и перемещает блоки (ждёт появления cyclesDashboard внутри)
+        init();
     }
 
     if (document.readyState === 'loading') {
