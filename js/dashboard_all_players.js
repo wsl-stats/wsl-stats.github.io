@@ -65,7 +65,7 @@
 
         const ratingBlockHtml = `
             <div class="card">
-                <h3 style="color:#e2e8f0; margin-top:0;">🏆 Tinman Rating (3 events: ${tinmanFileNames})</h3>
+                <h3 style="color:#e2e8f0; margin-top:0;">🏆 Tinman Rating (events: ${tinmanFileNames})</h3>
                 <div id="ratingBlockContent" style="padding: 8px 12px;">loading...</div>
             </div>
             `;
@@ -672,7 +672,7 @@
         const thresholds = CONFIG.thresholds.tinmanEvents;
         if (!thresholds || thresholds.length !== CONFIG.tinmanFiles.length) return [];
 
-        // Загружаем три события
+
         const promises = CONFIG.tinmanFiles.map((file, idx) =>
             loadSingleEvent(CONFIG.tinmansFolder, file)
         );
