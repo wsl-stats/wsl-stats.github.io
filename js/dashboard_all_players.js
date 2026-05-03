@@ -117,18 +117,18 @@
 
 
         const divTinman = document.createElement('div');
-        divTinman.innerHTML = html;
+        divTinman.innerHTML = tinmanHtml;
         const target = document.getElementById('tabTinman') || document.body;
         target.insertAdjacentElement('beforeend', divTinman);
 
 
         const divdarkolimp = document.createElement('div');
-        divdarkolimp.innerHTML = html;
+        divdarkolimp.innerHTML = dark_olimp_Html;
         const targetDarkOlimp = document.getElementById('tabEvents') || document.body;
         targetDarkOlimp.insertAdjacentElement('beforeend', divdarkolimp);
 
         const divepicrare = document.createElement('div');
-        divepicrare.innerHTML = html;
+        divepicrare.innerHTML = epic_rare_Html;
         const targetEpicRare = document.getElementById('tabCycles') || document.body;
         targetEpicRare.insertAdjacentElement('beforeend', divepicrare);
 

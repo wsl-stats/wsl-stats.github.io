@@ -24,44 +24,9 @@
       <button class="tablink" data-tab="cycles">💎 Rare/Epic Cycles</button>
     </div>
     <div id="tabChest" class="tabpanel">
-      <div id="overlay" class="overlay hidden">
-        <div class="spinner"></div>
-        <div class="text">Loading data...</div>
-      </div>
-      <div class="container">
-        <div style="text-align: center; margin-bottom: 15px">
-          <input type="date" id="dateFrom" />
-          <input type="date" id="dateTo" />
-          <button onclick="loadByCustomRange()">Search</button>
-        </div>
 
-        <div
-          id="periodAt"
-          style="text-align: right; margin-bottom: 10px; color: #fbbf24"
-        ></div>
-        <div
-          id="generatedAt"
-          style="text-align: right; margin-bottom: 10px; color: #fbbf24"
-        ></div>
-        <table
-          id="statsTable"
-          class="display compact stripe hover"
-          style="width: 100%"
-        >
-          <thead></thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </div>
-    <div id="tabTinman" class="tabpanel"></div>
-    <div id="tabEvents" class="tabpanel">
-      <h2>tab events</h2>
-    </div>
-    <div id="tabCycles" class="tabpanel">
-      <h2>tab cycles</h2>
-    </div>
 
-    <div class="events-section">
+ <div class="events-section">
       <div class="events-grid">
         <div class="event-card">
           <div class="event-header" data-target="pointsBody">
@@ -117,7 +82,47 @@
         <!-- </div> -->
         <!-- </div> -->
       </div>
+    </di
+
+
+      <div id="overlay" class="overlay hidden">
+        <div class="spinner"></div>
+        <div class="text">Loading data...</div>
+      </div>
+      <div class="container">
+        <div style="text-align: center; margin-bottom: 15px">
+          <input type="date" id="dateFrom" />
+          <input type="date" id="dateTo" />
+          <button onclick="loadByCustomRange()">Search</button>
+        </div>
+
+        <div
+          id="periodAt"
+          style="text-align: right; margin-bottom: 10px; color: #fbbf24"
+        ></div>
+        <div
+          id="generatedAt"
+          style="text-align: right; margin-bottom: 10px; color: #fbbf24"
+        ></div>
+        <table
+          id="statsTable"
+          class="display compact stripe hover"
+          style="width: 100%"
+        >
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
+    <div id="tabTinman" class="tabpanel"></div>
+    <div id="tabEvents" class="tabpanel">
+      <h2>tab events</h2>
+    </div>
+    <div id="tabCycles" class="tabpanel">
+      <h2>tab cycles</h2>
+    </div>
+
+   v>
 
     <div id="TableWrap"></div>
 
