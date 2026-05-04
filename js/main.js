@@ -6,7 +6,7 @@ function normalizePlayerName(rawName) {
       return canonical;
     }
   }
-  return trimmed; 
+  return trimmed;
 }
 
 
@@ -16,23 +16,23 @@ function buildPointsMap() {
   const map = new Map();
   for (const [key, value] of Object.entries(POINTS_CONFIG)) {
 
-	map.set(key.toLowerCase(), value);
-  
-    
+    map.set(key.toLowerCase(), value);
+
+
   }
   return map;
 }
 
 const POINTS_MAP = buildPointsMap();
 
-  const formatDate = (date) => {
-    const d = new Date(date);
-    const day = String(d.getDate()).padStart(2, '0');
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const year = d.getFullYear();
+const formatDate = (date) => {
+  const d = new Date(date);
+  const day = String(d.getDate()).padStart(2, '0');
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const year = d.getFullYear();
 
-    return `${day}.${month}.${year}`;
-  };
+  return `${day}.${month}.${year}`;
+};
 
 // Helper: extract level number from source string (e.g., "level 20 rare crypt" → 20)
 function extractLevel(source) {
@@ -49,7 +49,7 @@ function normalizeMungandrSource(source) {
   if (lower.includes('mungandr')) {
     if (lower.includes('shop')) return 'jormungandr shop';
     if (lower.includes('squad')) return 'epic jormungandr squad';
-	if (lower.includes('chest')) return `Jormungandr's Chest`;
+    if (lower.includes('chest')) return `Jormungandr's Chest`;
   }
   return fixed;  // возвращаем исправленное название без дополнительной замены
 }
@@ -80,7 +80,7 @@ async function loadAllChestsForWeek() {
   const { start, end } = getWeekDatesMSK();
   document.getElementById('periodAt').textContent =
     `From: ${formatDate(start)} — To: ${formatDate(end)} Moscow`;
- 
+
   return await loadAllChestsByRange(start, end);
 
 }
@@ -123,15 +123,15 @@ function aggregateByPlayerAndColumn(entries, columnConfig) {
     if (!playerMap.has(e.player)) {
       playerMap.set(e.player, {
         total: 0,
-		    CitadelTotal:0,
+        CitadelTotal: 0,
         columns: new Map()
       });
     }
     const playerData = playerMap.get(e.player);
     playerData.total += e.points;
-	if(colName=="Citadel"){
-		playerData.CitadelTotal += e.points;
-	}
+    if (colName == "Citadel") {
+      playerData.CitadelTotal += e.points;
+    }
 
     let colMap = playerData.columns.get(colName);
     if (!colMap) {
@@ -157,32 +157,32 @@ function aggregateByPlayerAndColumn(entries, columnConfig) {
 }
 
 function renderCellContent(levelMap) {
-    if (!levelMap || levelMap.size === 0) return "";
-    const lines = [];
-    let totalPoints = 0;
-    const numericKeys = [];
-    const stringKeys = [];
-    for (let key of levelMap.keys()) {
-        if (typeof key === 'number') numericKeys.push(key);
-        else stringKeys.push(key);
-    }
-    numericKeys.sort((a,b) => a - b);
-    stringKeys.sort();
+  if (!levelMap || levelMap.size === 0) return "";
+  const lines = [];
+  let totalPoints = 0;
+  const numericKeys = [];
+  const stringKeys = [];
+  for (let key of levelMap.keys()) {
+    if (typeof key === 'number') numericKeys.push(key);
+    else stringKeys.push(key);
+  }
+  numericKeys.sort((a, b) => a - b);
+  stringKeys.sort();
 
-    for (const level of numericKeys) {
-        const data = levelMap.get(level);
-        totalPoints += data.pointsSum;
-        lines.push(`<span class="chest-detail-line">${level} (${data.count}): ${data.pointsSum}</span>`);
-    }
-    for (const name of stringKeys) {
-        const data = levelMap.get(name);
-        totalPoints += data.pointsSum;
-        lines.push(`<span class="chest-detail-line">${name} (${data.count}): ${data.pointsSum}</span>`);
-    }
-    lines.push(`<span class="chest-detail-total">Total: ${totalPoints}</span>`);
+  for (const level of numericKeys) {
+    const data = levelMap.get(level);
+    totalPoints += data.pointsSum;
+    lines.push(`<span class="chest-detail-line">${level} (${data.count}): ${data.pointsSum}</span>`);
+  }
+  for (const name of stringKeys) {
+    const data = levelMap.get(name);
+    totalPoints += data.pointsSum;
+    lines.push(`<span class="chest-detail-line">${name} (${data.count}): ${data.pointsSum}</span>`);
+  }
+  lines.push(`<span class="chest-detail-total">Total: ${totalPoints}</span>`);
 
 
-    return lines.join('');
+  return lines.join('');
 }
 
 // ======================== RENDER MAIN TABLE ========================
@@ -190,28 +190,18 @@ let currentDataTable = null;
 
 async function renderMainTable() {
 
-  
-   try {
+
+  try {
     showLoader();
 
-  const entries = await loadAllChestsForWeek();
-  renderTableFromEntries(entries);
+    const entries = await loadAllChestsForWeek();
+    renderTableFromEntries(entries);
 
   } finally {
     hideLoader();
   }
-  
-}
 
-// Cycle info display
-function updateCycleInfo() {
-  const { start, end } = getWeekDatesMSK();
-  const opts = { day:"2-digit", month:"2-digit", year:"numeric" };
-  const startStr = start.toLocaleString("ru-RU", opts);
-  const endStr = end.toLocaleString("ru-RU", opts);
-  document.getElementById("cycleInfo").textContent = `${startStr} — ${endStr} msk`;
 }
-updateCycleInfo();
 
 // ======================== EVENT HANDLERS (unchanged) ========================
 function renderEventButtons(containerId, files, folder, tableWrapId) {
@@ -249,7 +239,7 @@ async function loadEventTable(folder, file, wrapId) {
       searching: true,
       autoWidth: false
     });
-  } catch(err) { console.error("Event load error:", err); }
+  } catch (err) { console.error("Event load error:", err); }
 }
 
 let currentOpen = {};
@@ -288,7 +278,7 @@ async function loadCsvFromPath(path) {
     const headers = dataRows[0];
     const totalIndex = headers.findIndex(h => h.trim().toLowerCase() === "total");
     const data = dataRows.slice(1).filter(r => r.length === headers.length);
-    const cleaned = data.sort((a,b) => (parseInt(b[headers.length-1])||0) - (parseInt(a[headers.length-1])||0));
+    const cleaned = data.sort((a, b) => (parseInt(b[headers.length - 1]) || 0) - (parseInt(a[headers.length - 1]) || 0));
     if ($.fn.DataTable.isDataTable('#statsTable')) {
       $('#statsTable').DataTable().destroy();
     }
@@ -301,19 +291,19 @@ async function loadCsvFromPath(path) {
     $('#statsTable').DataTable({
       data: cleaned,
       columns: headers.map((h, i) => ({ title: h, visible: i !== totalIndex })),
-      order: [[headers.length-1, "desc"]],
+      order: [[headers.length - 1, "desc"]],
       paging: false,
       info: true,
       autoWidth: false,
-      createdRow: function(row, data, dataIndex) {
-        const points = parseInt(data[headers.length-1] || "0");
-        if(points >= WEEKLY_LIMIT) $(row).addClass("done");
+      createdRow: function (row, data, dataIndex) {
+        const points = parseInt(data[headers.length - 1] || "0");
+        if (points >= WEEKLY_LIMIT) $(row).addClass("done");
         else $(row).addClass("not-done");
-        if(dataIndex === 0) $(row).addClass("top-1");
-        else if(dataIndex < 10) $(row).addClass("top-player");
+        if (dataIndex === 0) $(row).addClass("top-1");
+        else if (dataIndex < 10) $(row).addClass("top-player");
       }
     });
-  } catch(err) { console.error("Archive load error:", err); }
+  } catch (err) { console.error("Archive load error:", err); }
 }
 
 
@@ -326,11 +316,11 @@ document.querySelectorAll(".event-header").forEach(header => {
     const isOpen = card.classList.contains("open");
     document.querySelectorAll(".event-card").forEach(c => {
       c.classList.remove("open");
-      if(c.querySelector(".event-body")) c.querySelector(".event-body").style.display = "none";
+      if (c.querySelector(".event-body")) c.querySelector(".event-body").style.display = "none";
     });
     if (!isOpen) {
       card.classList.add("open");
-      if(body) body.style.display = "block";
+      if (body) body.style.display = "block";
     }
   });
 });
@@ -347,10 +337,10 @@ function renderPointsTable() {
   html += '<thead><tr style="border-bottom:1px solid #374151;"><th style="text-align:left; padding:5px;">Source / Chest</th><th style="text-align:right; padding:5px;">Points</th> </tr></thead><tbody>';
 
   for (const [key, points] of Object.entries(POINTS_CONFIG)) {
-	if(points>1){
-		html += `<tr><td style="padding:5px;">${key}</td><td style="text-align:right; padding:5px;">${points}</td></tr>`;
-	}
-    
+    if (points > 1) {
+      html += `<tr><td style="padding:5px;">${key}</td><td style="text-align:right; padding:5px;">${points}</td></tr>`;
+    }
+
   }
 
   html += '</tbody></table>';
@@ -368,21 +358,21 @@ async function loadAllChestsByRange(startDate, endDate) {
     return `${day}.${month}.${year}`;
   };
 
-const files = [];
-let cur = new Date(startDate);
+  const files = [];
+  let cur = new Date(startDate);
 
-while (cur <= endDate) {
-  files.push({
-    fileName: formatDateForFile(cur),
-    fileDate: new Date(cur) // 👈 ВОТ ОН
-  });
+  while (cur <= endDate) {
+    files.push({
+      fileName: formatDateForFile(cur),
+      fileDate: new Date(cur) // 👈 ВОТ ОН
+    });
 
-  cur.setDate(cur.getDate() + 1);
-}
+    cur.setDate(cur.getDate() + 1);
+  }
 
   const entries = [];
 
-for (const { fileName, fileDate } of files) {
+  for (const { fileName, fileDate } of files) {
     try {
       const resp = await fetch(`Data/${fileName}?v=${Date.now()}`);
       if (!resp.ok) continue;
@@ -439,7 +429,7 @@ for (const { fileName, fileDate } of files) {
           currentSource = null;
         }
       }
-    } catch (e) {}
+    } catch (e) { }
   }
 
   return entries;
@@ -471,17 +461,17 @@ async function loadByCustomRange() {
     return;
   }
 
- try {
+  try {
     showLoader();
 
     const entries = await loadAllChestsByRange(start, end);
-	  document.getElementById('periodAt').textContent = `From: ${formatDate(start)} — To: ${formatDate(end)} Moscow`;
+    document.getElementById('periodAt').textContent = `From: ${formatDate(start)} — To: ${formatDate(end)} Moscow`;
     renderTableFromEntries(entries);
 
   } finally {
     hideLoader();
   }
- 
+
 }
 
 function renderTableFromEntries(entries) {
@@ -512,12 +502,12 @@ function renderTableFromEntries(entries) {
     }
 
 
-	row.push(data.CitadelTotal);
-	row.push(data.total);
+    row.push(data.CitadelTotal);
+    row.push(data.total);
     rows.push(row);
   }
 
-  rows.sort((a,b) => b[b.length-1] - a[a.length-1]);
+  rows.sort((a, b) => b[b.length - 1] - a[a.length - 1]);
 
   if ($.fn.DataTable.isDataTable('#statsTable')) {
     $('#statsTable').DataTable().destroy();
@@ -541,20 +531,20 @@ function renderTableFromEntries(entries) {
     data: rows,
     columns: headers.map((h, idx) => ({
       title: h,
-      className: idx === 0 || idx === headers.length-1 ? 'dt-left' : 'dt-center',
-      render: function(data, type) {
-        if (type === 'display' && idx !== 0 && idx !== headers.length-1) {
+      className: idx === 0 || idx === headers.length - 1 ? 'dt-left' : 'dt-center',
+      render: function (data, type) {
+        if (type === 'display' && idx !== 0 && idx !== headers.length - 1) {
           return data;
         }
         return data;
       }
     })),
-    order: [[headers.length-1, "desc"]],
+    order: [[headers.length - 1, "desc"]],
     paging: false,
     info: true,
     autoWidth: false,
-    createdRow: function(row, data, dataIndex) {
-      const totalPoints = parseInt(data[headers.length-1] || 0);
+    createdRow: function (row, data, dataIndex) {
+      const totalPoints = parseInt(data[headers.length - 1] || 0);
 
       if (totalPoints >= WEEKLY_LIMIT) $(row).addClass("done");
       else $(row).addClass("not-done");
