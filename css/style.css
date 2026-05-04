@@ -729,3 +729,9 @@ table.dataTable tbody tr:hover {
                     overflow-x: auto;
                     width: 100%;
                 }
+
+                                .dataTables_processing,
+                                .dataTables_wrapper .dataTables_paginate {
+                                    color: inherit;
+                                    float: unset!important;
+                                }
