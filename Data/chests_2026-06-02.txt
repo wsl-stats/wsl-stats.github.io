@@ -2227,3 +2227,948 @@ Source: Level 20 Citadel
 Orc Chest
 From: wodessen
 Source: Level 15 Crypt
+Bone Chest
+From: Mne
+Source: Level 25 Crypt
+Sand Chest
+From: Mne
+Source: Level 25 Crypt
+Forgotten Chest
+From: Mne
+Source: Level 25 Crypt
+Barbarian Chest
+From: Mne
+Source: Level 19 heroic Monster
+Elven Citadel Chest
+From: Mne
+Source: Level 25 Citadel
+Rare Dragon Chest
+From: Bebur
+Source: Level 20 rare Crypt
+Elven Citadel Chest
+From: Chest Counter
+Source: Level 10 Citadel
+Sand Chest
+From: Bebur
+Source: Level 20 Crypt
+Sand Chest
+From: Bebur
+Source: Level 20 Crypt
+Sand Chest
+From: Bebur
+Source: Level 25 Crypt
+Elven Citadel Chest
+From: Tracker
+Source: Level 10 Citadel
+Elven Citadel Chest
+From: Tracker
+Source: Level 10 Citadel
+Bone Chest
+From: Ninja InsaneTia
+Source: Level 25 Crypt
+Bone Chest
+From: Ninja InsaneTia
+Source: Level 25 Crypt
+Elegant Chest
+From: Ninja InsaneTia
+Source: Level 25 Crypt
+Mayan Chest
+From: Ninja InsaneTia
+Source: Level 25 Crypt
+Mayan Chest
+From: Ninja InsaneTia
+Source: Level 25 Crypt
+Sand Chest
+From: Ninja InsaneTia
+Source: Level 25 Crypt
+Sand Chest
+From: Ninja InsaneTia
+Source: Level 25 Crypt
+Fire Chest
+From: Ninja InsaneTia
+Source: Level 25 Crypt
+Stone Chest
+From: Ninja InsaneTia
+Source: Level 25 Crypt
+Stone Chest
+From: Ninja InsaneTia
+Source: Level 25 Crypt
+Gladiator's Chest
+From: Ninja InsaneTia
+Source: Arena
+Cursed Citadel Chest
+From: AkhmAn
+Source: Level 20 Citadel
+Elven Citadel Chest
+From: Ninja Cenn
+Source: Level 20 Citadel
+Elven Citadel Chest
+From: Ninja Cenn
+Source: Level 20 Citadel
+Mayan Chest
+From: Ninja Dugi
+Source: Level 20 Crypt
+Orc Chest
+From: Ninja Dugi
+Source: Level 20 Crypt
+Infernal Chest
+From: Ninja Dugi
+Source: Level 20 Crypt
+Elven Citadel Chest
+From: Pantera
+Source: Level 20 Citadel
+Elven Citadel Chest
+From: Pantera
+Source: Level 20 Citadel
+Rare Dragon Chest
+From: Pantera
+Source: Level 20 rare Crypt
+Rare Dragon Chest
+From: Pantera
+Source: Level 20 rare Crypt
+Stone Chest
+From: Ninja Dugi
+Source: Level 20 Crypt
+Cobra Chest
+From: Ninja Dugi
+Source: Level 20 Crypt
+Gnome Workshop Chest
+From: Ninja Dugi
+Source: Level 20 Crypt
+Bone Chest
+From: Ninja Dugi
+Source: Level 20 Crypt
+Sand Chest
+From: Ninja Speedy
+Source: Level 25 Crypt
+Forgotten Chest
+From: Ninja Speedy
+Source: Level 25 Crypt
+Cobra Chest
+From: Ninja Speedy
+Source: Level 25 Crypt
+Barbarian Chest
+From: Ninja Speedy
+Source: Level 25 Crypt
+Cobalt Chest
+From: Ninja Speedy
+Source: Level 25 epic Crypt
+Titansteel Chest
+From: Ninja Speedy
+Source: Level 25 epic Crypt
+Scarab Chest
+From: Ninja Speedy
+Source: Level 25 epic Crypt
+Elven Citadel Chest
+From: Duck Vader
+Source: Level 25 Citadel
+Elven Citadel Chest
+From: Ninja Cenn
+Source: Level 20 Citadel
+Elven Citadel Chest
+From: Ninja Cenn
+Source: Level 20 Citadel
+Cobra Chest
+From: AkhmAn
+Source: Level 25 Crypt
+Elegant Chest
+From: AkhmAn
+Source: Level 20 Crypt
+Barbarian Chest
+From: TARIQ
+Source: Level 25 Crypt
+Stone Chest
+From: TARIQ
+Source: Level 25 Crypt
+Stone Chest
+From: TARIQ
+Source: Level 25 Crypt
+Sand Chest
+From: TARIQ
+Source: Level 25 Crypt
+Barbarian Chest
+From: AkhmAn
+Source: Level 20 Crypt
+Fire Chest
+From: arcael
+Source: Level 25 Crypt
+Gnome Workshop Chest
+From: arcael
+Source: Level 15 Crypt
+Gnome Workshop Chest
+From: Collador Jr
+Source: Level 20 Crypt
+Stone Chest
+From: Collador Jr
+Source: Level 20 Crypt
+Infernal Chest
+From: Collador Jr
+Source: Level 20 Crypt
+Fire Chest
+From: Collador Jr
+Source: Level 20 Crypt
+Fire Chest
+From: Collador Jr
+Source: Level 20 Crypt
+Sand Chest
+From: Collador Jr
+Source: Level 20 Crypt
+Cobra Chest
+From: Collador Jr
+Source: Level 20 Crypt
+Fire Chest
+From: Collador Jr
+Source: Level 20 Crypt
+Bone Chest
+From: Collador Jr
+Source: Level 20 Crypt
+Bone Chest
+From: Collador Jr
+Source: Level 20 Crypt
+Barbarian Chest
+From: Collador Jr
+Source: Level 20 Crypt
+Rare Dragon Chest
+From: Collador Jr
+Source: Level 20 rare Crypt
+Stone Chest
+From: Collador Jr
+Source: Level 20 Crypt
+Mayan Chest
+From: Collador Jr
+Source: Level 20 Crypt
+Cobra Chest
+From: Collador Jr
+Source: Level 20 Crypt
+Infernal Chest
+From: Collador Jr
+Source: Level 20 Crypt
+Elven Citadel Chest
+From: Ninja Cenn
+Source: Level 20 Citadel
+Cobra Chest
+From: AkhmAn
+Source: Level 25 Crypt
+Harpy Chest
+From: Ninja InsaneTia
+Source: Level 25 epic Crypt
+Harpy Chest
+From: Ninja InsaneTia
+Source: Level 25 epic Crypt
+Infernal Chest
+From: TurinTurambar
+Source: Level 25 Crypt
+Harpy Chest
+From: Ninja InsaneTia
+Source: Level 25 epic Crypt
+Bone Chest
+From: Reli
+Source: Level 15 Crypt
+Orc Chest
+From: TurinTurambar
+Source: Level 25 Crypt
+Barbarian Chest
+From: TurinTurambar
+Source: Level 25 Crypt
+Bone Chest
+From: Reli
+Source: Level 15 Crypt
+Harpy Chest
+From: Ninja InsaneTia
+Source: Level 25 epic Crypt
+Harpy Chest
+From: Ninja InsaneTia
+Source: Level 25 epic Crypt
+Fire Chest
+From: TurinTurambar
+Source: Level 25 Crypt
+Stone Chest
+From: Reli
+Source: Level 15 Crypt
+Rare Dragon Chest
+From: Reli
+Source: Level 15 rare Crypt
+Stone Chest
+From: Ninja InsaneTia
+Source: Level 25 Crypt
+Cobra Chest
+From: Ninja InsaneTia
+Source: Level 25 Crypt
+Bone Chest
+From: Ninja InsaneTia
+Source: Level 25 Crypt
+Minotaur Chest
+From: Reli
+Source: Level 20 epic Crypt
+Elegant Chest
+From: Ninja InsaneTia
+Source: Level 25 Crypt
+Bone Chest
+From: Ninja InsaneTia
+Source: Level 25 Crypt
+Barbarian Chest
+From: Ninja InsaneTia
+Source: Level 25 Crypt
+Barbarian Chest
+From: Ninja InsaneTia
+Source: Level 25 Crypt
+Infernal Chest
+From: Ninja InsaneTia
+Source: Level 25 Crypt
+Fire Chest
+From: Ninja InsaneTia
+Source: Level 25 Crypt
+Forgotten Chest
+From: Reli
+Source: Level 15 Crypt
+Elegant Chest
+From: Ninja InsaneTia
+Source: Level 25 Crypt
+Fire Chest
+From: TurinTurambar
+Source: Level 25 Crypt
+Common Chest of Wealth
+From: Mel
+Source: Clan wealth
+Uncommon Chest of Wealth
+From: Mel
+Source: Clan wealth
+Rare Chest of Wealth
+From: Mel
+Source: Clan wealth
+Infernal Chest
+From: TurinTurambar
+Source: Level 25 Crypt
+Barbarian Chest
+From: TurinTurambar
+Source: Level 25 Crypt
+Cursed Citadel Chest
+From: Mne
+Source: Level 20 Citadel
+Rare Dragon Chest
+From: Ninja InsaneTia
+Source: Level 25 rare Crypt
+Gnome Workshop Chest
+From: Reli
+Source: Level 15 Crypt
+Rare Dragon Chest
+From: Ninja InsaneTia
+Source: Level 25 rare Crypt
+Rare Dragon Chest
+From: TurinTurambar
+Source: Level 30 rare Crypt
+Rare Dragon Chest
+From: TurinTurambar
+Source: Level 30 rare Crypt
+Rare Dragon Chest
+From: Ninja InsaneTia
+Source: Level 25 rare Crypt
+Elven Citadel Chest
+From: Mne
+Source: Level 20 Citadel
+Rare Dragon Chest
+From: Ninja InsaneTia
+Source: Level 25 rare Crypt
+Rare Dragon Chest
+From: Ninja InsaneTia
+Source: Level 25 rare Crypt
+Mayan Chest
+From: Reli
+Source: Level 15 Crypt
+Rare Dragon Chest
+From: TurinTurambar
+Source: Level 30 rare Crypt
+Rare Dragon Chest
+From: Ninja InsaneTia
+Source: Level 25 rare Crypt
+Rare Dragon Chest
+From: Ninja InsaneTia
+Source: Level 25 rare Crypt
+Gnome Workshop Chest
+From: TurinTurambar
+Source: Level 25 Crypt
+Stone Chest
+From: Meninad
+Source: Level 20 Crypt
+Cobra Chest
+From: TurinTurambar
+Source: Level 25 Crypt
+Fire Chest
+From: TurinTurambar
+Source: Level 25 Crypt
+Barbarian Chest
+From: TurinTurambar
+Source: Level 25 Crypt
+Gnome Workshop Chest
+From: Meninad
+Source: Level 20 Crypt
+Bone Chest
+From: TurinTurambar
+Source: Level 25 Crypt
+Mayan Chest
+From: wodessen
+Source: Level 20 Crypt
+Stone Chest
+From: Meninad
+Source: Level 20 Crypt
+Bone Chest
+From: TurinTurambar
+Source: Level 25 Crypt
+Barbarian Chest
+From: Reli
+Source: Level 15 Crypt
+Cobalt Chest
+From: wodessen
+Source: Level 20 epic Crypt
+Mayan Chest
+From: TurinTurambar
+Source: Level 25 Crypt
+Gnome Workshop Chest
+From: TurinTurambar
+Source: Level 25 Crypt
+Fire Chest
+From: TurinTurambar
+Source: Level 25 Crypt
+Elegant Chest
+From: wodessen
+Source: Level 20 Crypt
+Gnome Workshop Chest
+From: AxelJcp
+Source: Level 25 Crypt
+Fire Chest
+From: AxelJcp
+Source: Level 25 Crypt
+Stone Chest
+From: AxelJcp
+Source: Level 25 Crypt
+Forgotten Chest
+From: Reli
+Source: Level 15 Crypt
+Rare Dragon Chest
+From: Ninja InsaneTia
+Source: Level 25 rare Crypt
+Elven Citadel Chest
+From: Ninja Cenn
+Source: Level 20 Citadel
+Rare Dragon Chest
+From: Ninja InsaneTia
+Source: Level 25 rare Crypt
+Rare Dragon Chest
+From: Ninja InsaneTia
+Source: Level 25 rare Crypt
+Elven Citadel Chest
+From: Mne
+Source: Level 25 Citadel
+Rare Dragon Chest
+From: Mne
+Source: Level 25 rare Crypt
+Rare Dragon Chest
+From: Ninja InsaneTia
+Source: Level 25 rare Crypt
+Rare Dragon Chest
+From: Mne
+Source: Level 25 rare Crypt
+Elven Citadel Chest
+From: Mne
+Source: Level 25 Citadel
+Elven Chest
+From: Mne
+Source: Level 22 heroic Monster
+Rare Dragon Chest
+From: Mne
+Source: Level 25 rare Crypt
+Cobra Chest
+From: Reli
+Source: Level 15 Crypt
+Bone Chest
+From: AxelJcp
+Source: Level 25 Crypt
+Infernal Chest
+From: AxelJcp
+Source: Level 25 Crypt
+Cobra Chest
+From: AxelJcp
+Source: Level 25 Crypt
+Bone Chest
+From: AxelJcp
+Source: Level 25 Crypt
+Cobra Chest
+From: AxelJcp
+Source: Level 25 Crypt
+Gnome Workshop Chest
+From: AxelJcp
+Source: Level 25 Crypt
+Gnome Workshop Chest
+From: AxelJcp
+Source: Level 25 Crypt
+Mayan Chest
+From: AxelJcp
+Source: Level 25 Crypt
+Barbarian Chest
+From: AxelJcp
+Source: Level 25 Crypt
+Barbarian Chest
+From: AxelJcp
+Source: Level 25 Crypt
+Stone Chest
+From: AxelJcp
+Source: Level 25 Crypt
+Gnome Workshop Chest
+From: AxelJcp
+Source: Level 25 Crypt
+Orc Chest
+From: AxelJcp
+Source: Level 25 Crypt
+Stone Chest
+From: AxelJcp
+Source: Level 25 Crypt
+Forgotten Chest
+From: AxelJcp
+Source: Level 25 Crypt
+Orc Chest
+From: AxelJcp
+Source: Level 25 Crypt
+Stone Chest
+From: AxelJcp
+Source: Level 25 Crypt
+Infernal Chest
+From: AxelJcp
+Source: Level 25 Crypt
+Minotaur Chest
+From: ZAR
+Source: Level 25 epic Crypt
+Fire Chest
+From: ZAR
+Source: Level 25 Crypt
+Elegant Chest
+From: ZAR
+Source: Level 25 Crypt
+Barbarian Chest
+From: BARAO BR
+Source: Level 20 Crypt
+Quick March Chest
+From: ZAR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: ZAR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: ZAR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: ZAR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: ZAR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: Rza
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: Rza
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: Rza
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: Rza
+Source: Rise of the Ancients event
+Quick March Chest
+From: Bebur
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: ZAR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: ZAR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: ZAR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: ZAR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: ZAR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: ZAR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: ZAR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: ZAR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: Bebur
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: Bebur
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: Bebur
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: Bebur
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: Bebur
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: Bebur
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: Bebur
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: Bebur
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: Bebur
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: Bebur
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: Bebur
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: Bebur
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: BARAO BR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: BARAO BR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: BARAO BR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: BARAO BR
+Source: Rise of the Ancients event
+Quick March Chest
+From: BARAO BR
+Source: Rise of the Ancients event
+Quick March Chest
+From: Rza
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: TurinTurambar
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: TurinTurambar
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: TurinTurambar
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: TurinTurambar
+Source: Rise of the Ancients event
+Cursed Citadel Chest
+From: lllor
+Source: Level 20 Citadel
+AncientsвЂ™ Chest
+From: BARAO BR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: BARAO BR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: BARAO BR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: BARAO BR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: BARAO BR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: BARAO BR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: BARAO BR
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: BARAO BR
+Source: Rise of the Ancients event
+Quick March Chest
+From: TurinTurambar
+Source: Rise of the Ancients event
+Barbarian Chest
+From: Ninja Speedy
+Source: Level 25 Crypt
+Forgotten Chest
+From: Ninja Speedy
+Source: Level 25 Crypt
+Cursed Citadel Chest
+From: AkhmAn
+Source: Level 20 Citadel
+Cursed Citadel Chest
+From: lllor
+Source: Level 20 Citadel
+Stone Chest
+From: Ninja Speedy
+Source: Level 25 Crypt
+Orc Chest
+From: Ninja Speedy
+Source: Level 25 Crypt
+Elven Citadel Chest
+From: AkhmAn
+Source: Level 20 Citadel
+AncientsвЂ™ Chest
+From: Maffy
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: Maffy
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: Maffy
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: Maffy
+Source: Rise of the Ancients event
+Trillium Chest
+From: Ninja Gimli
+Source: Level 20 epic Crypt
+Forgotten Chest
+From: Ninja Speedy
+Source: Level 25 Crypt
+Bone Chest
+From: Ninja Speedy
+Source: Level 25 Crypt
+AncientsвЂ™ Chest
+From: TARIQ
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: TARIQ
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: TARIQ
+Source: Rise of the Ancients event
+AncientsвЂ™ Chest
+From: TARIQ
+Source: Rise of the Ancients event
+Fire Chest
+From: Ninja Speedy
+Source: Level 25 Crypt
+Cobra Chest
+From: Ninja Gimli
+Source: Level 20 Crypt
+Elven Citadel Chest
+From: AkhmAn
+Source: Level 20 Citadel
+Cobra Chest
+From: Ninja Gimli
+Source: Level 20 Crypt
+Elven Citadel Chest
+From: Ironwind
+Source: Level 25 Citadel
+Bone Chest
+From: Ironwind
+Source: Level 25 Crypt
+Fire Chest
+From: Ironwind
+Source: Level 20 Crypt
+Elven Citadel Chest
+From: Ninja Gimli
+Source: Level 20 Citadel
+Elegant Chest
+From: Ironwind
+Source: Level 20 Crypt
+White Wood Chest
+From: Ninja Moo
+Source: Level 35 epic Crypt
+Chest of the Cursed
+From: Ninja Moo
+Source: Level 35 epic Crypt
+Elven Citadel Chest
+From: AkhmAn
+Source: Level 20 Citadel
+Rare Dragon Chest
+From: Ninja Gimli
+Source: Level 20 rare Crypt
+Cobra Chest
+From: Reli
+Source: Level 15 Crypt
+Fire Chest
+From: Ninja Gimli
+Source: Level 25 Crypt
+Cursed Citadel Chest
+From: lllor
+Source: Level 20 Citadel
+Cobra Chest
+From: Ninja Gimli
+Source: Level 20 Crypt
+Cursed Citadel Chest
+From: lllor
+Source: Level 20 Citadel
+Chest of the Cursed
+From: Sailv
+Source: Level 20 epic Crypt
+Elven Citadel Chest
+From: AkhmAn
+Source: Level 20 Citadel
+Elegant Chest
+From: Sailv
+Source: Level 25 Crypt
+Orc Chest
+From: Sailv
+Source: Level 25 Crypt
+Elven Citadel Chest
+From: Ninja Cenn
+Source: Level 20 Citadel
+Bone Chest
+From: Sailv
+Source: Level 25 Crypt
+Elegant Chest
+From: Sailv
+Source: Level 20 Crypt
+Bone Chest
+From: Sailv
+Source: Level 20 Crypt
+Fire Chest
+From: Ninja Gimli
+Source: Level 15 Crypt
+Bone Chest
+From: Ninja Gimli
+Source: Level 15 Crypt
+Cobra Chest
+From: Ninja Gimli
+Source: Level 5 Crypt
+Elven Citadel Chest
+From: Ninja Deranen
+Source: Level 25 Citadel
+Elven Citadel Chest
+From: Ninja Deranen
+Source: Level 25 Citadel
+Rare Dragon Chest
+From: AkhmAn
+Source: Level 20 rare Crypt
+Rare Dragon Chest
+From: Sailv
+Source: Level 30 rare Crypt
+Rare Dragon Chest
+From: Sailv
+Source: Level 30 rare Crypt
+Rare Dragon Chest
+From: Sailv
+Source: Level 30 rare Crypt
+Elven Citadel Chest
+From: AkhmAn
+Source: Level 20 Citadel
+Harpy Chest
+From: Arch
+Source: Level 35 epic Crypt
+Rare Dragon Chest
+From: Ninja Deranen
+Source: Level 25 rare Crypt
+Harpy Chest
+From: Arch
+Source: Level 35 epic Crypt
+Rare Dragon Chest
+From: Ninja Deranen
+Source: Level 25 rare Crypt
+Gladiator's Chest
+From: Reli
+Source: Arena
+Harpy Chest
+From: Arch
+Source: Level 35 epic Crypt
+Harpy Chest
+From: Arch
+Source: Level 35 epic Crypt
+Harpy Chest
+From: Arch
+Source: Level 35 epic Crypt
+Harpy Chest
+From: Arch
+Source: Level 35 epic Crypt
+Harpy Chest
+From: Arch
+Source: Level 35 epic Crypt
+Harpy Chest
+From: Arch
+Source: Level 35 epic Crypt
+Harpy Chest
+From: Arch
+Source: Level 35 epic Crypt
+Harpy Chest
+From: Arch
+Source: Level 35 epic Crypt
+Harpy Chest
+From: Arch
+Source: Level 35 epic Crypt
+Cobra Chest
+From: Ninja Deranen
+Source: Level 25 Crypt
+Mayan Chest
+From: Ninja Deranen
+Source: Level 25 Crypt
+Elven Citadel Chest
+From: AkhmAn
+Source: Level 20 Citadel
+Elegant Chest
+From: Ninja Deranen
+Source: Level 25 Crypt
+Stone Chest
+From: Taugal
+Source: Level 25 Crypt
+Sand Chest
+From: Taugal
+Source: Level 25 Crypt
+Mayan Chest
+From: Taugal
+Source: Level 25 Crypt
+Rare Dragon Chest
+From: Taugal
+Source: Level 25 rare Crypt
+Rare Dragon Chest
+From: Taugal
+Source: Level 25 rare Crypt
+Cobra Chest
+From: Ninja Deranen
+Source: Level 25 Crypt
+Gnome Workshop Chest
+From: Ninja Deranen
+Source: Level 25 Crypt
+Gnome Workshop Chest
+From: Ninja Deranen
+Source: Level 25 Crypt
+Stone Chest
+From: Ninja Deranen
+Source: Level 25 Crypt
+Fire Chest
+From: Ninja Deranen
+Source: Level 25 Crypt
+Sand Chest
+From: Ninja Deranen
+Source: Level 25 Crypt
+Barbarian Chest
+From: Ninja Deranen
+Source: Level 25 epic Crypt
+Minotaur Chest
+From: Ninja Deranen
+Source: Level 25 epic Crypt
+Bone Chest
+From: Ninja Deranen
+Source: Level 20 Crypt
+Elegant Chest
+From: Bodge it and run
+Source: Level 20 Crypt
+Barbarian Chest
+From: Ninja Deranen
+Source: Level 20 Crypt
+Stone Chest
+From: Bodge it and run
+Source: Level 15 Crypt
+Mayan Chest
+From: Ninja Deranen
+Source: Level 20 Crypt
+Gladiator's Chest
+From: Reli
+Source: Arena
+Stone Chest
+From: Bodge it and run
+Source: Level 25 Crypt
