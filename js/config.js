@@ -1,6 +1,6 @@
 
 // Weekly point quota
-const WEEKLY_LIMIT = 1000;
+const WEEKLY_LIMIT = 3000;
 
 const CONFIG = {
   // Общие настройки циклов для Rare/Epic
